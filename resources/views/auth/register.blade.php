@@ -1,4 +1,10 @@
 <x-guest-layout>
+     <div class="mb-6 flex justify-center">
+            <a href="/">
+                <img src="{{ asset('assets/img/logo.svg') }}" alt="Logo" class="h-16 w-auto">
+            </a>
+        </div>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -44,7 +50,7 @@
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button class="ms-4">
+            <x-primary-button class="ms-4 bg-yellow-500 hover:bg-yellow-600 text-white">
                 {{ __('Register') }}
             </x-primary-button>
         </div>
