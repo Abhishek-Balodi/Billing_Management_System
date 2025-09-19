@@ -157,6 +157,11 @@
                     </li>
                     <!-- /Search -->
 
+
+
+
+                        <!-- Check if user is authenticated -->
+
                     <!-- Select Store -->
                     <li class="nav-item dropdown has-arrow main-drop select-store-dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle nav-link select-store"
@@ -424,22 +429,44 @@
                                 <span class="user-img me-2">
                                     <img src="assets/img/profiles/avator1.jpg" alt="Img">
                                 </span>
+                                
                                 <div>
-                                    <h6 class="fw-medium">John Smilga</h6>
-                                    <p>Admin</p>
+                                    @if(Auth::check())
+    <h6 class="fw-medium">{{ Auth::user()->name }}</h6>
+    <p>Admin</p>
+@else
+    <h6 class="fw-medium">Guest</h6>
+    <p>Please login</p>
+@endif
                                 </div>
                             </div>
-                            <a class="dropdown-item" href="profile.html"><i
-                                    class="ti ti-user-circle me-2"></i>MyProfile</a>
+                                   <a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}</a>
                             <a class="dropdown-item" href="sales-report.html"><i
                                     class="ti ti-file-text me-2"></i>Reports</a>
                             <a class="dropdown-item" href="general-settings.html"><i
                                     class="ti ti-settings-2 me-2"></i>Settings</a>
                             <hr class="my-2">
-                            <a class="dropdown-item logout pb-0" href="signin.html"><i
-                                    class="ti ti-logout me-2"></i>Logout</a>
+                                  @auth
+    <!-- Show logout button only when user is logged in -->
+    <a class="dropdown-item logout pb-0" href="javascript:void(0);" id="logout-link">
+        <i class="ti ti-logout me-2"></i>Logout
+    </a>
+@endauth
+
                         </div>
                     </li>
+                    <!-- Add Logout Form (for Breeze logout functionality) -->
+<form method="POST" action="{{ route('logout') }}" id="logout-form" style="display: none;">
+    @csrf
+</form>
+<script>
+    // Ensure the logout form is found and the logout link is clicked properly
+    document.getElementById('logout-link').addEventListener('click', function(event) {
+        event.preventDefault();  // Prevent default action
+        document.getElementById('logout-form').submit();  // Submit the form
+    });
+</script>
+
                 </ul>
                 <!-- /Header Menu -->
 
