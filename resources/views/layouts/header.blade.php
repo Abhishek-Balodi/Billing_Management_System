@@ -420,14 +420,14 @@
                         <a href="javascript:void(0);" class="nav-link userset" data-bs-toggle="dropdown">
                             <span class="user-info p-0">
                                 <span class="user-letter">
-                                    <img src="assets/img/profiles/avator1.jpg" alt="Img" class="img-fluid">
+                                   <img src="{{ Auth::user()->profile_photo_url }}" alt="Img" class="img-fluid">
                                 </span>
                             </span>
                         </a>
                         <div class="dropdown-menu menu-drop-user">
                             <div class="profileset d-flex align-items-center">
                                 <span class="user-img me-2">
-                                    <img src="assets/img/profiles/avator1.jpg" alt="Img">
+                                      <img src="{{ Auth::user()->profile_photo_url }}" alt="Img">
                                 </span>
                                 
                                 <div>
@@ -435,8 +435,9 @@
     <h6 class="fw-medium">{{ Auth::user()->name }}</h6>
     <p>Admin</p>
 @else
-    <h6 class="fw-medium">Guest</h6>
-    <p>Please login</p>
+    <!-- <h6 class="fw-medium">Guest</h6>
+    <p>Please login</p> -->
+    <a href="{{ route('login') }}" class="text-primary">Please login</a>
 @endif
                                 </div>
                             </div>

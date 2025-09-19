@@ -18,7 +18,7 @@
     <div class="page-btn mt-0">
         <a href="" class="btn btn-secondary"><i data-feather="arrow-left" class="me-2"></i>Back to Product</a>
     </div>
-</div>
+</div> 
 
 <form action="{{ route('products.store') }}" method="POST" class="add-product-form">
     @csrf
