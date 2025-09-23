@@ -68,4 +68,26 @@ if (Auth::user()->role_uuid !== '00000001') {
         // Redirect to a success page or back to the employee list
         return redirect()->route('employees.create')->with('success', 'Employee added successfully');
     }
+
+
+
+    public function showLoginForm(){
+        return view('employees.employee-login');
+    }
+
+    public function login(Request $request){
+       $credentials =  $request->only('email','password');
+
+       if(Auth::guard('employee')->attempt($credentials)){
+        return redirect()->route('home');
+       }
+       return back()->withErrors([
+        'email' => 'Invalid credentials.',
+       ]);
+    }
+
+    public function logout(){
+        Auth::guard('employee')->logout();
+        return redirect()->route('employee.login');
+    }
 }

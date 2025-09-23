@@ -70,8 +70,8 @@
 
 <body class="menu-horizontal">
     <div id="global-loader">
-		<div class="whirly-loader"> </div>
-	</div>
+        <div class="whirly-loader"> </div>
+    </div>
     <!-- Main Wrapper -->
     <div class="main-wrapper">
 
@@ -160,7 +160,7 @@
 
 
 
-                        <!-- Check if user is authenticated -->
+                    <!-- Check if user is authenticated -->
 
                     <!-- Select Store -->
                     <li class="nav-item dropdown has-arrow main-drop select-store-dropdown">
@@ -417,59 +417,87 @@
                         <a href="general-settings.html"><i class="ti ti-settings"></i></a>
                     </li>
                     <li class="nav-item dropdown has-arrow main-drop profile-nav">
+
+                        @php
+                        // Check current logged in user (admin or employee)
+                        $user = Auth::check()
+                        ? Auth::user()
+                        : (Auth::guard('employee')->check()
+                        ? Auth::guard('employee')->user()
+                        : null);
+
+                        // Fallback profile photo
+                        $profilePhoto = $user && isset($user->profile_photo_url) && $user->profile_photo_url
+                        ? $user->profile_photo_url
+                        : asset('assets/img/avatar/avatar-25.png');
+                        @endphp
+
+
                         <a href="javascript:void(0);" class="nav-link userset" data-bs-toggle="dropdown">
                             <span class="user-info p-0">
                                 <span class="user-letter">
-                                   <img src="{{ Auth::user()->profile_photo_url }}" alt="Img" class="img-fluid">
+                                    <img src="{{ $profilePhoto }}" alt="Img" class="img-fluid">
                                 </span>
                             </span>
                         </a>
                         <div class="dropdown-menu menu-drop-user">
                             <div class="profileset d-flex align-items-center">
                                 <span class="user-img me-2">
-                                      <img src="{{ Auth::user()->profile_photo_url }}" alt="Img">
+                                    <img src="{{ $profilePhoto }}" alt="Img">
                                 </span>
-                                
+
                                 <div>
-                                    @if(Auth::check())
-    <h6 class="fw-medium">{{ Auth::user()->name }}</h6>
-    <p>Admin</p>
-@else
-    <!-- <h6 class="fw-medium">Guest</h6>
-    <p>Please login</p> -->
-    <a href="{{ route('login') }}" class="text-primary">Please login</a>
-@endif
+                                    @if($user)
+                                    <h6 class="fw-medium">{{ $user->name }}</h6>
+                                    <p>{{ $user instanceof \App\Models\Employee ? 'Employee' : 'Admin' }}</p>
+                                    @else
+                                    <a href="{{ route('login') }}" class="text-primary">Please login</a>
+                                    @endif
                                 </div>
+
                             </div>
-                                   <a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}</a>
-                            <a class="dropdown-item" href="sales-report.html"><i
-                                    class="ti ti-file-text me-2"></i>Reports</a>
-                            <a class="dropdown-item" href="general-settings.html"><i
-                                    class="ti ti-settings-2 me-2"></i>Settings</a>
+                              @if($user)
+                            {{-- Profile Link --}}
+            <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                <i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}
+            </a>
 
-                                   <a class="dropdown-item" href="{{ route('employees.create') }}"><i class="ti ti-settings-2 me-2"></i>Add Employee</a>
-<hr class="my-2">
+            {{-- Reports --}}
+            <a class="dropdown-item" href="sales-report.html">
+                <i class="ti ti-file-text me-2"></i>Reports
+            </a>
 
-                                  @auth
-    <!-- Show logout button only when user is logged in -->
-    <a class="dropdown-item logout pb-0" href="javascript:void(0);" id="logout-link">
-        <i class="ti ti-logout me-2"></i>Logout
-    </a>
-@endauth
+            {{-- Settings --}}
+            <a class="dropdown-item" href="general-settings.html">
+                <i class="ti ti-settings-2 me-2"></i>Settings
+            </a>
+
+                           {{-- Add Employee (only admin) --}}
+            @if($user instanceof \App\Models\User && $user->role_uuid === '00000001')
+                <a class="dropdown-item" href="{{ route('employees.create') }}">
+                    <i class="ti ti-settings-2 me-2"></i>Add Employee
+                </a>
+            @endif
+                            <hr class="my-2">
+
+                             <a class="dropdown-item logout pb-0" href="javascript:void(0);" id="logout-link">
+                <i class="ti ti-logout me-2"></i>Logout
+            </a>
+        @endif
 
                         </div>
                     </li>
                     <!-- Add Logout Form (for Breeze logout functionality) -->
-<form method="POST" action="{{ route('logout') }}" id="logout-form" style="display: none;">
-    @csrf
-</form>
-<script>
-    // Ensure the logout form is found and the logout link is clicked properly
-    document.getElementById('logout-link').addEventListener('click', function(event) {
-        event.preventDefault();  // Prevent default action
-        document.getElementById('logout-form').submit();  // Submit the form
-    });
-</script>
+                    <form method="POST"  action="{{ $user instanceof \App\Models\Employee ? route('employee.logout') : route('logout') }}"  id="logout-form" style="display: none;">
+                        @csrf
+                    </form>
+                    <script>
+                    // Ensure the logout form is found and the logout link is clicked properly
+                    document.getElementById('logout-link').addEventListener('click', function(event) {
+                        event.preventDefault(); // Prevent default action
+                        document.getElementById('logout-form').submit(); // Submit the form
+                    });
+                    </script>
 
                 </ul>
                 <!-- /Header Menu -->

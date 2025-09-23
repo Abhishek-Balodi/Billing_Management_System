@@ -48,4 +48,17 @@ Route::prefix('employees')->name('employees.')->group(function () {
     Route::get('create', [EmployeeController::class, 'create'])->name('create');
     Route::post('store', [EmployeeController::class, 'store'])->name('store');
 });
+
+Route::prefix('employee')->group(function () {
+
+    // Show login form
+    Route::get('login', [EmployeeController::class, 'showLoginForm'])->name('employee.login');
+
+    // Handle login
+    Route::post('login', [EmployeeController::class, 'login'])->name('employee.login.submit');
+
+    // Logout
+    Route::post('logout', [EmployeeController::class, 'logout'])->name('employee.logout');
+});
+
 require __DIR__.'/auth.php';
