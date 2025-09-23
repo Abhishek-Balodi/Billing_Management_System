@@ -61,4 +61,11 @@ Route::prefix('employee')->group(function () {
     Route::post('logout', [EmployeeController::class, 'logout'])->name('employee.logout');
 });
 
+// routes/web.php
+Route::middleware('auth:employee')->prefix('employee')->group(function () {
+    Route::get('profile', [EmployeeController::class, 'editProfile'])->name('employee.profile.edit');
+    Route::post('profile', [EmployeeController::class, 'updateProfile'])->name('employee.profile.update');
+});
+
+
 require __DIR__.'/auth.php';

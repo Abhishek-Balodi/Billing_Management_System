@@ -1,3 +1,11 @@
+
+@include('layouts.header')
+<style>
+    .page-wrapper{
+        width:100%
+    }
+</style>
+<div class="container py-4">
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
@@ -84,3 +92,7 @@
         </div>
     </form>
 </section>
+
+</div>
+
+@include('layouts.footer')

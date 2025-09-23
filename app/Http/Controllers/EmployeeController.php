@@ -90,4 +90,35 @@ if (Auth::user()->role_uuid !== '00000001') {
         Auth::guard('employee')->logout();
         return redirect()->route('employee.login');
     }
+    public function editProfile(){
+        $employee = Auth::guard('employee')->user();
+        return view('employees.profile-edit', compact('employee'));
+    }
+
+     public function updateProfile(Request $request){
+        //fetch curr user
+        $employee = Auth::guard('employee')->user();
+
+        $request->validate([
+             'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:employees,email,' . $employee->id,
+        'profile_photo' => 'nullable|image|mimes:jpg,png,jpeg',
+        'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        if($request->hasFile('profile_photo')){
+            $path = $request->file('profile_photo')->store('profile-photos', 'public');
+            $employee->profile_photo_path = $path;
+        }
+
+        $employee->name  = $request->name;
+        $employee->email = $request->email;
+
+        if($request->filled('password')){
+            $employee->password = Hash::make($request->password);
+        }
+
+        $employee->save();
+        return redirect()->route('employee.profile.edit')->with('success','profile updated successfully');
+     }
 }
