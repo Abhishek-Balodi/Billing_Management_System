@@ -446,7 +446,10 @@
                                     class="ti ti-file-text me-2"></i>Reports</a>
                             <a class="dropdown-item" href="general-settings.html"><i
                                     class="ti ti-settings-2 me-2"></i>Settings</a>
-                            <hr class="my-2">
+
+                                   <a class="dropdown-item" href="{{ route('employees.create') }}"><i class="ti ti-settings-2 me-2"></i>Add Employee</a>
+<hr class="my-2">
+
                                   @auth
     <!-- Show logout button only when user is logged in -->
     <a class="dropdown-item logout pb-0" href="javascript:void(0);" id="logout-link">

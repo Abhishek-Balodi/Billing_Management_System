@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EmployeeController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -41,4 +42,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+Route::prefix('employees')->name('employees.')->group(function () {
+        Route::get('/', [EmployeeController::class, 'index'])->name('index');
+    Route::get('create', [EmployeeController::class, 'create'])->name('create');
+    Route::post('store', [EmployeeController::class, 'store'])->name('store');
+});
 require __DIR__.'/auth.php';

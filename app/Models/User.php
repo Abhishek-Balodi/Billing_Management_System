@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
          'profile_photo_path',
+         'role_uuid',
     ];
 
     /**
@@ -57,6 +58,12 @@ class User extends Authenticatable
     // Return a default avatar if no profile photo exists
    return asset('assets/img/avatar/avatar-25.png');
 }
+
+public function role()
+{
+    return $this->belongsTo(Role::class, 'role_uuid', 'role_uuid');
+}
+
 
 }
 
