@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Employee;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +13,7 @@ class EmployeeController extends Controller
     // EmployeeController.php
 public function index()
 {
-    $employees = User::with('role')->get();
+    $employees = Employee::with('role')->get();
     return view('employees.index', compact('employees'));
 }
     // Show the employee creation form
@@ -57,11 +57,12 @@ if (Auth::user()->role_uuid !== '00000001') {
 
         // dd($role_uuid);
         // Create the new employee
-        User::create([
+        Employee::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_uuid' => $request->role_uuid, // Set the role_id from the form
+            'user_id' => Auth::id(),
         ]);
 
         // Redirect to a success page or back to the employee list
