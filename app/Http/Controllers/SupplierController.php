@@ -165,5 +165,7 @@ class SupplierController extends Controller
     $supplier->delete();
 
     return response()->json(['success' => 'Supplier deleted successfully']);
+
+    //test
 }
 }
