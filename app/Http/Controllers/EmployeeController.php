@@ -7,7 +7,7 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Log;
 class EmployeeController extends Controller
 {
     // EmployeeController.php
@@ -79,6 +79,17 @@ if (Auth::user()->role_uuid !== '00000001') {
        $credentials =  $request->only('email','password');
 
        if(Auth::guard('employee')->attempt($credentials)){
+        $employee = Auth::guard('employee')->user();
+
+        session()->put('employee_id', $employee->id);
+        session()->put('created_by_user_id', $employee->user_id);
+
+        Log::info('Employee logged in ',[
+        'employee_id' => $employee->id,
+        'employee_name' => $employee->name,
+        'created_by_id' => $employee->user_id,
+        'email' => $employee->email, 
+        ]);
         return redirect()->route('home');
        }
        return back()->withErrors([
@@ -88,6 +99,8 @@ if (Auth::user()->role_uuid !== '00000001') {
 
     public function logout(){
         Auth::guard('employee')->logout();
+
+        session()->flush();
         return redirect()->route('employee.login');
     }
     public function editProfile(){

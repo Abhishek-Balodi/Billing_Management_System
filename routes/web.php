@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\SupplierController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -67,5 +68,9 @@ Route::middleware('auth:employee')->prefix('employee')->group(function () {
     Route::post('profile', [EmployeeController::class, 'updateProfile'])->name('employee.profile.update');
 });
 
+Route::middleware(['auth:web,employee'])->group(function() {
+    Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
+    Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
+});
 
 require __DIR__.'/auth.php';
