@@ -3,6 +3,9 @@
 @if (session('success'))
     <div id="successMessage" class="alert alert-success">{{ session('success') }}</div>
 @endif
+@if (session('danger'))
+    <div id="successMessage" class="alert alert-danger">{{ session('danger') }}</div>
+@endif
 @if (session('error'))
     <div id="errorMessage" class="alert alert-danger">{{ session('error') }}</div>
 @endif
