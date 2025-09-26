@@ -36,7 +36,7 @@
                 <span class="btn-searchset"><i class="ti ti-search fs-14 feather-search"></i></span>
             </div>
         </div>
-        <div class="d-flex table-dropdown my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+        <!-- <div class="d-flex table-dropdown my-xl-auto right-content align-items-center flex-wrap row-gap-3">
             <div class="dropdown">
                 <a href="javascript:void(0);"
                     class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center"
@@ -52,7 +52,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
@@ -85,9 +85,11 @@
                         </td>
                         <td>
                             <div class="d-flex align-items-center">
-                                <a href="#" class="avatar avatar-md"> <img
-                                        src="{{ $supplier->image ? asset('storage/'.$supplier->image) : 'assets/img/supplier/default.png' }}"
-                                        class="img-fluid rounded-2" alt="img"></a>
+                                <a href="#" class="avatar avatar-md">
+                                    <img src="{{ $supplier->image ? asset('storage/'.$supplier->image) : asset('assets/img/supplier/default.png') }}"
+                                        class="img-fluid rounded-2" alt="Supplier Image">
+
+                                </a>
                                 <div class="ms-2">
                                     <p class="text-gray-9 mb-0"> <a href="#">{{ $supplier->first_name }}
                                             {{ $supplier->last_name }}</a></p>
@@ -223,7 +225,7 @@
                             <div class="mb-3">
                                 <label class="form-label">State <span class="text-danger">*</span></label>
                                 <input type="text" name="state" class="form-control" required>
-                                   
+
                                 </input>
                             </div>
                         </div>
@@ -233,7 +235,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Country <span class="text-danger">*</span></label>
                                 <input type="text" name="country" class="form-control" required>
-                                    
+
                                 </input>
                             </div>
                         </div>
@@ -272,132 +274,108 @@
 
 <!-- /Add Supplier -->
 
+
 <!-- Edit Supplier -->
 <div class="modal fade" id="edit-supplier">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <!-- larger modal -->
         <div class="modal-content">
-            <div class="content">
-                <div class="modal-header">
-                    <div class="page-title">
-                        <h4>Edit Supplier</h4>
-                    </div>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="https://dreamspos.dreamstechnologies.com/html/template/suppliers.html">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="new-employee-field">
-                                    <div class="profile-pic-upload edit-pic">
-                                        <div class="profile-pic">
-                                            <span><img src="assets/img/supplier/edit-supplier.jpg" alt="Img"></span>
-                                            <div class="close-img">
-                                                <i data-feather="x" class="info-img"></i>
-                                            </div>
-                                        </div>
-                                        <div class="mb-0">
-                                            <div class="image-upload mb-0">
-                                                <input type="file">
-                                                <div class="image-uploads">
-                                                    <h4>Change Image</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+            <div class="modal-header">
+                <h4>Edit Supplier</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" id="editSupplierForm" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                        <!-- Profile Image -->
+                        <div class="col-lg-12 text-center mb-3">
+                            <div class="profile-pic-upload edit-pic">
+                                <div class="profile-pic rounded-circle overflow-hidden mx-auto"
+                                    style="width:120px; height:120px;">
+                                    <img id="editSupplierImage" src="{{ asset('assets/img/supplier/default.png') }}"
+                                        alt="Supplier Image" class="img-fluid">
+                                    
                                 </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label class="form-label">First Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" value="Apex">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Last Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" value="Computers">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Email <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" value="carlevans@example.com">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Phone <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" value="+15964712634">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Address <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" value="46 Perry Street">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-sm-10 col-10">
-                                <div class="mb-3">
-                                    <label class="form-label">City <span class="text-danger">*</span></label>
-                                    <select class="select">
-                                        <option>Select</option>
-                                        <option>Varrel</option>
-                                        <option selected>Los Angels</option>
-                                        <option>Munich</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-sm-10 col-10">
-                                <div class="mb-3">
-                                    <label class="form-label">State <span class="text-danger">*</span></label>
-                                    <select class="select">
-                                        <option>Select</option>
-                                        <option>Bavaria</option>
-                                        <option>New York City</option>
-                                        <option selected>California</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-sm-10 col-10">
-                                <div class="mb-3">
-                                    <label class="form-label">Country <span class="text-danger">*</span></label>
-                                    <select class="select">
-                                        <option>Select</option>
-                                        <option>Germany</option>
-                                        <option>Mexico</option>
-                                        <option selected>United States</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Postal Code <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" value="10176">
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="mb-0">
-                                    <div
-                                        class="status-toggle modal-status d-flex justify-content-between align-items-center">
-                                        <span class="status-label">Status</span>
-                                        <input type="checkbox" id="users6" class="check" checked>
-                                        <label for="users6" class="checktoggle mb-0"></label>
-                                    </div>
+                                <div class="mt-2">
+                                    <label class="btn btn-sm btn-outline-primary">
+                                        Change Image
+                                        <input type="file" name="image" accept="image/*" hidden>
+                                    </label>
+                                    <small class="text-muted d-block mt-1">JPEG, PNG up to 2 MB</small>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- First & Last Name -->
+                        <div class="col-md-6">
+                            <label>First Name <span class="text-danger">*</span></label>
+                            <input type="text" name="first_name" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Last Name <span class="text-danger">*</span></label>
+                            <input type="text" name="last_name" class="form-control" required>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-md-12">
+                            <label>Email <span class="text-danger">*</span></label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="col-md-12">
+                            <label>Phone <span class="text-danger">*</span></label>
+                            <input type="text" name="phone" class="form-control" required>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="col-md-12">
+                            <label>Address <span class="text-danger">*</span></label>
+                            <input type="text" name="address" class="form-control" required>
+                        </div>
+
+                        <!-- City & State -->
+                        <div class="col-md-6">
+                            <label>City <span class="text-danger">*</span></label>
+                            <input type="text" name="city" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>State <span class="text-danger">*</span></label>
+                            <input type="text" name="state" class="form-control" required>
+                        </div>
+
+                        <!-- Country & Postal -->
+                        <div class="col-md-6">
+                            <label>Country <span class="text-danger">*</span></label>
+                            <input type="text" name="country" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Postal Code <span class="text-danger">*</span></label>
+                            <input type="text" name="postal_code" class="form-control" required>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="col-md-12">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="edit_status" name="status">
+                                <label class="form-check-label" for="edit_status">Active</label>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn me-2 btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn me-2 btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
 <!-- /Edit Supplier -->
 
 <!-- Delete Modal -->
@@ -405,17 +383,81 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content p-5">
             <div class="modal-body text-center p-0">
-                <span class="rounded-circle d-inline-flex p-2 bg-danger-transparent mb-2"><i
-                        class="ti ti-trash fs-24 text-danger"></i></span>
+                <span class="rounded-circle d-inline-flex p-2 bg-danger-transparent mb-2">
+                    <i class="ti ti-trash fs-24 text-danger"></i>
+                </span>
                 <h4 class="fs-20 text-gray-9 fw-bold mb-2 mt-1">Delete Supplier</h4>
                 <p class="text-gray-6 mb-0 fs-16">Are you sure you want to delete supplier?</p>
                 <div class="d-flex justify-content-center mt-3">
-                    <a class="btn me-2 btn-secondary fs-13 fw-medium p-2 px-3 shadow-none"
-                        data-bs-dismiss="modal">Cancel</a>
-                    <a href="suppliers.html" class="btn btn-primary fs-13 fw-medium p-2 px-3">Yes Delete</a>
+                    <button class="btn me-2 btn-secondary fs-13 fw-medium p-2 px-3 shadow-none"
+                        data-bs-dismiss="modal">Cancel</button>
+                    <button id="confirmDelete" class="btn btn-primary fs-13 fw-medium p-2 px-3">Yes Delete</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- /Delete Modal -->
+
+
+
+
+<script>
+$(document).on('click', '[data-bs-target="#edit-supplier"]', function() {
+    var supplierId = $(this).data('id');
+    $.get('/suppliers/' + supplierId + '/edit', function(data) {
+        $('#editSupplierImage').attr('src', data.image ? '/storage/' + data.image :
+            '{{ asset("assets/img/supplier/default.png") }}');
+        $('#edit-supplier input[name="first_name"]').val(data.first_name);
+        $('#edit-supplier input[name="last_name"]').val(data.last_name);
+        $('#edit-supplier input[name="email"]').val(data.email);
+        $('#edit-supplier input[name="phone"]').val(data.phone);
+        $('#edit-supplier input[name="address"]').val(data.address);
+        $('#edit-supplier input[name="city"]').val(data.city);
+        $('#edit-supplier input[name="state"]').val(data.state);
+        $('#edit-supplier input[name="country"]').val(data.country);
+        $('#edit-supplier input[name="postal_code"]').val(data.postal_code);
+        $('#edit_status').prop('checked', data.status == 1);
+        $('#editSupplierForm').attr('action', '/suppliers/' + supplierId);
+    });
+});
+
+// Preview selected image immediately
+function previewEditImage(event) {
+    var reader = new FileReader();
+    reader.onload = function() {
+        $('#editSupplierImage').attr('src', reader.result);
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+</script>
+
+<script>
+    let deleteSupplierId = null;
+
+// Open delete modal & set supplier ID
+$(document).on('click', '[data-bs-target="#delete-modal"]', function(){
+    deleteSupplierId = $(this).data('id'); // button me data-id="{{ $supplier->id }}" hona chahiye
+});
+
+// Confirm delete
+$('#confirmDelete').on('click', function(){
+    if(deleteSupplierId){
+        $.ajax({
+            url: '/suppliers/' + deleteSupplierId,
+            type: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(res){
+                $('#delete-modal').modal('hide');
+                alert(res.success); // ya toastr
+                location.reload(); // table refresh
+            },
+            error: function(err){
+                alert('Error deleting supplier');
+            }
+        });
+    }
+});
+
+</script>
