@@ -52,7 +52,10 @@ Route::post('/subcategories', [SubCategoryController::class, 'store'])->name('su
 Route::put('/subcategories/{id}', [SubCategoryController::class, 'update'])->name('subcategories.update');
 Route::delete('/subcategories/{id}', [SubCategoryController::class, 'destroy'])->name('subcategories.destroy');
 
-
+Route::get('/brands-list', [BrandController::class, 'index'])->name('brands.index');
+Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
+Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
+Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brands.destroy');
 
 
 
@@ -65,10 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/brands-list', [BrandController::class, 'index'])->name('brands.index');
-Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
-Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
-Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brands.destroy');
+
 });
 
 
@@ -89,10 +89,6 @@ Route::prefix('employee')->group(function () {
     // Logout
     Route::post('logout', [EmployeeController::class, 'logout'])->name('employee.logout');
 
-        Route::get('/brands-list', [BrandController::class, 'index'])->name('brands.index');
-Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
-Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
-Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brands.destroy');
 });
 
 require __DIR__.'/auth.php';

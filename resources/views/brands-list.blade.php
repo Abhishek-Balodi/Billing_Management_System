@@ -38,13 +38,48 @@
     <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
         <div class="search-set">
             <div class="search-input">
+                <!-- <input type="text" id="searchInput" class="form-control" placeholder="Search..."> -->
                 <span class="btn-searchset"><i class="ti ti-search fs-14 feather-search"></i></span>
+            </div>
+        </div>
+        <div class="d-flex table-dropdown my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+            <div class="dropdown me-2">
+                <!-- <a href="javascript:void(0);" class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center" data-bs-toggle="dropdown" id="statusFilterBtn">
+                    Status
+                </a> -->
+                <ul class="dropdown-menu dropdown-menu-end p-3">
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-1" data-status="">All</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-1" data-status="1">Active</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-1" data-status="0">Inactive</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dropdown">
+                <a href="javascript:void(0);" class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center" data-bs-toggle="dropdown" id="sortByBtn">
+                    Sort By : Latest
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end p-3">
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-1" data-sort="latest">Latest</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-1" data-sort="asc">Ascending</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-1" data-sort="desc">Descending</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table datatable">
+            <table class="table datatable" id="brandsTable">
                 <thead class="thead-light">
                     <tr>
                         <th class="no-sort">
@@ -53,9 +88,11 @@
                                 <span class="checkmarks"></span>
                             </label>
                         </th>
+                        <!-- <th>Image</th> -->
                         <th>Brand</th>
                         <th>Created Date</th>
                         <th>Created By</th>
+                        <th>Status</th>
                         <th class="no-sort"></th>
                     </tr>
                 </thead>
@@ -68,7 +105,27 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
-                            <td><span class="text-gray-9">{{ $brand->name }}</span></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <a href="javascript:void(0);" class="avatar avatar-md bg-light-900 p-1 me-2">
+                                        <img  src="{{ $brand->image ? asset('storage/' . $brand->image) : asset('assets/img/brand/apple.png') }}"
+                                            class="object-fit-contain" alt="img">
+    
+                                    </a>
+                                    <div class="ms-2">
+                                        <p class="text-gray-9"> <a href="#">{{ $brand->name }}
+                                        </a></p>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- <td>
+                                <div class="d-flex align-items-center">
+                                    <a href="javascript:void(0);" class="avatar avatar-md bg-light-900 p-1 me-2">
+                                        <img class="object-fit-contain" src="{{ $brand->image ? asset('storage/' . $brand->image) : asset('assets/img/brand/apple.png') }}" alt="img">
+                                    </a>
+                                </div>
+                            </td>
+                            <td><span class="text-gray-9">{{ $brand->name }}</span></td> -->
                             <td>{{ \Carbon\Carbon::parse($brand->created_at)->format('d M Y') }}</td>
                             <td>
                                 <span class="text-gray-9">
@@ -79,6 +136,11 @@
                                     @else
                                         Unknown
                                     @endif
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge table-badge {{ $brand->status == 1 ? 'bg-success' : 'bg-danger' }} fw-medium fs-10">
+                                    {{ $brand->status_display }}
                                 </span>
                             </td>
                             <td class="action-table-data">
@@ -97,6 +159,7 @@
                             <td></td>
                             <td></td>
                             <td>No brands found.</td>
+                            <td></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -119,13 +182,34 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('brands.store') }}" method="POST">
+            <form action="{{ route('brands.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body new-employee-field">
+                    <div class="profile-pic-upload mb-3">
+                        <div class="profile-pic brand-pic">
+                            <span><i data-feather="plus-circle" class="plus-down-add"></i> Add Image</span>
+                        </div>
+                        <div>
+                            <div class="image-upload mb-0">
+                                <input type="file" name="image">
+                                <div class="image-uploads">
+                                    <h4>Upload Image</h4>
+                                </div>
+                            </div>
+                            <p class="mt-2">JPEG, PNG up to 2 MB</p>
+                        </div>
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Brand<span class="text-danger ms-1">*</span></label>
                         <input type="text" class="form-control" name="name" value="{{ old('name') }}">
                         @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-0">
+                        <div class="status-toggle modal-status d-flex justify-content-between align-items-center">
+                            <span class="status-label">Status</span>
+                            <input type="checkbox" id="user2" class="check" name="status" value="1" {{ old('status', '1') == '1' ? 'checked' : '' }}>
+                            <label for="user2" class="checktoggle"></label>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -150,14 +234,36 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('brands.update', $brand->id) }}" method="POST">
+                <form action="{{ route('brands.update', $brand->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body new-employee-field">
+                        <div class="profile-pic-upload mb-3">
+                            <div class="profile-pic brand-pic">
+                                <span><img src="{{ $brand->image ? asset('storage/' . $brand->image) : asset('assets/img/brand/apple.png') }}" alt="Img"></span>
+                                <a href="javascript:void(0);" class="remove-photo"><i data-feather="x" class="x-square-add"></i></a>
+                            </div>
+                            <div>
+                                <div class="image-upload mb-0">
+                                    <input type="file" name="image">
+                                    <div class="image-uploads">
+                                        <h4>Change Image</h4>
+                                    </div>
+                                </div>
+                                <p class="mt-2">JPEG, PNG up to 2 MB</p>
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label">Brand<span class="text-danger ms-1">*</span></label>
                             <input type="text" class="form-control" name="name" value="{{ old('name', $brand->name) }}">
                             @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="mb-0">
+                            <div class="status-toggle modal-status d-flex justify-content-between align-items-center">
+                                <span class="status-label">Status</span>
+                                <input type="checkbox" id="user-{{ $brand->id }}" class="check" name="status" value="1" {{ old('status', $brand->status) == 1 ? 'checked' : '' }}>
+                                <label for="user-{{ $brand->id }}" class="checktoggle"></label>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -199,33 +305,81 @@
 
 <script>
     $(document).ready(function() {
-        // Hide success message after 3 seconds
+        // Hide success/error messages after 3 seconds
         setTimeout(function() {
             $('#successMessage').fadeOut('slow');
             $('#errorMessage').fadeOut('slow');
-        }, 3000); // 3000 ms = 3 seconds
+        }, 3000);
+
+        let table = $('#brandsTable').DataTable();
+
+        // Initialize DataTable (Commented as per requirement)
+        // let table = $('#brandsTable').DataTable({
+        //     searching: true,
+        //     paging: true,
+        //     ordering: true,
+        //     info: true,
+        //     columnDefs: [
+        //         { orderable: false, targets: ['no-sort'] }
+        //     ],
+        //     language: {
+        //         emptyTable: "No brands found."
+        //     }
+        // });
+
+        // Select All Checkbox
+        $('#select-all').on('click', function () {
+            $('input[name="selected_brands[]"]').prop('checked', this.checked);
+        });
+
+        // Search Input Logic
+        // $('#searchInput').on('keyup', function() {
+        //     table.search(this.value).draw();
+        // });
+
+        // Status Filter Logic
+        $('.dropdown-menu [data-status]').on('click', function(e) {
+            e.preventDefault();
+            var status = $(this).data('status');
+            var btnText = status === '' ? 'Status' : `Status: ${status == 1 ? 'Active' : 'Inactive'}`;
+            $('#statusFilterBtn').text(btnText);
+            if (status !== '') {
+                // Map numeric status to display text for search
+                var searchValue = status == 1 ? 'Active' : 'Inactive';
+                table.column(5).search(searchValue, true, false).draw();
+            } else {
+                table.column(5).search('').draw();
+            }
+        });
+
+         // Sort By Logic
+        $('.dropdown-menu [data-sort]').on('click', function(e) {
+            e.preventDefault();
+            var sortType = $(this).data('sort');
+            var btnText = 'Sort By: ' + $(this).text();
+            $('#sortByBtn').text(btnText);
+
+            if (sortType === 'latest') {
+                table.order([2, 'desc']).draw(); // Created Date descending
+            } else if (sortType === 'asc') {
+                table.order([2, 'asc']).draw(); // Brand Name ascending
+            } else if (sortType === 'desc') {
+                table.order([2, 'desc']).draw(); // Brand Name descending
+            }
+        });
     });
 </script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Initialize DataTable
-    // $('.datatable').DataTable({
-    //     searching: true,
-    //     paging: true,
-    //     ordering: true,
-    //     info: true,
-    //     columnDefs: [
-    //         { orderable: false, targets: ['no-sort'] }
-    //     ],
-    //     language: {
-    //         emptyTable: "No brands found."
-    //     }
-    // });
-
-    // Select All Checkbox
-    $('#select-all').on('click', function () {
-        $('input[name="selected_brands[]"]').prop('checked', this.checked);
-    });
+<!-- <script>
+$(document).ready(function() {
+   $('.datatable').DataTable({
+    destroy: true, // automatically destroy old instance
+    "columnDefs": [
+        { "orderable": false, "targets": [0,6] }
+    ],
+    "language": {
+        "emptyTable": "No suppliers found"
+    }
 });
-</script>
+});
+ 
+</script> -->

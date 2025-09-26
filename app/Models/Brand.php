@@ -11,9 +11,20 @@ class Brand extends Model
 
     protected $fillable = [
         'name',
+        'image',
+        'status',
         'user_id',
         'employee_id',
     ];
+
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+
+    public function getStatusDisplayAttribute()
+    {
+        return $this->status ? 'Active' : 'Inactive';
+    }
 
     public function products()
     {
