@@ -434,7 +434,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
             <!-- /Top Selling Products -->
 
             <!-- Low Stock Products -->

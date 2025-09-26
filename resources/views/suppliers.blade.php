@@ -75,58 +75,60 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($suppliers as $supplier)
-                    <tr>
-                        <td>
-                            <label class="checkboxs">
-                                <input type="checkbox">
-                                <span class="checkmarks"></span>
-                            </label>
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <a href="#" class="avatar avatar-md">
-                                    <img src="{{ $supplier->image ? asset('storage/'.$supplier->image) : asset('assets/img/supplier/default.png') }}"
-                                        class="img-fluid rounded-2" alt="Supplier Image">
+    @forelse($suppliers as $supplier)
+    <tr>
+        <td>
+            <label class="checkboxs">
+                <input type="checkbox">
+                <span class="checkmarks"></span>
+            </label>
+        </td>
+        <td>
+            <div class="d-flex align-items-center">
+                <a href="#" class="avatar avatar-md">
+                    <img src="{{ $supplier->image ? asset('storage/'.$supplier->image) : asset('assets/img/supplier/default.png') }}"
+                        class="img-fluid rounded-2" alt="Supplier Image">
+                </a>
+                <div class="ms-2">
+                    <p class="text-gray-9 mb-0">
+                        <a href="#">{{ $supplier->first_name }} {{ $supplier->last_name }}</a>
+                    </p>
+                </div>
+            </div>
+        </td>
+        <td>{{ $supplier->email }}</td>
+        <td>{{ $supplier->phone }}</td>
+        <td>{{ $supplier->country }}</td>
+        <td>
+            @if($supplier->status == 1)
+            <span class="badge badge-success d-inline-flex align-items-center badge-xs">
+                <i class="ti ti-point-filled me-1"></i>Active
+            </span>
+            @else
+            <span class="badge badge-danger d-inline-flex align-items-center badge-xs">
+                <i class="ti ti-point-filled me-1"></i>Inactive
+            </span>
+            @endif
+        </td>
+        <td class="action-table-data">
+            <div class="edit-delete-action">
+                <a class="me-2 p-2" href="#"><i data-feather="eye" class="feather-eye"></i></a>
+                <a class="me-2 p-2" href="javascript:void(0);" data-bs-toggle="modal"
+                    data-bs-target="#edit-supplier" data-id="{{ $supplier->id }}">
+                    <i data-feather="edit" class="feather-edit"></i>
+                </a>
+                <a class="p-2" href="javascript:void(0);" data-bs-toggle="modal"
+                    data-bs-target="#delete-modal" data-id="{{ $supplier->id }}">
+                    <i data-feather="trash-2" class="feather-trash-2"></i>
+                </a>
+            </div>
+        </td>
+    </tr>
+    @empty
+   
+    @endforelse
+</tbody>
 
-                                </a>
-                                <div class="ms-2">
-                                    <p class="text-gray-9 mb-0"> <a href="#">{{ $supplier->first_name }}
-                                            {{ $supplier->last_name }}</a></p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>{{ $supplier->email }}</td>
-                        <td>{{ $supplier->phone }}</td>
-                        <td>{{ $supplier->country }}</td>
-                        <td>
-                            @if($supplier->status == 1)
-                            <span class="badge badge-success d-inline-flex align-items-center badge-xs">
-                                <i class="ti ti-point-filled me-1"></i>Active
-                            </span>
-                            @else
-                            <span class="badge badge-danger d-inline-flex align-items-center badge-xs">
-                                <i class="ti ti-point-filled me-1"></i>Inactive
-                            </span>
-                            @endif
-                        </td>
-                        <td class="action-table-data">
-                            <div class="edit-delete-action">
-                                <a class="me-2 p-2" href="#">
-                                    <i data-feather="eye" class="feather-eye"></i>
-                                </a>
-                                <a class="me-2 p-2" href="javascript:void(0);" data-bs-toggle="modal"
-                                    data-bs-target="#edit-supplier" data-id="{{ $supplier->id }}">
-                                    <i data-feather="edit" class="feather-edit"></i>
-                                </a>
-                                <a class="p-2" href="javascript:void(0);" data-bs-toggle="modal"
-                                    data-bs-target="#delete-modal" data-id="{{ $supplier->id }}">
-                                    <i data-feather="trash-2" class="feather-trash-2"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
             </table>
         </div>
     </div>
@@ -297,7 +299,7 @@
                                     style="width:120px; height:120px;">
                                     <img id="editSupplierImage" src="{{ asset('assets/img/supplier/default.png') }}"
                                         alt="Supplier Image" class="img-fluid">
-                                    
+
                                 </div>
                                 <div class="mt-2">
                                     <label class="btn btn-sm btn-outline-primary">
@@ -432,32 +434,46 @@ function previewEditImage(event) {
 </script>
 
 <script>
-    let deleteSupplierId = null;
+let deleteSupplierId = null;
 
 // Open delete modal & set supplier ID
-$(document).on('click', '[data-bs-target="#delete-modal"]', function(){
-    deleteSupplierId = $(this).data('id'); // button me data-id="{{ $supplier->id }}" hona chahiye
+$(document).on('click', '[data-bs-target="#delete-modal"]', function() {
+    deleteSupplierId = $(this).data('id'); // set supplier ID from clicked button
+
 });
 
 // Confirm delete
-$('#confirmDelete').on('click', function(){
-    if(deleteSupplierId){
+$('#confirmDelete').on('click', function() {
+    if (deleteSupplierId) {
         $.ajax({
             url: '/suppliers/' + deleteSupplierId,
             type: 'DELETE',
             data: {
                 _token: '{{ csrf_token() }}'
             },
-            success: function(res){
+            success: function(res) {
                 $('#delete-modal').modal('hide');
-                alert(res.success); // ya toastr
+                 alert(res.success); // ya toastr
                 location.reload(); // table refresh
             },
-            error: function(err){
-                alert('Error deleting supplier');
+            error: function(err) {
+                 alert('Error deleting supplier');
             }
         });
     }
+});
+</script>
+<script>
+$(document).ready(function() {
+   $('.datatable').DataTable({
+    destroy: true, // automatically destroy old instance
+    "columnDefs": [
+        { "orderable": false, "targets": [0,6] }
+    ],
+    "language": {
+        "emptyTable": "No suppliers found"
+    }
+});
 });
 
 </script>

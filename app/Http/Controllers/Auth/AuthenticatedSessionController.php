@@ -22,15 +22,39 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
+    // public function store(LoginRequest $request): RedirectResponse
+    // {
+    //     $request->authenticate();
 
+    //     $request->session()->regenerate();
+    //     return redirect()->intended('/'); 
+
+    //     // return redirect()->intended(route('dashboard', absolute: false));
+    // }
+
+
+    public function store(LoginRequest $request): RedirectResponse
+{
+    $credentials = $request->only('email', 'password');
+
+    // 1. Try to login user (default guard: web)
+    if (Auth::guard('web')->attempt($credentials, $request->boolean('remember'))) {
         $request->session()->regenerate();
         return redirect()->intended('/');
-
-        // return redirect()->intended(route('dashboard', absolute: false));
     }
+
+    // 2. If not user, try employee guard
+    if (Auth::guard('employee')->attempt($credentials, $request->boolean('remember'))) {
+        $request->session()->regenerate();
+        return redirect()->intended('/'); // ya jaha employee ko bhejna hai
+    }
+
+    // 3. If both fail
+    return back()->withErrors([
+        'email' => 'The provided credentials do not match our records.',
+    ])->onlyInput('email');
+}
+
 
     /**
      * Destroy an authenticated session.

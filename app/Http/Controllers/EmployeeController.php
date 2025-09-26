@@ -101,7 +101,8 @@ if (Auth::user()->role_uuid !== '00000001') {
         Auth::guard('employee')->logout();
 
         session()->flush();
-        return redirect()->route('employee.login');
+        return redirect()->route('login');
+        // return redirect()->route('employee.login');
     }
     public function editProfile(){
         $employee = Auth::guard('employee')->user();
@@ -118,7 +119,7 @@ if (Auth::user()->role_uuid !== '00000001') {
         'profile_photo' => 'nullable|image|mimes:jpg,png,jpeg',
         'password' => 'nullable|string|min:8|confirmed',
         ]);
-
+ 
         if($request->hasFile('profile_photo')){
             $path = $request->file('profile_photo')->store('profile-photos', 'public');
             $employee->profile_photo_path = $path;

@@ -455,7 +455,7 @@
                                     @endif
                                 </div>
 
-                            </div>
+                            </div> 
                               @if($user)
                             {{-- Profile Link --}}
            {{-- Profile Link --}}

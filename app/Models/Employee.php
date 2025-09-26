@@ -26,9 +26,18 @@ class Employee extends Authenticatable
         'password',
         'remember_token',
     ];
+    
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
       // Casts
-    protected $casts = [
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
+     protected $casts = [
         'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 
     public function role(){
@@ -45,3 +54,4 @@ class Employee extends Authenticatable
         return asset('assets/img/avatar/avatar-25.png');
     }
 }
+ 
