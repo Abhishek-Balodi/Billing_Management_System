@@ -94,7 +94,7 @@
                     <a href="index.html" class="logo-small">
                         <!-- <img src="assets/img/logo-small.png" alt="Img"> -->
                         <img src="{{ asset('assets/img/logo-small.png') }}" alt="Img">
-                        
+
                     </a>
                 </div>
                 <!-- /Logo -->
@@ -461,51 +461,53 @@
                                     @endif
                                 </div>
 
-                            
-                            </div> 
-                              @if($user)
+
+                            </div>
+                            @if($user)
                             {{-- Profile Link --}}
-           {{-- Profile Link --}}
-@if($user instanceof \App\Models\Employee)
-    {{-- Agar employee login hai --}}
-    <a class="dropdown-item" href="{{ route('employee.profile.edit') }}">
-        <i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}
-    </a>
-@else
-    {{-- Agar admin (users table se) login hai --}}
-    <a class="dropdown-item" href="{{ route('profile.edit') }}">
-        <i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}
-    </a>
-@endif
+                            {{-- Profile Link --}}
+                            @if($user instanceof \App\Models\Employee)
+                            {{-- Agar employee login hai --}}
+                            <a class="dropdown-item" href="{{ route('employee.profile.edit') }}">
+                                <i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}
+                            </a>
+                            @else
+                            {{-- Agar admin (users table se) login hai --}}
+                            <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                <i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}
+                            </a>
+                            @endif
 
 
-            {{-- Reports --}}
-            <a class="dropdown-item" href="sales-report.html">
-                <i class="ti ti-file-text me-2"></i>Reports
-            </a>
+                            {{-- Reports --}}
+                            <a class="dropdown-item" href="sales-report.html">
+                                <i class="ti ti-file-text me-2"></i>Reports
+                            </a>
 
-            {{-- Settings --}}
-            <a class="dropdown-item" href="general-settings.html">
-                <i class="ti ti-settings-2 me-2"></i>Settings
-            </a>
+                            {{-- Settings --}}
+                            <a class="dropdown-item" href="general-settings.html">
+                                <i class="ti ti-settings-2 me-2"></i>Settings
+                            </a>
 
-                           {{-- Add Employee (only admin) --}}
-            @if($user instanceof \App\Models\User && $user->role_uuid === '00000001')
-                <a class="dropdown-item" href="{{ route('employees.create') }}">
-                    <i class="ti ti-settings-2 me-2"></i>Add Employee
-                </a>
-            @endif
+                            {{-- Add Employee (only admin) --}}
+                            @if($user instanceof \App\Models\User && $user->role_uuid === '00000001')
+                            <a class="dropdown-item" href="{{ route('employees.create') }}">
+                                <i class="ti ti-settings-2 me-2"></i>Add Employee
+                            </a>
+                            @endif
                             <hr class="my-2">
 
-                             <a class="dropdown-item logout pb-0" href="javascript:void(0);" id="logout-link">
-                <i class="ti ti-logout me-2"></i>Logout
-            </a>
-        @endif
+                            <a class="dropdown-item logout pb-0" href="javascript:void(0);" id="logout-link">
+                                <i class="ti ti-logout me-2"></i>Logout
+                            </a>
+                            @endif
 
                         </div>
                     </li>
                     <!-- Add Logout Form (for Breeze logout functionality) -->
-                    <form method="POST"  action="{{ $user instanceof \App\Models\Employee ? route('employee.logout') : route('logout') }}"  id="logout-form" style="display: none;">
+                    <form method="POST"
+                        action="{{ $user instanceof \App\Models\Employee ? route('employee.logout') : route('logout') }}"
+                        id="logout-form" style="display: none;">
                         @csrf
                     </form>
                     <script>
