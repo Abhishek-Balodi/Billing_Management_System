@@ -57,6 +57,22 @@
                     @endforeach
                 </ul>
             </div>
+            <div class="dropdown">
+                <a href="javascript:void(0);" class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center" data-bs-toggle="dropdown" id="sortByBtn">
+                    Sort By : Latest
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end p-3">
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-1" data-sort="latest">Latest</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-1" data-sort="asc">Ascending</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-1" data-sort="desc">Descending</a>
+                    </li>
+                </ul>
+            </div>
             <!-- <div class="dropdown">
                 <a href="javascript:void(0);" class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center" data-bs-toggle="dropdown" id="statusFilterBtn">
                     Status
@@ -346,6 +362,22 @@
                 table.column(3).search(categoryName, true, false).draw();
             } else {
                 table.column(3).search('').draw();
+            }
+        });
+
+         // Sort By Logic
+        $('.dropdown-menu [data-sort]').on('click', function(e) {
+            e.preventDefault();
+            var sortType = $(this).data('sort');
+            var btnText = 'Sort By: ' + $(this).text();
+            $('#sortByBtn').text(btnText);
+
+            if (sortType === 'latest') {
+                table.order([2, 'desc']).draw(); // Created Date descending
+            } else if (sortType === 'asc') {
+                table.order([2, 'asc']).draw(); // Brand Name ascending
+            } else if (sortType === 'desc') {
+                table.order([2, 'desc']).draw(); // Brand Name descending
             }
         });
 
