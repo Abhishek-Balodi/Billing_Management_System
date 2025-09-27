@@ -53,10 +53,10 @@ Route::post('/subcategories', [SubCategoryController::class, 'store'])->name('su
 Route::put('/subcategories/{id}', [SubCategoryController::class, 'update'])->name('subcategories.update');
 Route::delete('/subcategories/{id}', [SubCategoryController::class, 'destroy'])->name('subcategories.destroy');
 
-Route::get('/brands-list', [BrandController::class, 'index'])->name('brands.index');
-Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
-Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
-Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brands.destroy');
+// Route::get('/brands-list', [BrandController::class, 'index'])->name('brands.index');
+// Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
+// Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
+// Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brands.destroy');
 
 
 
@@ -73,24 +73,24 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::prefix('employees')->name('employees.')->group(function () {
-        Route::get('/', [EmployeeController::class, 'index'])->name('index');
-    Route::get('create', [EmployeeController::class, 'create'])->name('create');
-    Route::post('store', [EmployeeController::class, 'store'])->name('store');
-});
+// Route::prefix('employees')->name('employees.')->group(function () {
+//         Route::get('/', [EmployeeController::class, 'index'])->name('index');
+//     Route::get('create', [EmployeeController::class, 'create'])->name('create');
+//     Route::post('store', [EmployeeController::class, 'store'])->name('store');
+// });
 
-Route::prefix('employee')->group(function () {
+// Route::prefix('employee')->group(function () {
 
-    // Show login form
-    Route::get('login', [EmployeeController::class, 'showLoginForm'])->name('employee.login');
+//     // Show login form
+//     Route::get('login', [EmployeeController::class, 'showLoginForm'])->name('employee.login');
 
-    // Handle login
-    Route::post('login', [EmployeeController::class, 'login'])->name('employee.login.submit');
+//     // Handle login
+//     Route::post('login', [EmployeeController::class, 'login'])->name('employee.login.submit');
 
-    // Logout
-    Route::post('logout', [EmployeeController::class, 'logout'])->name('employee.logout');
+//     // Logout
+//     Route::post('logout', [EmployeeController::class, 'logout'])->name('employee.logout');
 
-});
+// });
 
 
 Route::prefix('employees')->name('employees.')->group(function () {
@@ -118,6 +118,12 @@ Route::middleware('auth:employee')->prefix('employee')->group(function () {
 });
 
 Route::middleware(['auth:web,employee'])->group(function() {
+
+    Route::get('/brands-list', [BrandController::class, 'index'])->name('brands.index');
+    Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
+    Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
+    Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brands.destroy');
+
     Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
     Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
     Route::get('/suppliers/{id}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
