@@ -41,10 +41,28 @@
                 <span class="btn-searchset"><i class="ti ti-search fs-14 feather-search"></i></span>
             </div>
         </div>
+        <!-- <div class="d-flex table-dropdown my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+            <div class="dropdown me-2">
+                <a href="javascript:void(0);" class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center" data-bs-toggle="dropdown" id="statusFilterBtn">
+                    Status
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end p-3">
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-1" data-status="">All</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-1" data-status="1">Active</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-1" data-status="0">Inactive</a>
+                    </li>
+                </ul>
+            </div>
+        </div> -->
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table datatable">
+            <table class="table datatable" id="categoriesTable">
                 <thead class="thead-light">
                     <tr>
                         <th class="no-sort">
@@ -56,6 +74,7 @@
                         <th>Category</th>
                         <th>Created On</th>
                         <th>Created By</th>
+                        <th>Status</th>
                         <th class="no-sort"></th>
                     </tr>
                 </thead>
@@ -81,6 +100,11 @@
                                     @endif
                                 </span>
                             </td>
+                            <td>
+                                <span class="badge table-badge {{ $category->status == 1 ? 'bg-success' : 'bg-danger' }} fw-medium fs-10">
+                                    {{ $category->status_display }}
+                                </span>
+                            </td>
                             <td class="action-table-data">
                                 <div class="edit-delete-action">
                                     <a class="me-2 p-2" href="#" data-bs-toggle="modal" data-bs-target="#edit-category-{{ $category->id }}">
@@ -97,6 +121,7 @@
                             <td></td>
                             <td></td>
                             <td>No categories found.</td>
+                            <td></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -126,6 +151,13 @@
                         <label class="form-label">Category<span class="text-danger ms-1">*</span></label>
                         <input type="text" class="form-control" name="name" value="{{ old('name') }}">
                         @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-0">
+                        <div class="status-toggle modal-status d-flex justify-content-between align-items-center">
+                            <span class="status-label">Status</span>
+                            <input type="checkbox" id="user2" class="check" name="status" value="1" {{ old('status', '1') == '1' ? 'checked' : '' }}>
+                            <label for="user2" class="checktoggle"></label>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -158,6 +190,13 @@
                             <label class="form-label">Category<span class="text-danger ms-1">*</span></label>
                             <input type="text" class="form-control" name="name" value="{{ old('name', $category->name) }}">
                             @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="mb-0">
+                            <div class="status-toggle modal-status d-flex justify-content-between align-items-center">
+                                <span class="status-label">Status</span>
+                                <input type="checkbox" id="user-{{ $category->id }}" class="check" name="status" value="1" {{ old('status', $category->status) == 1 ? 'checked' : '' }}>
+                                <label for="user-{{ $category->id }}" class="checktoggle"></label>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -201,39 +240,69 @@
 
 <script>
     $(document).ready(function() {
-        // Hide success message after 3 seconds
+        // Hide success/error messages after 3 seconds
         setTimeout(function() {
             $('#successMessage').fadeOut('slow');
             $('#errorMessage').fadeOut('slow');
-        }, 3000); // 3000 ms = 3 seconds
-    });
-</script>
+        }, 3000);
 
+        // let table = $('#categoriesTable').DataTable({
+        //     columnDefs: [
+        //         { orderable: false, targets: ['no-sort'] },
+        //         // Strip HTML from status column for search
+        //         {
+        //             targets: 4, // Status column
+        //             render: function(data, type, row) {
+        //                 if (type === 'filter' || type === 'sort') {
+        //                     // Return plain text (Active/Inactive) for filtering/sorting
+        //                     return data.includes('Active') ? 'Active' : 'Inactive';
+        //                 }
+        //                 return data; // Return HTML for display
+        //             }
+        //         }
+        //     ],
+        //     language: {
+        //         emptyTable: "No categories found."
+        //     }
+        // });
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Initialize DataTable
-    // $('.datatable').DataTable({
-    //     searching: true,
-    //     paging: true,
-    //     ordering: true,
-    //     info: true,
-    //     columnDefs: [
-    //         { orderable: false, targets: ['no-sort'] }
-    //     ],
-    //     language: {
-    //         emptyTable: "No categories found."
-    //     },
-    //     drawCallback: function(settings) {
-    //         if (settings.aoData.length === 0) {
-    //             $(this.api().table().node()).find('tbody').html('<tr><td></td><td></td><td>No categories found.</td><td></td><td></td></tr>');
+        // Initialize DataTable (Commented as per requirement)
+        // $('.datatable').DataTable({
+        //     searching: true,
+        //     paging: true,
+        //     ordering: true,
+        //     info: true,
+        //     columnDefs: [
+        //         { orderable: false, targets: ['no-sort'] }
+        //     ],
+        //     language: {
+        //         emptyTable: "No categories found."
+        //     },
+        //     drawCallback: function(settings) {
+        //         if (settings.aoData.length === 0) {
+        //             $(this.api().table().node()).find('tbody').html('<tr><td></td><td></td><td>No categories found.</td><td></td><td></td></tr>');
+        //         }
+        //     }
+        // });
+
+        // Select All Checkbox
+        $('#select-all').on('click', function () {
+            $('input[name="selected_categories[]"]').prop('checked', this.checked);
+        });
+
+        // Status Filter Logic
+    //     $('.dropdown-menu [data-status]').on('click', function(e) {
+    //         e.preventDefault();
+    //         var status = $(this).data('status');
+    //         var btnText = status === '' ? 'Status' : `Status: ${status == 1 ? 'Active' : 'Inactive'}`;
+    //         $('#statusFilterBtn').text(btnText);
+    //         if (status !== '') {
+    //             // Map numeric status to display text for search
+    //             var searchValue = status == 1 ? 'Active' : 'Inactive';
+    //             table.column(4).search(searchValue, true, false).draw();
+    //         } else {
+    //             table.column(4).search('').draw();
     //         }
-    //     }
+    //     });
     // });
-
-    // Select All Checkbox
-    $('#select-all').on('click', function () {
-        $('input[name="selected_categories[]"]').prop('checked', this.checked);
-    });
-});
 </script>

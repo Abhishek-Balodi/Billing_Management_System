@@ -42,10 +42,10 @@ Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('pr
 Route::post('/categories_product', [CategoryController::class, 'productpage_store'])->name('categories.productpage_store');
 
 
-Route::get('/category-list', [CategoryController::class, 'index'])->name('categories.index');
-Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
-Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+// Route::get('/category-list', [CategoryController::class, 'index'])->name('categories.index');
+// Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+// Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+// Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
 
 Route::get('/sub-categories', [SubCategoryController::class, 'index'])->name('subcategories.index');
@@ -118,6 +118,11 @@ Route::middleware('auth:employee')->prefix('employee')->group(function () {
 });
 
 Route::middleware(['auth:web,employee'])->group(function() {
+
+    Route::get('/category-list', [CategoryController::class, 'index'])->name('categories.index');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+    Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
     Route::get('/brands-list', [BrandController::class, 'index'])->name('brands.index');
     Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
