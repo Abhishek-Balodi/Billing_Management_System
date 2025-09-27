@@ -461,12 +461,23 @@
                                     @endif
                                 </div>
 
-                            </div>
+                            
+                            </div> 
                               @if($user)
                             {{-- Profile Link --}}
-            <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                <i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}
-            </a>
+           {{-- Profile Link --}}
+@if($user instanceof \App\Models\Employee)
+    {{-- Agar employee login hai --}}
+    <a class="dropdown-item" href="{{ route('employee.profile.edit') }}">
+        <i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}
+    </a>
+@else
+    {{-- Agar admin (users table se) login hai --}}
+    <a class="dropdown-item" href="{{ route('profile.edit') }}">
+        <i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}
+    </a>
+@endif
+
 
             {{-- Reports --}}
             <a class="dropdown-item" href="sales-report.html">

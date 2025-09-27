@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\SupplierController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -88,6 +89,40 @@ Route::prefix('employee')->group(function () {
 
     // Logout
     Route::post('logout', [EmployeeController::class, 'logout'])->name('employee.logout');
+
+});
+
+
+Route::prefix('employees')->name('employees.')->group(function () {
+        Route::get('/', [EmployeeController::class, 'index'])->name('index');
+    Route::get('create', [EmployeeController::class, 'create'])->name('create');
+    Route::post('store', [EmployeeController::class, 'store'])->name('store');
+});
+
+Route::prefix('employee')->group(function () {
+
+    // Show login form
+    Route::get('login', [EmployeeController::class, 'showLoginForm'])->name('employee.login');
+
+    // Handle login
+    Route::post('login', [EmployeeController::class, 'login'])->name('employee.login.submit');
+
+    // Logout
+    Route::post('logout', [EmployeeController::class, 'logout'])->name('employee.logout');
+});
+
+// routes/web.php
+Route::middleware('auth:employee')->prefix('employee')->group(function () {
+    Route::get('profile', [EmployeeController::class, 'editProfile'])->name('employee.profile.edit');
+    Route::post('profile', [EmployeeController::class, 'updateProfile'])->name('employee.profile.update');
+});
+
+Route::middleware(['auth:web,employee'])->group(function() {
+    Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
+    Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
+    Route::get('/suppliers/{id}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
+    Route::put('/suppliers/{id}',[SupplierController::class, 'update'])->name('supplier.update');
+    Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 
 });
 
