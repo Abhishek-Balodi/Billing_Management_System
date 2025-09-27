@@ -30,7 +30,7 @@ class SubcategoryController extends Controller
             // Employee
             $employee = Auth::guard('employee')->user();
             $data['employee_id'] = $employee->id;
-            $data['user_id'] = $employee->user_id; // assuming employee model me ye column hai
+            $data['user_id'] = $employee->user_id;
 
             \Log::info('Employee adding subcategory', [
                 'employee_id' => $data['employee_id'],
@@ -137,7 +137,7 @@ class SubcategoryController extends Controller
         if (Auth::guard('web')->check()) {
             return Auth::guard('web')->id();
         } elseif (Auth::guard('employee')->check()) {
-            return Auth::guard('employee')->user()->user_id; // assuming employee model me user_id column hai
+            return Auth::guard('employee')->user()->user_id;
         }
 
         return null;
