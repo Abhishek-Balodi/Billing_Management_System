@@ -1157,7 +1157,7 @@
                                     <ul>
                                         <li><a href="customers.html"><span>Customers</span></a></li>
                                         <li><a href="billers.html"><span>Billers</span></a></li>
-                                        <li><a href="suppliers.html"><span>Suppliers</span></a></li>
+                                        <li><a href="{{ route('suppliers.index') }}"><span>Suppliers</span></a></li>
                                         <li><a href="store-list.html"><span>Stores</span></a></li>
                                         <li><a href="warehouse.html"><span>Warehouses</span></a>
                                         </li>

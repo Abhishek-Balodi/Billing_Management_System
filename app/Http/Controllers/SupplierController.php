@@ -72,30 +72,30 @@ class SupplierController extends Controller
             ]);
         }
 
-            Supplier::create($data);
-            return redirect()->route('suppliers.index')->with('success', 'Supplier added successfully');
+        Supplier::create($data);
+        return redirect()->route('suppliers.index')->with('success', 'Supplier added successfully');
 
     }
 
     public function edit($id){
-            if(Auth::guard('web')->check()){
-                //admin
-                $userId = Auth::guard('web')->id();
-                //admin have right  to edit own and employee data
-                $supplier = Supplier::where('user_id', $userId)
-                ->where('id',$id)
-                ->firstOrFail();
-            }elseif(Auth::guard('employee')->check()){
-        // dd(Auth::guard('employee')->check());
-            $employee = Auth::guard('employee')->user();
-            //employee can only their own data
-            $supplier = Supplier::where('employee_id', $employee->id)
-            ->where('id', $id)
+        if(Auth::guard('web')->check()){
+            //admin
+            $userId = Auth::guard('web')->id();
+            //admin have right  to edit own and employee data
+            $supplier = Supplier::where('user_id', $userId)
+            ->where('id',$id)
             ->firstOrFail();
-            } else{
-                abort(403,'unauthorized action.');
-            }
-            return response()->json($supplier);
+        }elseif(Auth::guard('employee')->check()){
+    // dd(Auth::guard('employee')->check());
+        $employee = Auth::guard('employee')->user();
+        //employee can only their own data
+        $supplier = Supplier::where('employee_id', $employee->id)
+        ->where('id', $id)
+        ->firstOrFail();
+        } else{
+            abort(403,'unauthorized action.');
+        }
+        return response()->json($supplier);
     }
 
 
@@ -113,34 +113,32 @@ class SupplierController extends Controller
         ]);
 
         if(Auth::guard('web')->check()){
-                $userId = Auth::guard('web')->id();
-                $supplier = Supplier::where('user_id' , $userId)
-                    ->where('id', $id)
-                    ->firstOrFail();
-            } elseif(Auth::guard('employee')->check()){
-                $employee = Auth::guard('employee')->user(); // define $employee
-                $supplier = Supplier::where('employee_id', $employee->id)
-                    ->where('id', $id)
-                    ->firstOrFail();
-            } else{
-                abort(403, 'Unauthorized action');
-            }
-            $data = $request->all();
-            // Status handling: checked → 1, unchecked → 0
-            $data['status'] = $request->has('status') ? 1 : 0;
-            if ($request->hasFile('image')) {
-                $path = $request->file('image')->store('suppliers', 'public');
-                $data['image'] = $path; // sirf relative path save hoga
-            } else {
-                unset($data['image']); // agar image upload nahi hui to existing image ko overwrite mat karo
-            }
+            $userId = Auth::guard('web')->id();
+            $supplier = Supplier::where('user_id' , $userId)
+                ->where('id', $id)
+                ->firstOrFail();
+        } elseif(Auth::guard('employee')->check()){
+            $employee = Auth::guard('employee')->user(); // define $employee
+            $supplier = Supplier::where('employee_id', $employee->id)
+                ->where('id', $id)
+                ->firstOrFail();
+        } else{
+            abort(403, 'Unauthorized action');
+        }
+        $data = $request->all();
+        // Status handling: checked → 1, unchecked → 0
+        $data['status'] = $request->has('status') ? 1 : 0;
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('suppliers', 'public');
+            $data['image'] = $path; // sirf relative path save hoga
+        } else {
+            unset($data['image']); // agar image upload nahi hui to existing image ko overwrite mat karo
+        }
 
-            $supplier->update($data);
-
-            return redirect()->route('suppliers.index')->with('success','Supplier updated successfully');
+        $supplier->update($data);
+        return redirect()->route('suppliers.index')->with('success','Supplier updated successfully');
     }
 
-   
 
     public function destroy($id){
         if(Auth::guard('web')->check()){
@@ -159,8 +157,6 @@ class SupplierController extends Controller
 
         // Delete supplier
         $supplier->delete();
-
         return response()->json(['success' => 'Supplier deleted successfully']);
-
     }
 }
