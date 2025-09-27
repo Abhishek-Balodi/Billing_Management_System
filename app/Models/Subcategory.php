@@ -10,8 +10,22 @@ class Subcategory extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'category_id', 'user_id', 'employee_id'
+        'name',
+        'image',
+        'status',
+        'category_id',
+        'user_id',
+        'employee_id'
     ];
+
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+
+    public function getStatusDisplayAttribute()
+    {
+        return $this->status ? 'Active' : 'Inactive';
+    }
 
     public function category()
     {

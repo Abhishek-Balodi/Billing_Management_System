@@ -304,5 +304,5 @@
     //             table.column(4).search('').draw();
     //         }
     //     });
-    // });
+    });
 </script>
