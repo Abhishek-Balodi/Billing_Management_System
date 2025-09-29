@@ -122,8 +122,17 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <a href="javascript:void(0);" class="avatar avatar-md bg-light-900 p-1 me-2">
+                                        <img  src="{{ $product->image ? asset('storage/' . $product->image) : asset('assets/img/brand/apple.png') }}"
+                                            class="object-fit-contain" alt="img">
+                                    </a>
+                                    <a href="javascript:void(0);">{{ $product->name }}</a>
+                                </div>
+                            </td>
                             <!-- <td>{{ $product->barcode ?? 'N/A' }}</td> -->
-                            <td>{{ $product->name }}</td>
+                            <!-- <td>{{ $product->name }}</td> -->
                             <td>{{ $product->category->name ?? 'N/A' }}</td>
                             <!-- <td>{{ $product->subcategory->name ?? 'N/A' }}</td> -->
                             <td>{{ $product->brand->name ?? 'N/A' }}</td>

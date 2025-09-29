@@ -144,28 +144,6 @@
                         <div class="row">
                             <div class="col-sm-6 col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Selling Type<span class="text-danger ms-1">*</span></label>
-                                    <select class="select" name="selling_type" required>
-                                        <option value="">Select</option>
-                                        @foreach (['online', 'cash'] as $type)
-                                            <option value="{{ $type }}" {{ old('selling_type') == $type ? 'selected' : '' }}>{{ ucfirst($type) }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('selling_type') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-12">
-                                <div class="mb-3 list position-relative">
-                                    <label class="form-label">Barcode</label>
-                                    <input type="text" class="form-control list" name="barcode" value="{{ old('barcode') }}">
-                                    <button type="button" class="btn btn-primaryadd">Generate</button>
-                                    @error('barcode') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 col-12">
-                                <div class="mb-3">
                                     <label class="form-label">Barcode Symbology<span class="text-danger ms-1">*</span></label>
                                     <select class="select" name="barcode_symbology" required>
                                         <option value="">Select</option>
@@ -176,12 +154,40 @@
                                     @error('barcode_symbology') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
+                            <div class="col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Selling Type<span class="text-danger ms-1">*</span></label>
+                                    <select class="select" name="selling_type" required>
+                                        <option value="">Select</option>
+                                        @foreach (['online', 'cash'] as $type)
+                                            <option value="{{ $type }}" {{ old('selling_type') == $type ? 'selected' : '' }}>{{ ucfirst($type) }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('selling_type') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-12">
+                                <div class="mb-3 list position-relative">
+                                    <label class="form-label">Barcode</label>
+                                    <input type="text" class="form-control list" name="barcode" value="{{ old('barcode') }}">
+                                    <button type="button" class="btn btn-primaryadd">Generate</button>
+                                    @error('barcode') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="summer-description-box">
                                 <label for="description" class="form-label">Description</label>
+                                
                                 <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
+                                
                                 <p class="fs-14 mt-1">Minimum 60 Words</p>
+
+                                {{-- @error('description') 
+                                    <span class="text-danger">{{ $message }}</span> 
+                                @enderror --}}
                             </div>
                         </div>
                     </div>
@@ -399,5 +405,25 @@
     </div>
 </div>
 <!-- /Add Category -->
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize Daterangepicker for single date selection
+        $('.datetimepicker').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            autoApply: true,
+            locale: {
+                format: 'DD/MM/YYYY',
+                separator: ' - ',
+                applyLabel: 'Apply',
+                cancelLabel: 'Cancel',
+                daysOfWeek: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                firstDay: 1
+            }
+        });
+    });
+</script> -->
 
 @include('layouts.footer')
