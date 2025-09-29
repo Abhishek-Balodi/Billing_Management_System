@@ -45,7 +45,6 @@ Route::post('/categories_product', [CategoryController::class, 'productpage_stor
 
 
 
-
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
@@ -54,31 +53,13 @@ Route::post('/categories_product', [CategoryController::class, 'productpage_stor
 //     return view('layout-horizontal');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-// Route::prefix('employees')->name('employees.')->group(function () {
-//         Route::get('/', [EmployeeController::class, 'index'])->name('index');
-//     Route::get('create', [EmployeeController::class, 'create'])->name('create');
-//     Route::post('store', [EmployeeController::class, 'store'])->name('store');
-// });
-
-// Route::prefix('employee')->group(function () {
-
-//     // Show login form
-//     Route::get('login', [EmployeeController::class, 'showLoginForm'])->name('employee.login');
-
-//     // Handle login
-//     Route::post('login', [EmployeeController::class, 'login'])->name('employee.login.submit');
-
-//     // Logout
-//     Route::post('logout', [EmployeeController::class, 'logout'])->name('employee.logout');
-
-// });
 
 
 Route::prefix('employees')->name('employees.')->group(function () {
@@ -104,6 +85,7 @@ Route::middleware('auth:employee')->prefix('employee')->group(function () {
     Route::get('profile', [EmployeeController::class, 'editProfile'])->name('employee.profile.edit');
     Route::post('profile', [EmployeeController::class, 'updateProfile'])->name('employee.profile.update');
 });
+
 
 Route::middleware(['auth:web,employee'])->group(function() {
 
