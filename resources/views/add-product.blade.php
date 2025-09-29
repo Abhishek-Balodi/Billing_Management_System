@@ -16,11 +16,11 @@
         </li>
     </ul>
     <div class="page-btn mt-0">
-        <a href="" class="btn btn-secondary"><i data-feather="arrow-left" class="me-2"></i>Back to Product</a>
+        <a href="{{ route('products.index') }}" class="btn btn-secondary"><i data-feather="arrow-left" class="me-2"></i>Back to Product</a>
     </div>
 </div> 
 
-<form action="{{ route('products.store') }}" method="POST" class="add-product-form">
+<form action="{{ route('products.store') }}" method="POST" class="add-product-form" enctype="multipart/form-data">
     @csrf
     <div class="add-product">
         <div class="accordions-items-seperate" id="accordionSpacingExample">
@@ -34,6 +34,41 @@
                 </h2>
                 <div id="SpacingOne" class="accordion-collapse collapse show" aria-labelledby="headingSpacingOne">
                     <div class="accordion-body border-top">
+                        <div class="row">
+                            <div class="col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Store</label>
+                                    <select class="select" name="store_id">
+                                        <option value="">Select</option>
+                                        <option value="1" {{ old('store_id') == '1' ? 'selected' : '' }}>Electro Mart</option>
+                                        <option value="2" {{ old('store_id') == '2' ? 'selected' : '' }}>Quantum Gadgets</option>
+                                        <option value="3" {{ old('store_id') == '3' ? 'selected' : '' }}>Gadget World</option>
+                                        <option value="4" {{ old('store_id') == '4' ? 'selected' : '' }}>Volt Vault</option>
+                                        <option value="5" {{ old('store_id') == '5' ? 'selected' : '' }}>Elite Retail</option>
+                                        <option value="6" {{ old('store_id') == '6' ? 'selected' : '' }}>Prime Mart</option>
+                                        <option value="7" {{ old('store_id') == '7' ? 'selected' : '' }}>NeoTech Store</option>
+                                    </select>
+                                    @error('store_id') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Warehouse</label>
+                                    <select class="select" name="warehouse_id">
+                                        <option value="">Select</option>
+                                        <option value="1" {{ old('warehouse_id') == '1' ? 'selected' : '' }}>Lavish Warehouse</option>
+                                        <option value="2" {{ old('warehouse_id') == '2' ? 'selected' : '' }}>Quaint Warehouse</option>
+                                        <option value="3" {{ old('warehouse_id') == '3' ? 'selected' : '' }}>Traditional Warehouse</option>
+                                        <option value="4" {{ old('warehouse_id') == '4' ? 'selected' : '' }}>Cool Warehouse</option>
+                                        <option value="5" {{ old('warehouse_id') == '5' ? 'selected' : '' }}>Overflow Warehouse</option>
+                                        <option value="6" {{ old('warehouse_id') == '6' ? 'selected' : '' }}>Nova Storage Hub</option>
+                                        <option value="7" {{ old('warehouse_id') == '7' ? 'selected' : '' }}>Retail Supply Hub</option>
+                                        <option value="8" {{ old('warehouse_id') == '8' ? 'selected' : '' }}>EdgeWare Solutions</option>
+                                    </select>
+                                    @error('warehouse_id') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-sm-6 col-12">
                                 <div class="mb-3">
@@ -53,10 +88,7 @@
                         <div class="row">
                             <div class="col-sm-6 col-12">
                                 <div class="mb-3">
-                                    <!-- <div class="add-newplus"> -->
-                                        <label class="form-label">Category<span class="text-danger ms-1">*</span></label>
-                                        <!-- <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#add-product-category"><i data-feather="plus-circle" class="plus-down-add"></i><span>Add New</span></a> -->
-                                    <!-- </div> -->
+                                    <label class="form-label">Category<span class="text-danger ms-1">*</span></label>
                                     <select class="select" name="category_id" required>
                                         <option value="">Select</option>
                                         @foreach ($categories as $category)
@@ -111,6 +143,32 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Barcode Symbology<span class="text-danger ms-1">*</span></label>
+                                    <select class="select" name="barcode_symbology" required>
+                                        <option value="">Select</option>
+                                        @foreach (['Code 128', 'Code 39', 'UPC-A', 'UPC-E', 'EAN-8', 'EAN-13'] as $symbology)
+                                            <option value="{{ $symbology }}" {{ old('barcode_symbology') == $symbology ? 'selected' : '' }}>{{ $symbology }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('barcode_symbology') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Selling Type<span class="text-danger ms-1">*</span></label>
+                                    <select class="select" name="selling_type" required>
+                                        <option value="">Select</option>
+                                        @foreach (['online', 'cash'] as $type)
+                                            <option value="{{ $type }}" {{ old('selling_type') == $type ? 'selected' : '' }}>{{ ucfirst($type) }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('selling_type') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-12">
                                 <div class="mb-3 list position-relative">
                                     <label class="form-label">Barcode</label>
                                     <input type="text" class="form-control list" name="barcode" value="{{ old('barcode') }}">
@@ -120,14 +178,7 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <!-- <div class="summer-description-box">
-                                <label class="form-label">Description</label>
-                                <div class="editor pages-editor"></div>
-                                <textarea name="description" style="display: none;">{{ old('description') }}</textarea>
-                                <p class="fs-14 mt-1">Maximum 60 Words</p>
-                                @error('description') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div> -->
-                           <div class="summer-description-box">
+                            <div class="summer-description-box">
                                 <label for="description" class="form-label">Description</label>
                                 
                                 <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
@@ -210,9 +261,61 @@
                                     @error('quantity_alert') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
+                            <div class="col-lg-4 col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Discount Type</label>
+                                    <select class="select" name="discount_type">
+                                        <option value="">Select</option>
+                                        @foreach (['percentage', 'fixed'] as $type)
+                                            <option value="{{ $type }}" {{ old('discount_type') == $type ? 'selected' : '' }}>{{ ucfirst($type) }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('discount_type') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Discount Value</label>
+                                    <input type="text" class="form-control" name="discount_value" value="{{ old('discount_value') }}" step="0.01" min="0">
+                                    @error('discount_value') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="accordion-item border mb-4">
+                <h2 class="accordion-header" id="headingSpacingThree">
+                    <div class="accordion-button collapsed bg-white" data-bs-toggle="collapse" data-bs-target="#SpacingThree" aria-expanded="true" aria-controls="SpacingThree">
+                        <div class="d-flex align-items-center justify-content-between flex-fill">
+                            <h5 class="d-flex align-items-center"><i data-feather="image" class="text-primary me-2"></i><span>Images</span></h5>
+                        </div>
+                    </div>
+                </h2>
+                <div id="SpacingThree" class="accordion-collapse collapse show" aria-labelledby="headingSpacingThree">
+    <div class="accordion-body border-top">
+        <div class="text-editor add-list add">
+            <div class="col-lg-12">
+                <div class="add-choosen">
+                    <div class="mb-3">
+                        <div class="image-upload image-upload-two">
+                            <input type="file" name="image" accept="image/*">
+                            <div class="image-uploads">
+                                <i data-feather="plus-circle" class="plus-down-add me-0"></i>
+                                <h4>Add Image</h4>
+                            </div>
+                        </div>
+                        @error('image') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="phone-img">
+                        <img src="{{ asset('assets/img/products/phone-add-2.png') }}" alt="image" id="image-preview">
+                        <a href="javascript:void(0);"><i data-feather="x" class="x-square-add remove-product"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
             </div>
             <div class="accordion-item border mb-4">
                 <h2 class="accordion-header" id="headingSpacingFour">
@@ -225,6 +328,25 @@
                 <div id="SpacingFour" class="accordion-collapse collapse show" aria-labelledby="headingSpacingFour">
                     <div class="accordion-body border-top">
                         <div class="row">
+                            <div class="col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Warranties</label>
+                                    <select class="select" name="warranties">
+                                        <option value="">Select</option>
+                                        @foreach (['Replacement Warranty', 'On-Site Warranty', 'Accidental Protection Plan'] as $warranty)
+                                            <option value="{{ $warranty }}" {{ old('warranties') == $warranty ? 'selected' : '' }}>{{ $warranty }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('warranties') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Manufacturer</label>
+                                    <input type="text" class="form-control" name="manufacturer" value="{{ old('manufacturer') }}">
+                                    @error('manufacturer') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
                             <div class="col-sm-6 col-12">
                                 <div class="mb-3">
                                     <label class="form-label">Manufactured Date</label>
@@ -271,7 +393,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body"> 
                 <form action="{{ route('categories.productpage_store') }}" method="POST">
                     @csrf
                     <label class="form-label">Category<span class="ms-1 text-danger">*</span></label>
@@ -307,5 +429,44 @@
         });
     });
 </script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const imageInput = document.querySelector('input[name="image"]');
+    const phoneImgDiv = document.querySelector('.phone-img');
+    const previewImg = document.querySelector('#image-preview');
+    const removeBtn = document.querySelector('.remove-product');
+    // const defaultImage = "{{ asset('assets/img/products/phone-add-2.png') }}";
+
+    // Initially hide phone-img div
+    phoneImgDiv.style.display = 'none';
+
+    // Image preview on file selection
+    imageInput.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImg.src = e.target.result; // Set uploaded image
+                phoneImgDiv.style.display = 'block'; // Show preview div
+            };
+            reader.readAsDataURL(file);
+        } else {
+            previewImg.src = defaultImage; // Reset to default image
+            phoneImgDiv.style.display = 'none'; // Hide if no image
+        }
+    });
+
+    // Remove image on click
+    removeBtn.addEventListener('click', function () {
+        imageInput.value = ''; // Clear the file input
+        previewImg.src = defaultImage; // Reset to default image
+        phoneImgDiv.style.display = 'none'; // Hide the preview div
+    });
+
+    // Initialize Feather icons
+    feather.replace();
+});
+</script>
 
 @include('layouts.footer')
