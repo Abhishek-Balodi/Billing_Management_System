@@ -40,16 +40,16 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        \Log::info('Submitted form data', $request->all());
-        \Log::info('Submitted barcode_symbology', ['value' => $request->barcode_symbology]);
-        \Log::info('Image uploaded', ['hasFile' => $request->hasFile('image')]);
+        // \Log::info('Submitted form data', $request->all());
+        // \Log::info('Submitted barcode_symbology', ['value' => $request->barcode_symbology]);
+        // \Log::info('Image uploaded', ['hasFile' => $request->hasFile('image')]);
 
-        // Preprocess barcode_symbology to handle case and spaces
-        $request->merge([
-            'barcode_symbology' => $request->barcode_symbology ? strtolower(str_replace(' ', '', $request->barcode_symbology)) : null,
-        ]);
+        // // Preprocess barcode_symbology to handle case and spaces
+        // $request->merge([
+        //     'barcode_symbology' => $request->barcode_symbology ? strtolower(str_replace(' ', '', $request->barcode_symbology)) : null,
+        // ]);
 
-        \Log::info('Processed barcode_symbology', ['value' => $request->barcode_symbology]);
+        // \Log::info('Processed barcode_symbology', ['value' => $request->barcode_symbology]);
 
         $data = [];
         if (Auth::guard('web')->check()) {
@@ -78,7 +78,7 @@ class ProductController extends Controller
             'quantity' => 'required|numeric|min:0',
             'quantity_alert' => 'nullable|numeric|min:0',
             'barcode' => 'nullable|string|max:255',
-            'barcode_symbology' => 'nullable|in:code128,code39,upc,ean13',
+            'barcode_symbology' => 'nullable|in:Code 128,Code 39,UPC-A,UPC-E,EAN-8,EAN-13',
             'selling_type' => 'required|in:online,cash',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'store_id' => 'nullable|exists:stores,id,user_id,' . $data['user_id'],
@@ -182,9 +182,9 @@ class ProductController extends Controller
         \Log::info('Image uploaded for update', ['hasFile' => $request->hasFile('image')]);
 
         // Preprocess barcode_symbology to handle case and spaces
-        $request->merge([
-            'barcode_symbology' => $request->barcode_symbology ? strtolower(str_replace(' ', '', $request->barcode_symbology)) : null,
-        ]);
+        // $request->merge([
+        //     'barcode_symbology' => $request->barcode_symbology ? strtolower(str_replace(' ', '', $request->barcode_symbology)) : null,
+        // ]);
 
         \Log::info('Processed barcode_symbology for update', ['value' => $request->barcode_symbology]);
 
@@ -203,7 +203,7 @@ class ProductController extends Controller
             'quantity' => 'required|numeric|min:0',
             'quantity_alert' => 'nullable|numeric|min:0',
             'barcode' => 'nullable|string|max:255',
-            'barcode_symbology' => 'nullable|in:code128,code39,upc,ean13',
+            'barcode_symbology' => 'nullable|in:Code 128,Code 39,UPC-A,UPC-E,EAN-8,EAN-13',
             'selling_type' => 'required|in:online,cash',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'store_id' => 'nullable|exists:stores,id,user_id,' . $currentUserId,
@@ -224,7 +224,7 @@ class ProductController extends Controller
             'image.image' => 'The file must be an image.',
             'image.mimes' => 'The image must be a JPEG, PNG, JPG, or GIF.',
             'image.max' => 'The image size must not exceed 2MB.',
-            'barcode_symbology.in' => 'The selected barcode symbology is invalid.',
+            // 'barcode_symbology.in' => 'The selected barcode symbology is invalid.',
         ]);
 
         // Handle image upload

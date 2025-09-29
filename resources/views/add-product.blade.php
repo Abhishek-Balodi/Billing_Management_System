@@ -293,25 +293,29 @@
                     </div>
                 </h2>
                 <div id="SpacingThree" class="accordion-collapse collapse show" aria-labelledby="headingSpacingThree">
-                    <div class="accordion-body border-top">
-                        <div class="text-editor add-list add">
-                            <div class="col-lg-12">
-                                <div class="add-choosen">
-                                    <div class="mb-3">
-                                        <div class="image-upload image-upload-two">
-                                            <input type="file" name="image" accept="image/*">
-                                            <div class="image-uploads">
-                                                <i data-feather="plus-circle" class="plus-down-add me-0"></i>
-                                                <h4>Add Image</h4>
-                                            </div>
-                                        </div>
-                                        @error('image') <span class="text-danger">{{ $message }}</span> @enderror
-                                    </div>
-                                </div>
+    <div class="accordion-body border-top">
+        <div class="text-editor add-list add">
+            <div class="col-lg-12">
+                <div class="add-choosen">
+                    <div class="mb-3">
+                        <div class="image-upload image-upload-two">
+                            <input type="file" name="image" accept="image/*">
+                            <div class="image-uploads">
+                                <i data-feather="plus-circle" class="plus-down-add me-0"></i>
+                                <h4>Add Image</h4>
                             </div>
                         </div>
+                        @error('image') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="phone-img">
+                        <img src="{{ asset('assets/img/products/phone-add-2.png') }}" alt="image" id="image-preview">
+                        <a href="javascript:void(0);"><i data-feather="x" class="x-square-add remove-product"></i></a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
             </div>
             <div class="accordion-item border mb-4">
                 <h2 class="accordion-header" id="headingSpacingFour">
@@ -425,5 +429,44 @@
         });
     });
 </script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const imageInput = document.querySelector('input[name="image"]');
+    const phoneImgDiv = document.querySelector('.phone-img');
+    const previewImg = document.querySelector('#image-preview');
+    const removeBtn = document.querySelector('.remove-product');
+    // const defaultImage = "{{ asset('assets/img/products/phone-add-2.png') }}";
+
+    // Initially hide phone-img div
+    phoneImgDiv.style.display = 'none';
+
+    // Image preview on file selection
+    imageInput.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImg.src = e.target.result; // Set uploaded image
+                phoneImgDiv.style.display = 'block'; // Show preview div
+            };
+            reader.readAsDataURL(file);
+        } else {
+            previewImg.src = defaultImage; // Reset to default image
+            phoneImgDiv.style.display = 'none'; // Hide if no image
+        }
+    });
+
+    // Remove image on click
+    removeBtn.addEventListener('click', function () {
+        imageInput.value = ''; // Clear the file input
+        previewImg.src = defaultImage; // Reset to default image
+        phoneImgDiv.style.display = 'none'; // Hide the preview div
+    });
+
+    // Initialize Feather icons
+    feather.replace();
+});
+</script>
 
 @include('layouts.footer')
