@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->foreignId('subcategory_id')->constrained('subcategories')->onDelete('cascade');
             $table->foreignId('brand_id')->constrained('brands')->onDelete('cascade');
-            $table->enum('selling_type', ['online', 'cash,']);
+            $table->enum('selling_type', ['online', 'cash']);
             $table->string('image')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('cascade');
@@ -36,8 +36,8 @@ return new class extends Migration
             $table->string('barcode')->nullable();
             $table->date('manufactured_date')->nullable();
             $table->date('expiry_date')->nullable();
-            $table->string('discount_type')->nullable()->after('item_barcode');
-            $table->decimal('discount_value', 8, 2)->nullable()->after('discount_type');
+            $table->string('discount_type')->nullable();
+            $table->decimal('discount_value', 8, 2)->nullable();
             $table->string('warranties')->nullable();
             $table->string('manufacturer')->nullable();
             $table->timestamps();
