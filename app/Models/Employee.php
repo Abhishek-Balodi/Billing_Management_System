@@ -54,4 +54,3 @@ class Employee extends Authenticatable
         return asset('assets/img/avatar/avatar-25.png');
     }
 }
- 

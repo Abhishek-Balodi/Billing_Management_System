@@ -12,9 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('brands', function (Blueprint $table) {
-            $table->id(); // This is automatically unsignedBigInteger
+            $table->id();
             $table->string('name');
-            $table->timestamps(); // created_at, updated_at columns
+            $table->string('image')->nullable();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('cascade');
+            $table->boolean('status')->default(0);
+            $table->timestamps();
         });
     }
 

@@ -14,9 +14,15 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('category_id')->constrained('categories');
-            $table->foreignId('subcategory_id')->constrained('subcategories');
-            $table->foreignId('brand_id')->constrained('brands');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('subcategory_id')->constrained('subcategories')->onDelete('cascade');
+            $table->foreignId('brand_id')->constrained('brands')->onDelete('cascade');
+            $table->enum('selling_type', ['online', 'cash,']);
+            $table->string('image')->nullable();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('cascade');
+            $table->foreignId('store_id')->nullable()->constrained('stores');
+            $table->foreignId('warehouse_id')->nullable()->constrained('warehouses');
             $table->text('description')->nullable();
             $table->string('hsn_sac_code')->nullable();
             $table->enum('unit_of_measure', ['kg', 'liter', 'piece', 'meter', 'dozen', 'gram', 'ml']);
@@ -26,9 +32,14 @@ return new class extends Migration
             $table->enum('tax_percentage', ['0', '5', '18', '40']);
             $table->decimal('quantity', 10, 2)->default(0);
             $table->decimal('quantity_alert', 10, 2)->nullable();
+            $table->string('barcode_symbology')->nullable();
             $table->string('barcode')->nullable();
             $table->date('manufactured_date')->nullable();
             $table->date('expiry_date')->nullable();
+            $table->string('discount_type')->nullable()->after('item_barcode');
+            $table->decimal('discount_value', 8, 2)->nullable()->after('discount_type');
+            $table->string('warranties')->nullable();
+            $table->string('manufacturer')->nullable();
             $table->timestamps();
         });
     }

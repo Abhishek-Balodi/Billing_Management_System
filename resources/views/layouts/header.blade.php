@@ -65,6 +65,8 @@
     <!-- Main CSS (Custom Styles) -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
+    <!-- jQuery (Required before DataTables and other scripts) -->
+    <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
 
 </head>
 
@@ -82,13 +84,17 @@
                 <!-- Logo -->
                 <div class="header-left active">
                     <a href="index.html" class="logo logo-normal">
-                        <img src="assets/img/logo.svg" alt="Img">
+                        <!-- <img src="assets/img/logo.svg" alt="Img"> -->
+                        <img src="{{ asset('assets/img/logo.svg') }}" alt="Img">
                     </a>
                     <a href="index.html" class="logo logo-white">
-                        <img src="assets/img/logo-white.svg" alt="Img">
+                        <!-- <img src="assets/img/logo-white.svg" alt="Img"> -->
+                        <img src="{{ asset('assets/img/logo-white.svg') }}" alt="Img">
                     </a>
                     <a href="index.html" class="logo-small">
-                        <img src="assets/img/logo-small.png" alt="Img">
+                        <!-- <img src="assets/img/logo-small.png" alt="Img"> -->
+                        <img src="{{ asset('assets/img/logo-small.png') }}" alt="Img">
+
                     </a>
                 </div>
                 <!-- /Logo -->
@@ -105,7 +111,7 @@
                 <ul class="nav user-menu">
 
                     <!-- Search -->
-                    <li class="nav-item nav-searchinputs">
+                    <!-- <li class="nav-item nav-searchinputs">
                         <div class="top-nav-search">
                             <a href="javascript:void(0);" class="responsive-search">
                                 <i class="fa fa-search"></i>
@@ -118,7 +124,7 @@
                                         <span><i class="ti ti-search"></i></span>
                                     </div>
                                     <span class="input-group-text">
-                                        <kbd class="d-flex align-items-center"><img src="assets/img/icons/command.svg"
+                                        <kbd class="d-flex align-items-center"><img src="{{ asset('assets/img/icons/command.svg') }}"
                                                 alt="img" class="me-1">K</kbd>
                                     </span>
                                 </div>
@@ -141,20 +147,20 @@
                                         <h6><span><i data-feather="user" class="feather-16"></i></span>Customers</h6>
                                         <ul class="customers">
                                             <li><a href="javascript:void(0);">Aron Varu<img
-                                                        src="assets/img/profiles/avator1.jpg" alt="Img"
+                                                        src="{{ asset('assets/img/profiles/avator1.jpg') }}" alt="Img"
                                                         class="img-fluid"></a></li>
                                             <li><a href="javascript:void(0);">Jonita<img
-                                                        src="assets/img/profiles/avatar-01.jpg" alt="Img"
+                                                        src="{{ asset('assets/img/profiles/avator1.jpg') }}" alt="Img"
                                                         class="img-fluid"></a></li>
                                             <li><a href="javascript:void(0);">Aaron<img
-                                                        src="assets/img/profiles/avatar-10.jpg" alt="Img"
+                                                        src="{{ asset('assets/img/profiles/avator1.jpg') }}" alt="Img"
                                                         class="img-fluid"></a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                    </li>
+                    </li> -->
                     <!-- /Search -->
 
 
@@ -163,12 +169,12 @@
                     <!-- Check if user is authenticated -->
 
                     <!-- Select Store -->
-                    <li class="nav-item dropdown has-arrow main-drop select-store-dropdown">
+                    <!-- <li class="nav-item dropdown has-arrow main-drop select-store-dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle nav-link select-store"
                             data-bs-toggle="dropdown">
                             <span class="user-info">
                                 <span class="user-letter">
-                                    <img src="assets/img/store/store-01.png" alt="Store Logo" class="img-fluid">
+                                    <img src="{{ asset('assets/img/store/store-01.png') }}" alt="Store Logo" class="img-fluid">
                                 </span>
                                 <span class="user-detail">
                                     <span class="user-name">Freshmart</span>
@@ -189,10 +195,10 @@
                                 <img src="assets/img/store/store-04.png" alt="Store Logo" class="img-fluid">Grocery Eden
                             </a>
                         </div>
-                    </li>
+                    </li> -->
                     <!-- /Select Store -->
 
-                    <li class="nav-item dropdown link-nav">
+                    <!-- <li class="nav-item dropdown link-nav">
                         <a href="javascript:void(0);" class="btn btn-primary btn-md d-inline-flex align-items-center"
                             data-bs-toggle="dropdown">
                             <i class="ti ti-circle-plus me-1"></i>Add New
@@ -297,19 +303,19 @@
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </li> -->
 
-                    <li class="nav-item pos-nav">
+                    <!-- <li class="nav-item pos-nav">
                         <a href="pos.html" class="btn btn-dark btn-md d-inline-flex align-items-center">
                             <i class="ti ti-device-laptop me-1"></i>POS
                         </a>
-                    </li>
+                    </li> -->
 
                     <!-- Flag -->
-                    <li class="nav-item dropdown has-arrow flag-nav nav-item-box">
+                    <!-- <li class="nav-item dropdown has-arrow flag-nav nav-item-box">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);"
                             role="button">
-                            <img src="assets/img/flags/us-flag.svg" alt="Language" class="img-fluid">
+                            <img src="{{ asset('assets/img/flags/us-flag.svg') }}" alt="Language" class="img-fluid">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="javascript:void(0);" class="dropdown-item">
@@ -319,14 +325,14 @@
                                 <img src="assets/img/flags/arabic.svg" alt="Img" height="16">Arabic
                             </a>
                         </div>
-                    </li>
+                    </li> -->
                     <!-- /Flag -->
 
-                    <li class="nav-item nav-item-box">
+                    <!-- <li class="nav-item nav-item-box">
                         <a href="javascript:void(0);" id="btnFullscreen">
                             <i class="ti ti-maximize"></i>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item nav-item-box">
                         <a href="email.html">
                             <i class="ti ti-mail"></i>
@@ -413,9 +419,9 @@
                     </li>
                     <!-- /Notifications -->
 
-                    <li class="nav-item nav-item-box">
+                    <!-- <li class="nav-item nav-item-box">
                         <a href="general-settings.html"><i class="ti ti-settings"></i></a>
-                    </li>
+                    </li> -->
                     <li class="nav-item dropdown has-arrow main-drop profile-nav">
 
                         @php
@@ -455,50 +461,53 @@
                                     @endif
                                 </div>
 
-                            </div> 
-                              @if($user)
+
+                            </div>
+                            @if($user)
                             {{-- Profile Link --}}
-           {{-- Profile Link --}}
-@if($user instanceof \App\Models\Employee)
-    {{-- Agar employee login hai --}}
-    <a class="dropdown-item" href="{{ route('employee.profile.edit') }}">
-        <i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}
-    </a>
-@else
-    {{-- Agar admin (users table se) login hai --}}
-    <a class="dropdown-item" href="{{ route('profile.edit') }}">
-        <i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}
-    </a>
-@endif
+                            {{-- Profile Link --}}
+                            @if($user instanceof \App\Models\Employee)
+                            {{-- Agar employee login hai --}}
+                            <a class="dropdown-item" href="{{ route('employee.profile.edit') }}">
+                                <i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}
+                            </a>
+                            @else
+                            {{-- Agar admin (users table se) login hai --}}
+                            <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                <i class="ti ti-user-circle me-2"></i>{{ __('Profile') }}
+                            </a>
+                            @endif
 
 
-            {{-- Reports --}}
-            <a class="dropdown-item" href="sales-report.html">
-                <i class="ti ti-file-text me-2"></i>Reports
-            </a>
+                            {{-- Reports --}}
+                            <a class="dropdown-item" href="sales-report.html">
+                                <i class="ti ti-file-text me-2"></i>Reports
+                            </a>
 
-            {{-- Settings --}}
-            <a class="dropdown-item" href="general-settings.html">
-                <i class="ti ti-settings-2 me-2"></i>Settings
-            </a>
+                            {{-- Settings --}}
+                            <a class="dropdown-item" href="general-settings.html">
+                                <i class="ti ti-settings-2 me-2"></i>Settings
+                            </a>
 
-                           {{-- Add Employee (only admin) --}}
-            @if($user instanceof \App\Models\User && $user->role_uuid === '00000001')
-                <a class="dropdown-item" href="{{ route('employees.create') }}">
-                    <i class="ti ti-settings-2 me-2"></i>Add Employee
-                </a>
-            @endif
+                            {{-- Add Employee (only admin) --}}
+                            @if($user instanceof \App\Models\User && $user->role_uuid === '00000001')
+                            <a class="dropdown-item" href="{{ route('employees.create') }}">
+                                <i class="ti ti-settings-2 me-2"></i>Add Employee
+                            </a>
+                            @endif
                             <hr class="my-2">
 
-                             <a class="dropdown-item logout pb-0" href="javascript:void(0);" id="logout-link">
-                <i class="ti ti-logout me-2"></i>Logout
-            </a>
-        @endif
+                            <a class="dropdown-item logout pb-0" href="javascript:void(0);" id="logout-link">
+                                <i class="ti ti-logout me-2"></i>Logout
+                            </a>
+                            @endif
 
                         </div>
                     </li>
                     <!-- Add Logout Form (for Breeze logout functionality) -->
-                    <form method="POST"  action="{{ $user instanceof \App\Models\Employee ? route('employee.logout') : route('logout') }}"  id="logout-form" style="display: none;">
+                    <form method="POST"
+                        action="{{ $user instanceof \App\Models\Employee ? route('employee.logout') : route('logout') }}"
+                        id="logout-form" style="display: none;">
                         @csrf
                     </form>
                     <script>
@@ -539,13 +548,13 @@
                                 <li class="submenu">
                                     <a href="javascript:void(0);"><span>Dashboard</span> <span
                                             class="menu-arrow"></span></a>
-                                    <ul>
+                                    <!-- <ul>
                                         <li><a href="index.html">Admin Dashboard</a></li>
                                         <li><a href="index.html">Admin Dashboard 2</a></li>
                                         <li><a href="sales-dashboard.html">Sales Dashboard</a></li>
-                                    </ul>
+                                    </ul> -->
                                 </li>
-                                <li class="submenu">
+                                <!-- <li class="submenu">
                                     <a href="javascript:void(0);"><span>Super Admin</span><span
                                             class="menu-arrow"></span></a>
                                     <ul>
@@ -556,8 +565,8 @@
                                         <li><a href="domain.html">Domain</a></li>
                                         <li><a href="purchase-transaction.html">Purchase Transaction</a></li>
                                     </ul>
-                                </li>
-                                <li class="submenu">
+                                </li> -->
+                                <!-- <li class="submenu">
                                     <a href="javascript:void(0);"><span>Application</span><span
                                             class="menu-arrow"></span></a>
                                     <ul>
@@ -592,8 +601,8 @@
                                         <li><a href="social-feed.html">Social Feed</a></li>
                                         <li><a href="search-list.html">Search List</a></li>
                                     </ul>
-                                </li>
-                                <li class="submenu">
+                                </li> -->
+                                <!-- <li class="submenu">
                                     <a href="javascript:void(0);" class="active subdrop"><span>Layouts</span><span
                                             class="menu-arrow"></span></a>
                                     <ul>
@@ -605,23 +614,23 @@
                                         <li><a href="layout-rtl.html">RTL</a></li>
                                         <li><a href="layout-dark.html">Dark</a></li>
                                     </ul>
-                                </li>
+                                </li> -->
                             </ul>
                         </li>
                         <li class="submenu">
                             <a href="javascript:void(0);"><i class="ti ti-brand-unity fs-16 me-2"></i><span> Inventory
                                 </span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="product-list"><span>Products</span></a></li>
-                                <li><a href="add-product"><span>Create Product</span></a></li>
-                                <li><a href="expired-products.html"><span>Expired Products</span></a></li>
-                                <li><a href="low-stocks.html"><span>Low Stocks</span></a></li>
-                                <li><a href="category-list.html"><span>Category</span></a></li>
-                                <li><a href="sub-categories.html"><span>Sub Category</span></a></li>
-                                <li><a href="brand-list.html"><span>Brands</span></a></li>
-                                <li><a href="units.html"><span>Units</span></a></li>
-                                <li><a href="varriant-attributes.html"><span>Variant Attributes</span></a></li>
-                                <li><a href="warranty.html"><span>Warranties</span></a></li>
+                                <li><a href="{{ route('products.index') }}"><span>Products</span></a></li>
+                                <li><a href="{{ route('products.create') }}"><span>Create Product</span></a></li>
+                                <!-- <li><a href="expired-products.html"><span>Expired Products</span></a></li> -->
+                                <!-- <li><a href="low-stocks.html"><span>Low Stocks</span></a></li> -->
+                                <li><a href="{{ route('categories.index') }}"><span>Category</span></a></li>
+                                <li><a href="{{ route('subcategories.index') }}"><span>Sub Category</span></a></li>
+                                <li><a href="{{ route('brands.index') }}"><span>Brands</span></a></li>
+                                <!-- <li><a href="units.html"><span>Units</span></a></li> -->
+                                <!-- <li><a href="varriant-attributes.html"><span>Variant Attributes</span></a></li> -->
+                                <!-- <li><a href="warranty.html"><span>Warranties</span></a></li> -->
                                 <li><a href="barcode.html"><span>Print Barcode</span></a></li>
                                 <li><a href="qrcode.html"><span>Print QR Code</span></a></li>
                             </ul>
@@ -711,7 +720,7 @@
                                 <li><a href="account-statement.html"><span>Account Statement</span></a></li>
                             </ul>
                         </li>
-                        <li class="submenu">
+                        <!-- <li class="submenu">
                             <a href="javascript:void(0);"><i class="ti ti-users-group fs-16 me-2"></i><span>UI
                                     Interface</span> <span class="menu-arrow"></span></a>
                             <ul>
@@ -847,8 +856,8 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </li>
-                        <li class="submenu">
+                        </li> -->
+                        <!-- <li class="submenu">
                             <a href="javascript:void(0);"><i class="ti ti-page-break fs-16 me-2"></i><span>Pages</span>
                                 <span class="menu-arrow"></span></a>
                             <ul>
@@ -991,7 +1000,7 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                         <li class="submenu">
                             <a href="javascript:void(0);"><i
                                     class="ti ti-chart-bar fs-16 me-2"></i><span>Reports</span><span
@@ -1048,7 +1057,7 @@
                                 <li><a href="annual-report.html"><span>Annual Report</span></a></li>
                             </ul>
                         </li>
-                        <li class="submenu">
+                        <!-- <li class="submenu">
                             <a href="javascript:void(0);"><i
                                     class="ti ti-settings fs-16 me-2"></i><span>Settings</span><span
                                     class="menu-arrow"></span></a>
@@ -1136,7 +1145,7 @@
                                     <a href="signin.html"><span>Logout</span> </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                         <li class="submenu">
                             <a href="javascript:void(0);"><i
                                     class="ti ti-circle-plus fs-16 me-2"></i><span>More</span><span
@@ -1148,7 +1157,7 @@
                                     <ul>
                                         <li><a href="customers.html"><span>Customers</span></a></li>
                                         <li><a href="billers.html"><span>Billers</span></a></li>
-                                        <li><a href="suppliers.html"><span>Suppliers</span></a></li>
+                                        <li><a href="{{ route('suppliers.index') }}"><span>Suppliers</span></a></li>
                                         <li><a href="store-list.html"><span>Stores</span></a></li>
                                         <li><a href="warehouse.html"><span>Warehouses</span></a>
                                         </li>

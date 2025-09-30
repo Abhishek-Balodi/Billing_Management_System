@@ -37,6 +37,11 @@
             </label>
         </div>
 
+        <div class="mt-4 text-center">
+    <a href="{{ route('register') }}" class="text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        {{ __('Register') }}
+    </a>
+</div>
         <!-- <div class="mt-4 text-center">
     <a href="{{ route('employee.login') }}" class="text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         {{ __('Login as Employee') }}

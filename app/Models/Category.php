@@ -11,7 +11,19 @@ class Category extends Model
 
     protected $fillable = [
         'name',
+        'status',
+        'user_id',
+        'employee_id',
     ];
+
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+
+    public function getStatusDisplayAttribute()
+    {
+        return $this->status ? 'Active' : 'Inactive';
+    }
 
     public function subcategories()
     {
@@ -21,5 +33,15 @@ class Category extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 }

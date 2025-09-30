@@ -1,5 +1,11 @@
 @include('layouts.header')
 
+@if (session('success'))
+    <div id="successMessage" class="alert alert-success">{{ session('success') }}</div>
+@endif
+@if (session('error'))
+    <div id="errorMessage" class="alert alert-danger">{{ session('error') }}</div>
+@endif
 
 <div class="page-header">
     <div class="add-item d-flex">
@@ -36,7 +42,7 @@
                 <span class="btn-searchset"><i class="ti ti-search fs-14 feather-search"></i></span>
             </div>
         </div>
-        <div class="d-flex table-dropdown my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+        <!-- <div class="d-flex table-dropdown my-xl-auto right-content align-items-center flex-wrap row-gap-3">
             <div class="dropdown me-2">
                 <a href="javascript:void(0);" class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center" data-bs-toggle="dropdown">
                     Category
@@ -75,7 +81,7 @@
                     @endif
                 </ul>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
@@ -103,7 +109,8 @@
                         <!-- <th>Quantity Alert</th> -->
                         <th>Manufactured Date</th>
                         <th>Expiry Date</th>
-                        <!-- <th>Created At</th> -->
+                        <th>Created By</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -115,8 +122,17 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <a href="javascript:void(0);" class="avatar avatar-md bg-light-900 p-1 me-2">
+                                        <img  src="{{ $product->image ? asset('storage/' . $product->image) : asset('assets/img/brand/apple.png') }}"
+                                            class="object-fit-contain" alt="img">
+                                    </a>
+                                    <a href="javascript:void(0);">{{ $product->name }}</a>
+                                </div>
+                            </td>
                             <!-- <td>{{ $product->barcode ?? 'N/A' }}</td> -->
-                            <td>{{ $product->name }}</td>
+                            <!-- <td>{{ $product->name }}</td> -->
                             <td>{{ $product->category->name ?? 'N/A' }}</td>
                             <!-- <td>{{ $product->subcategory->name ?? 'N/A' }}</td> -->
                             <td>{{ $product->brand->name ?? 'N/A' }}</td>
@@ -131,11 +147,49 @@
                             <!-- <td>{{ $product->quantity_alert ? number_format($product->quantity_alert, 2) : 'N/A' }}</td> -->
                             <td>{{ $product->manufactured_date ?? 'N/A' }}</td>
                             <td>{{ $product->expiry_date ?? 'N/A' }}</td>
-                            <!-- <td>{{ $product->created_at->format('Y-m-d H:i:s') }}</td> -->
+                            <td>
+                                <span class="text-gray-9">
+                                    @if ($product->employee_id && $product->employee)
+                                        {{ $product->employee->name }}
+                                    @elseif ($product->user_id && $product->user)
+                                        {{ $product->user->name }}
+                                    @else
+                                        Unknown
+                                    @endif
+                                </span>
+                            </td>
+                            <td class="action-table-data">
+                                <div class="edit-delete-action">
+                                    <!-- <a class="me-2 edit-icon p-2" href="product-details"> -->
+                                    <a class="me-2 edit-icon p-2" href="{{ route('products.show', $product->id) }}">
+                                        <i data-feather="eye" class="action-eye"></i>
+                                    </a>
+                                    <a class="me-2 p-2" href="{{ route('products.edit', $product->id) }}">
+                                        <i data-feather="edit" class="feather-edit"></i>
+                                    </a>
+                                    <a data-bs-toggle="modal" data-bs-target="#delete-modal-{{ $product->id }}" class="p-2" href="javascript:void(0);">
+                                        <i data-feather="trash-2" class="feather-trash-2"></i>
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="17" class="text-center">No products found.</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>No products found.</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -144,8 +198,43 @@
     </div>
 </div>
 
+
 @include('layouts.footer')
 
+@foreach ($products as $product)
+    <div class="modal fade" id="delete-modal-{{ $product->id }}">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="page-wrapper-new p-0">
+                    <div class="content p-5 px-3 text-center">
+                        <span class="rounded-circle d-inline-flex p-2 bg-danger-transparent mb-2"><i class="ti ti-trash fs-24 text-danger"></i></span>
+                        <h4 class="fs-20 text-gray-9 fw-bold mb-2 mt-1">Delete Product</h4>
+                        <p class="text-gray-6 mb-0 fs-16">Are you sure you want to delete {{ $product->name }}?</p>
+                        <div class="modal-footer-btn mt-3 d-flex justify-content-center">
+                            <button type="button" class="btn me-2 btn-secondary fs-13 fw-medium p-2 px-3 shadow-none" data-bs-dismiss="modal">Cancel</button>
+                            <form action="{{ route('products.destroy', $product->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-primary fs-13 fw-medium p-2 px-3">Yes Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+
+<script>
+    $(document).ready(function() {
+        // Hide success message after 3 seconds
+        setTimeout(function() {
+            $('#successMessage').fadeOut('slow');
+            $('#errorMessage').fadeOut('slow');
+        }, 3000); // 3000 ms = 3 seconds
+    });
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -157,7 +246,15 @@ document.addEventListener('DOMContentLoaded', function () {
     //     info: true,
     //     columnDefs: [
     //         { orderable: false, targets: ['no-sort'] }
-    //     ]
+    //     ],
+    //     language: {
+    //         emptyTable: "No products found."
+    //     },
+    //     drawCallback: function(settings) {
+    //         if (settings.aoData.length === 0) {
+    //             $(this.api().table().node()).find('tbody').html('<tr><td></td><td>No products found.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
+    //         }
+    //     }
     // });
 
     // Select All Checkbox

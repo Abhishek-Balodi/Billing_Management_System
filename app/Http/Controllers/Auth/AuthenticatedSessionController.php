@@ -41,6 +41,8 @@ class AuthenticatedSessionController extends Controller
     if (Auth::guard('web')->attempt($credentials, $request->boolean('remember'))) {
         $request->session()->regenerate();
         return redirect()->intended('/');
+
+        // return redirect()->intended(route('dashboard', absolute: false));
     }
 
     // 2. If not user, try employee guard
