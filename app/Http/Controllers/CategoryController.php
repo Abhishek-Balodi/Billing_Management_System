@@ -130,7 +130,7 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
+        return redirect()->route('categories.index')->with('danger', 'Category deleted successfully.');
     }
 
     protected function getCurrentUserId()

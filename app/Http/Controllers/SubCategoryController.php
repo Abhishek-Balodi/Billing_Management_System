@@ -129,7 +129,7 @@ class SubcategoryController extends Controller
         }
         $subcategory->delete();
 
-        return redirect()->route('subcategories.index')->with('success', 'Sub category deleted successfully.');
+        return redirect()->route('subcategories.index')->with('danger', 'Sub category deleted successfully.');
     }
 
     protected function getCurrentUserId()

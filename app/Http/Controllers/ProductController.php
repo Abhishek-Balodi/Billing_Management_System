@@ -20,8 +20,8 @@ class ProductController extends Controller
     {
         $currentUserId = $this->getCurrentUserId();
         $products = Product::with(['category', 'subcategory', 'brand', 'user', 'employee', 'store', 'warehouse'])
-                          ->where('user_id', $currentUserId)
-                          ->get();
+            ->where('user_id', $currentUserId)
+            ->get();
         $categories = Category::where('user_id', $currentUserId)->get();
         $brands = Brand::where('user_id', $currentUserId)->get();
         return view('product-list', compact('products', 'categories', 'brands'));
@@ -155,8 +155,8 @@ class ProductController extends Controller
     {
         $currentUserId = $this->getCurrentUserId();
         $product = Product::with(['category', 'subcategory', 'brand', 'user', 'employee', 'store', 'warehouse'])
-                         ->where('user_id', $currentUserId)
-                         ->findOrFail($id);
+            ->where('user_id', $currentUserId)
+            ->findOrFail($id);
         return view('product-details', compact('product'));
     }
 
