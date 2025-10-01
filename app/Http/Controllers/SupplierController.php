@@ -49,7 +49,7 @@ class SupplierController extends Controller
         ]);
 
         $data = $request->all();
-            // ✅ Image save karein
+            // Image save karein
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('suppliers', 'public'); 
             $data['image'] = $path; // DB me sirf relative path save hoga (e.g. suppliers/abcd.jpg)
@@ -149,8 +149,8 @@ class SupplierController extends Controller
         }elseif(Auth::guard('employee')->check()){
         $employee = Auth::guard('employee')->user();
         $supplier = Supplier::where('employee_id', $employee->id)
-                                ->where('id', $id)
-                                ->firstOrFail();
+            ->where('id', $id)
+            ->firstOrFail();
         } else {
             abort(403, 'Unauthorized action');
         }

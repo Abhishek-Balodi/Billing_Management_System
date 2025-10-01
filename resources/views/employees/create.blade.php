@@ -4,20 +4,20 @@
     <h1 class="mb-4">Add New Employee</h1>
 
     <!-- Success Message -->
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <!-- @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="successMessage">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-    @endif
+    @endif -->
 
     <!-- Error Message -->
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <!-- @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorMessage">
             {{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-    @endif
+    @endif -->
 
     <!-- Add Employee Form -->
     <form action="{{ route('employees.store') }}" method="POST">

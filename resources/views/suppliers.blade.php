@@ -256,7 +256,7 @@
                                 <div
                                     class="status-toggle modal-status d-flex justify-content-between align-items-center">
                                     <span class="status-label">Status</span>
-                                    <input type="checkbox" name="status" id="status" class="check" checked>
+                                    <input type="checkbox" name="status" id="status" class="check" checked value="1">
                                     <label for="status" class="checktoggle mb-0"></label>
                                 </div>
                             </div>
@@ -457,7 +457,7 @@ $('#confirmDelete').on('click', function() {
                 location.reload(); // table refresh
             },
             error: function(err) {
-                 alert('Error deleting supplier');
+                alert('Error deleting supplier');
             }
         });
     }
