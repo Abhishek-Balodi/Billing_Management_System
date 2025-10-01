@@ -17,9 +17,9 @@ use App\Http\Controllers\SupplierController;
 //     return view('layout-horizontal');
 // })->name('home');
 
-Route::get('/brands-list', function () {
-    return view('brands-list');
-});
+// Route::get('/brands-list', function () {
+//     return view('brands-list');
+// });
 
 // Route::get('/product-list', function () {
 //     return view('product-list');
@@ -33,15 +33,6 @@ Route::get('/brands-list', function () {
 
 
 
-// Route::get('/add-product', [ProductController::class, 'index'])->name('products.index');
-Route::get('/product-list', [ProductController::class, 'index'])->name('products.index');
-Route::get('/add-product', [ProductController::class, 'create'])->name('products.create');
-Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-Route::get('/product-details/{id}', [ProductController::class, 'show'])->name('products.show');
-Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
-Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
-Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
-Route::post('/categories_product', [CategoryController::class, 'productpage_store'])->name('categories.productpage_store');
 
 
 
@@ -122,6 +113,16 @@ Route::middleware(['auth:web,employee'])->group(function() {
     Route::get('/suppliers/{id}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
     Route::put('/suppliers/{id}',[SupplierController::class, 'update'])->name('supplier.update');
     Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
+
+    // Route::get('/add-product', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/product-list', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/add-product', [ProductController::class, 'create'])->name('products.create');
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/product-details/{id}', [ProductController::class, 'show'])->name('products.show');
+    Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::post('/categories_product', [CategoryController::class, 'productpage_store'])->name('categories.productpage_store');
 
 });
 
