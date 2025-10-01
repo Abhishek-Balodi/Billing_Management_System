@@ -1,11 +1,5 @@
 @include('layouts.header')
 
-@if (session('success'))
-    <div id="successMessage" class="alert alert-success">{{ session('success') }}</div>
-@endif
-@if (session('error'))
-    <div id="errorMessage" class="alert alert-danger">{{ session('error') }}</div>
-@endif
 
 <div class="page-header">
     <div class="add-item d-flex">
@@ -226,7 +220,7 @@
 @endforeach
 
 
-<script>
+<!-- <script>
     $(document).ready(function() {
         // Hide success message after 3 seconds
         setTimeout(function() {
@@ -234,7 +228,8 @@
             $('#errorMessage').fadeOut('slow');
         }, 3000); // 3000 ms = 3 seconds
     });
-</script>
+    // this script is in footer
+</script> -->
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

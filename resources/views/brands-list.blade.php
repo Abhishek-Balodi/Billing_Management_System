@@ -298,7 +298,7 @@
 @endforeach
 
 <script>
-    // $(document).ready(function() {
+    $(document).ready(function() {
     //     // Hide success/error messages after 3 seconds
     //     setTimeout(function() {
     //         $('#successMessage').fadeOut('slow');
@@ -365,15 +365,15 @@
 </script>
 <!-- <script>
 $(document).ready(function() {
-   $('.datatable').DataTable({
-    destroy: true, // automatically destroy old instance
-    "columnDefs": [
-        { "orderable": false, "targets": [0,6] }
-    ],
-    "language": {
-        "emptyTable": "No suppliers found"
-    }
+    $('.datatable').DataTable({
+        destroy: true, // automatically destroy old instance
+        "columnDefs": [
+            { "orderable": false, "targets": [0,6] }
+        ],
+        "language": {
+            "emptyTable": "No suppliers found"
+        }
+    });
 });
-});
- 
+
 </script> -->
