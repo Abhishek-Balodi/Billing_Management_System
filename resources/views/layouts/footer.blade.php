@@ -60,6 +60,15 @@
     <script src="{{ asset('assets/js/theme-colorpicker.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/script.js') }}" type="text/javascript"></script>
 
+    <script>
+            $(document).ready(function() {
+        // Hide success/error messages after 3 seconds
+        setTimeout(function() {
+            $('#successMessage').fadeOut('slow');
+            $('#errorMessage').fadeOut('slow');
+        }, 3000);
+            });
+    </script>
 
 
 <!-- <script src="../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
