@@ -19,6 +19,10 @@
                             <h6>{{ $supplier->first_name }} {{ $supplier->last_name }}</h6>
                         </li>
                         <li>
+                            <h4>Company Name</h4>
+                            <h6>{{ $supplier->company_name ?? 'N/A' }}</h6>
+                        </li>
+                        <li>
                             <h4>Email</h4>
                             <h6><a href="mailto:{{ $supplier->email }}">{{ $supplier->email }}</a></h6>
                         </li>
@@ -53,10 +57,6 @@
                         <li>
                             <h4>PAN</h4>
                             <h6>{{ $supplier->pan ?? 'N/A' }}</h6>
-                        </li>
-                        <li>
-                            <h4>Company Name</h4>
-                            <h6>{{ $supplier->company_name ?? 'N/A' }}</h6>
                         </li>
                         <li>
                             <h4>Website</h4>

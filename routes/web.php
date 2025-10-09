@@ -113,6 +113,7 @@ Route::middleware(['auth:web,employee'])->group(function() {
     // Route::get('/suppliers/{id}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
     Route::put('/suppliers/{id}',[SupplierController::class, 'update'])->name('suppliers.update');
     Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
+    Route::get('/supplier-details/{id}', [SupplierController::class, 'show'])->name('suppliers.show');
 
     // Route::get('/add-product', [ProductController::class, 'index'])->name('products.index');
     Route::get('/product-list', [ProductController::class, 'index'])->name('products.index');

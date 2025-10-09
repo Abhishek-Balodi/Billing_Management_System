@@ -157,7 +157,7 @@
                             </td>
                             <td class="action-table-data">
                                 <div class="edit-delete-action">
-                                    <a class="me-2 edit-icon p-2" href="">
+                                    <a class="me-2 p-2" href="{{ route('suppliers.show', $supplier->id) }}">
                                         <i data-feather="eye" class="action-eye"></i>
                                     </a>
                                     <a class="me-2 p-2" href="#" data-bs-toggle="modal" data-bs-target="#edit-supplier-{{ $supplier->id }}">
