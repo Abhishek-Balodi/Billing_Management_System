@@ -17,6 +17,18 @@ class SupplierController extends Controller
         return view('suppliers', compact('suppliers'));
     }
 
+        public function show($id)
+    {
+        $supplier = Supplier::with(['user', 'employee'])->findOrFail($id);
+        $currentUserId = $this->getCurrentUserId();
+
+        if ($supplier->user_id !== $currentUserId) {
+            return redirect()->route('suppliers.index')->with('error', 'Unauthorized access to view supplier.');
+        }
+
+        return view('supplier-details', compact('supplier'));
+    }
+
     public function store(Request $request)
     {
         $data = [];
