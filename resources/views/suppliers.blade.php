@@ -82,21 +82,21 @@
                         </th>
                         <!-- <th>Image</th> -->
                         <th>Supplier</th>
+                        <th>Company Name</th>
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Address</th>
-                        <th>City</th>
-                        <th>State</th>
-                        <th>Country</th>
-                        <th>Postal Code</th>
-                        <th>GSTIN</th>
-                        <th>PAN</th>
-                        <th>Company Name</th>
-                        <th>Website</th>
+                        <!-- <th>City</th> -->
+                        <!-- <th>State</th> -->
+                        <!-- <th>Country</th> -->
+                        <!-- <th>Postal Code</th> -->
+                        <!-- <th>GSTIN</th> -->
+                        <!-- <th>PAN</th> -->
+                        <!-- <th>Website</th> -->
                         <th>Created By</th>
                         <th>Created On</th>
                         <th>Status</th>
-                        <th class="no-sort"></th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -127,17 +127,17 @@
                                 </div>
                             </td>
                             <!-- <td><span class="text-gray-9">{{ $supplier->first_name }} {{ $supplier->last_name }}</span></td> -->
+                            <td>{{ $supplier->company_name ?? 'N/A' }}</td>
                             <td><a href="mailto:{{ $supplier->email }}">{{ $supplier->email }}</a></td>
                             <td>{{ $supplier->phone }}</td>
                             <td>{{ $supplier->address }}</td>
-                            <td>{{ $supplier->city }}</td>
-                            <td>{{ $supplier->state }}</td>
-                            <td>{{ $supplier->country }}</td>
-                            <td>{{ $supplier->postal_code }}</td>
-                            <td>{{ $supplier->gstin ?? 'N/A' }}</td>
-                            <td>{{ $supplier->pan ?? 'N/A' }}</td>
-                            <td>{{ $supplier->company_name ?? 'N/A' }}</td>
-                            <td><a href="{{ $supplier->website ?? '#' }}" target="_blank">{{ $supplier->website ?? 'N/A' }}</a></td>
+                            <!-- <td>{{ $supplier->city }}</td> -->
+                            <!-- <td>{{ $supplier->state }}</td> -->
+                            <!-- <td>{{ $supplier->country }}</td> -->
+                            <!-- <td>{{ $supplier->postal_code }}</td> -->
+                            <!-- <td>{{ $supplier->gstin ?? 'N/A' }}</td> -->
+                            <!-- <td>{{ $supplier->pan ?? 'N/A' }}</td> -->
+                            <!-- <td><a href="{{ $supplier->website ?? '#' }}" target="_blank">{{ $supplier->website ?? 'N/A' }}</a></td> -->
                             <td>
                                 <span class="text-gray-9">
                                     @if ($supplier->employee_id && $supplier->employee)
@@ -157,6 +157,9 @@
                             </td>
                             <td class="action-table-data">
                                 <div class="edit-delete-action">
+                                    <a class="me-2 edit-icon p-2" href="">
+                                        <i data-feather="eye" class="action-eye"></i>
+                                    </a>
                                     <a class="me-2 p-2" href="#" data-bs-toggle="modal" data-bs-target="#edit-supplier-{{ $supplier->id }}">
                                         <i data-feather="edit" class="feather-edit"></i>
                                     </a>
@@ -172,14 +175,14 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <!-- <td></td>
+                            <td></td> -->
+                            <td>No suppliers found.</td>
+                            <!-- <td></td>
                             <td></td>
                             <td></td>
-                            <td colspan="18" class="text-center">No suppliers found.</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td></td> -->
+                            <!-- <td></td> -->
                             <td></td>
                             <td></td>
                             <td></td>
