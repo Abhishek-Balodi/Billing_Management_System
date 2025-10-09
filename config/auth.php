@@ -68,7 +68,7 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-         'employees' => [
+        'employees' => [
         'driver' => 'eloquent',
         'model' => App\Models\Employee::class, // Employee model use karega
     ],

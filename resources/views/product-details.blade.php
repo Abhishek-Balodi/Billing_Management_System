@@ -10,12 +10,12 @@
     <div class="col-lg-8 col-sm-12">
         <div class="card">
             <div class="card-body">
-                <div class="bar-code-view">
+                <!-- <div class="bar-code-view">
                     <img src="{{ $product->barcode ? asset('assets/img/barcode/barcode1.png') : asset('assets/img/barcode/barcode1.png') }}" alt="barcode">
                     <a class="printimg">
                         <img src="{{ asset('assets/img/icons/printer.svg') }}" alt="print">
                     </a>
-                </div>
+                </div> -->
                 <div class="productdetails">
                     <ul class="product-bar">
                         <li>
@@ -81,8 +81,9 @@
                 <div class="slider-product-details">
                     <div class="slider-product">
                         <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('assets/img/products/phone-add-2.png') }}" alt="img">
-                        <h4>{{ $product->image ? basename($product->image) : 'phone-add-2.png' }}</h4>
-                        <h6>581kb</h6> <!-- Placeholder, as file size not in schema -->
+                        <h4>{{ $product->name ? basename($product->name) : 'phone-add-2.png' }}</h4>
+                        <!-- <h6>581kb</h6>  -->
+                        <!-- Placeholder, as file size not in schema -->
                     </div>
                 </div>
             </div>
