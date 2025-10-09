@@ -3,160 +3,181 @@
 namespace App\Http\Controllers;
 
 use App\Models\Supplier;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class SupplierController extends Controller
 {
-    public function index(){
-        if (Auth::guard('web')->check()) {
-    
-        // Admin
-        $userId = Auth::guard('web')->id();
-            $suppliers = Supplier::with('employee')
-                ->where('user_id', $userId)
-                ->get();
-
-                
-        } elseif(Auth::guard('employee')->check()){
-            // dd(Auth::guard('employee')->user());
-            // Employee
-            $employee = Auth::guard('employee')->user();
-            // dd(Supplier::with('employee')->where('employee_id', $employee->id) ->get());
-            $suppliers = Supplier::with('employee')
-            ->where('employee_id', $employee->id)
-            ->get();
-        } else {
-            $suppliers = collect();
-        }
-    
+    public function index()
+    {
+        $currentUserId = $this->getCurrentUserId();
+        $suppliers = Supplier::with(['user', 'employee'])->where('user_id', $currentUserId)->get();
         return view('suppliers', compact('suppliers'));
     }
 
-    public function store(Request $request){
-        $request->validate([
-        'first_name' => 'required',
-        'last_name' => 'required',
-        'email' => 'required|email',
-        'phone' => 'required',
-        'address' => 'required',
-        'city' => 'required',
-        'state' => 'required',
-        'country' => 'required',
-        'postal_code' => 'required',
-        ]);
-
-        $data = $request->all();
-            // Image save karein
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('suppliers', 'public'); 
-            $data['image'] = $path; // DB me sirf relative path save hoga (e.g. suppliers/abcd.jpg)
-        }
-
+    public function store(Request $request)
+    {
+        $data = [];
         if (Auth::guard('web')->check()) {
             // Admin
             $data['user_id'] = Auth::guard('web')->id();
             $data['employee_id'] = null;
-        } elseif(Auth::guard('employee')->check()){
+        } elseif (Auth::guard('employee')->check()) {
             // Employee
             $employee = Auth::guard('employee')->user();
             $data['employee_id'] = $employee->id;
-                $data['user_id'] = $employee->user_id;
+            $data['user_id'] = $employee->user_id;
 
-            \Log::info('Employee adding supplier', [
+            Log::info('Employee adding supplier', [
                 'employee_id' => $data['employee_id'],
                 'user_id' => $data['user_id'],
                 'employee_name' => $employee->name,
             ]);
+        } else {
+            return redirect()->route('suppliers.index')->with('error', 'Unauthorized access.');
         }
 
-        Supplier::create($data);
-        return redirect()->route('suppliers.index')->with('success', 'Supplier added successfully');
-
-    }
-
-    public function edit($id){
-        if(Auth::guard('web')->check()){
-            //admin
-            $userId = Auth::guard('web')->id();
-            //admin have right  to edit own and employee data
-            $supplier = Supplier::where('user_id', $userId)
-            ->where('id',$id)
-            ->firstOrFail();
-        }elseif(Auth::guard('employee')->check()){
-    // dd(Auth::guard('employee')->check());
-        $employee = Auth::guard('employee')->user();
-        //employee can only their own data
-        $supplier = Supplier::where('employee_id', $employee->id)
-        ->where('id', $id)
-        ->firstOrFail();
-        } else{
-            abort(403,'unauthorized action.');
-        }
-        return response()->json($supplier);
-    }
-
-
-    public function update(Request $request, $id){
-        $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'address' => 'required',
-            'city' => 'required',
-            'state' => 'required',
-            'country' => 'required',
-            'postal_code' => 'required',
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:suppliers,email,NULL,id,user_id,' . $data['user_id'],
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string|max:100',
+            'state' => 'required|string|max:100',
+            'country' => 'required|string|max:100',
+            'postal_code' => 'required|string|max:20',
+            'gstin' => 'nullable|string|max:15',
+            'pan' => 'nullable|string|max:10',
+            'company_name' => 'nullable|string|max:255',
+            'website' => 'nullable|url|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png|max:2048',
+            'status' => 'nullable|boolean',
+        ], [
+            'email.unique' => 'This email is already used by another supplier for this user.',
+            'image.image' => 'The file must be an image.',
+            'image.mimes' => 'The image must be a JPEG or PNG.',
+            'image.max' => 'The image size must not exceed 2MB.',
         ]);
 
-        if(Auth::guard('web')->check()){
-            $userId = Auth::guard('web')->id();
-            $supplier = Supplier::where('user_id' , $userId)
-                ->where('id', $id)
-                ->firstOrFail();
-        } elseif(Auth::guard('employee')->check()){
-            $employee = Auth::guard('employee')->user(); // define $employee
-            $supplier = Supplier::where('employee_id', $employee->id)
-                ->where('id', $id)
-                ->firstOrFail();
-        } else{
-            abort(403, 'Unauthorized action');
-        }
-        $data = $request->all();
-        // Status handling: checked → 1, unchecked → 0
-        $data['status'] = $request->has('status') ? 1 : 0;
+        $imagePath = null;
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('suppliers', 'public');
-            $data['image'] = $path; // sirf relative path save hoga
-        } else {
-            unset($data['image']); // agar image upload nahi hui to existing image ko overwrite mat karo
+            $imagePath = $request->file('image')->store('supplier_images', 'public');
         }
 
-        $supplier->update($data);
-        return redirect()->route('suppliers.index')->with('success','Supplier updated successfully');
+        Supplier::create([
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'address' => $validated['address'],
+            'city' => $validated['city'],
+            'state' => $validated['state'],
+            'country' => $validated['country'],
+            'postal_code' => $validated['postal_code'],
+            'gstin' => $validated['gstin'],
+            'pan' => $validated['pan'],
+            'company_name' => $validated['company_name'],
+            'website' => $validated['website'],
+            'image' => $imagePath,
+            'status' => $request->has('status') ? 1 : 0,
+            'user_id' => $data['user_id'],
+            'employee_id' => $data['employee_id'],
+        ]);
+
+        return redirect()->route('suppliers.index')->with('success', 'Supplier created successfully.');
     }
 
+    public function update(Request $request, $id)
+    {
+        $supplier = Supplier::findOrFail($id);
 
-    public function destroy($id){
-        if(Auth::guard('web')->check()){
-        $userId =  Auth::guard('web')->id();
-        $supplier = Supplier::where('user_id', $userId)
-        ->where('id', $id)
-        ->firstOrFail();
-        }elseif(Auth::guard('employee')->check()){
-        $employee = Auth::guard('employee')->user();
-        $supplier = Supplier::where('employee_id', $employee->id)
-            ->where('id', $id)
-            ->firstOrFail();
-        } else {
-            abort(403, 'Unauthorized action');
+        $currentUserId = $this->getCurrentUserId();
+        if ($supplier->user_id !== $currentUserId) {
+            return redirect()->route('suppliers.index')->with('error', 'Unauthorized access to update supplier.');
         }
 
-        // Delete supplier
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:suppliers,email,' . $id . ',id,user_id,' . $supplier->user_id,
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string|max:100',
+            'state' => 'required|string|max:100',
+            'country' => 'required|string|max:100',
+            'postal_code' => 'required|string|max:20',
+            'gstin' => 'nullable|string|max:15',
+            'pan' => 'nullable|string|max:10',
+            'company_name' => 'nullable|string|max:255',
+            'website' => 'nullable|url|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png|max:2048',
+            'status' => 'nullable|boolean',
+        ], [
+            'email.unique' => 'This email is already used by another supplier for this user.',
+            'image.image' => 'The file must be an image.',
+            'image.mimes' => 'The image must be a JPEG or PNG.',
+            'image.max' => 'The image size must not exceed 2MB.',
+        ]);
+
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($supplier->image) {
+                Storage::disk('public')->delete($supplier->image);
+            }
+            $validated['image'] = $request->file('image')->store('supplier_images', 'public');
+        } else {
+            $validated['image'] = $supplier->image; // Retain existing image
+        }
+
+        $supplier->update([
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'address' => $validated['address'],
+            'city' => $validated['city'],
+            'state' => $validated['state'],
+            'country' => $validated['country'],
+            'postal_code' => $validated['postal_code'],
+            'gstin' => $validated['gstin'],
+            'pan' => $validated['pan'],
+            'company_name' => $validated['company_name'],
+            'website' => $validated['website'],
+            'image' => $validated['image'],
+            'status' => $request->has('status') ? 1 : 0,
+        ]);
+
+        return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $supplier = Supplier::findOrFail($id);
+
+        $currentUserId = $this->getCurrentUserId();
+        if ($supplier->user_id !== $currentUserId) {
+            return redirect()->route('suppliers.index')->with('error', 'Unauthorized access to delete supplier.');
+        }
+
+        if ($supplier->image) {
+            Storage::disk('public')->delete($supplier->image);
+        }
         $supplier->delete();
-        return response()->json(['success' => 'Supplier deleted successfully']);
+
+        return redirect()->route('suppliers.index')->with('danger', 'Supplier deleted successfully.');
+    }
+
+    protected function getCurrentUserId()
+    {
+        if (Auth::guard('web')->check()) {
+            return Auth::guard('web')->id();
+        } elseif (Auth::guard('employee')->check()) {
+            return Auth::guard('employee')->user()->user_id;
+        }
+
+        return null;
     }
 }
