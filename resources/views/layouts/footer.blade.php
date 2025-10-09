@@ -60,7 +60,42 @@
     <script src="{{ asset('assets/js/theme-colorpicker.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/script.js') }}" type="text/javascript"></script>
 
+    
+    <!-- jQuery (required by Toastr) conflicting with headers link so commented-->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
     <script>
+
+    toastr.options = {
+        // "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "3000"
+    };
+
+    @if (session('success'))
+        toastr.success("{{ session('success') }}");
+    @endif
+
+    @if (session('error'))
+        toastr.error("{{ session('error') }}");
+    @endif
+
+    @if (session('danger'))
+        toastr.warning("{{ session('danger') }}");
+    @endif
+
+    @if (session('info'))
+        toastr.info("{{ session('info') }}");
+    @endif
+    </script>
+
+
+    <!-- <script>
             $(document).ready(function() {
         // Hide success/error messages after 3 seconds
         setTimeout(function() {
@@ -68,7 +103,7 @@
             $('#errorMessage').fadeOut('slow');
         }, 3000);
             });
-    </script>
+    </script> -->
 
 
 <!-- <script src="../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"

@@ -67,6 +67,9 @@
 
     <!-- jQuery (Required before DataTables and other scripts) -->
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
+    
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 </head>
 
@@ -1211,7 +1214,7 @@
         <div class="page-wrapper">
             <div class="content">
 
-@if (session('success'))
+<!-- @if (session('success'))
     <div id="successMessage" class="alert alert-success">{{ session('success') }}</div>
 @endif
 @if (session('danger'))
@@ -1219,4 +1222,25 @@
 @endif
 @if (session('error'))
     <div id="errorMessage" class="alert alert-danger">{{ session('error') }}</div>
-@endif
+@endif -->
+
+
+<!-- toastr script code in footer -->
+
+<!-- <script>
+    @if (session('success'))
+        toastr.success("{{ session('success') }}");
+    @endif
+
+    @if (session('error'))
+        toastr.error("{{ session('error') }}");
+    @endif
+
+    @if (session('danger'))
+        toastr.warning("{{ session('danger') }}");
+    @endif
+
+    @if (session('info'))
+        toastr.info("{{ session('info') }}");
+    @endif
+</script> -->
