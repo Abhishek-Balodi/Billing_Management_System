@@ -17,6 +17,18 @@ class CustomerController extends Controller
         return view('customers', compact('customers'));
     }
 
+    public function show($id)
+    {
+        $customer = Customer::with(['user', 'employee'])->findOrFail($id);
+        $currentUserId = $this->getCurrentUserId();
+
+        if ($customer->user_id !== $currentUserId) {
+            return redirect()->route('customers.index')->with('error', 'Unauthorized access to view customer.');
+        }
+
+        return view('customer-details', compact('customer'));
+    }
+
     public function store(Request $request)
     {
         $data = [];
