@@ -41,9 +41,9 @@ return [
             'provider' => 'users',
         ],
         'employee' => [
-        'driver' => 'session',
-        'provider' => 'employees', // Employee provider use karega
-    ],
+                'driver' => 'session',
+                'provider' => 'employees', // Employee provider use karega
+        ],
     ],
 
     /*
@@ -69,9 +69,9 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
         'employees' => [
-        'driver' => 'eloquent',
-        'model' => App\Models\Employee::class, // Employee model use karega
-    ],
+                'driver' => 'eloquent',
+                'model' => App\Models\Employee::class, // Employee model use karega
+        ],
 
         // 'users' => [
         //     'driver' => 'database',
