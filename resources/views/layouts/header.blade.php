@@ -71,6 +71,43 @@
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
+    <style>
+    /* Slide-in from the right side of the screen */
+    .toast {
+        animation: slideInRight 1s ease-out forwards; /* Slower slide-in from right */
+    }
+
+    /* Slide-in from the right */
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%); /* Start from the right off-screen */
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    /* Slide-out to the left, slower */
+    @keyframes slideOutLeft {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(+100%); /* Move to the left off-screen */
+            opacity: 0;
+        }
+    }
+
+    /* Apply the slide-out animation after 4.5 seconds (just before the 5-second timeout) */
+    .toast.toast-success, .toast.toast-error, .toast.toast-info, .toast.toast-warning {
+        animation: slideInRight 1s ease-out forwards, slideOutLeft 1s ease-in forwards 2.5s; /* Slower slide-out */
+    }
+</style>
+
+
 </head>
 
 <body class="menu-horizontal">

@@ -68,31 +68,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
-    <script>
+<script>
+    // $(document).ready(function() {
+    // Ensure Toastr notifications are triggered after everything is loaded
+    $(window).on('load', function() {
+        toastr.options = {
+            // "closeButton": true,
+            // "progressBar": true,
+            "positionClass": "toast-top-right", // You can change this to any position you want
+            // "timeOut": "3000", // Time before auto-close
+            // "extendedTimeOut": "1000" // Extra time for mouse hover
+            // "showMethod": "fadeIn",  // Optional: Add fade-in effect if desired
+            // "hideMethod": "fadeOut",  // Optional: Add fade-out effect if desired
+        };
 
-    toastr.options = {
-        // "closeButton": true,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "timeOut": "3000"
-    };
+        // Toastr for success, error, etc.
+        @if (session('success'))
+            toastr.success("{{ session('success') }}");
+        @endif
 
-    @if (session('success'))
-        toastr.success("{{ session('success') }}");
-    @endif
+        @if (session('error'))
+            toastr.error("{{ session('error') }}");
+        @endif
 
-    @if (session('error'))
-        toastr.error("{{ session('error') }}");
-    @endif
+        @if (session('danger'))
+            toastr.danger("{{ session('danger') }}");
+        @endif
 
-    @if (session('danger'))
-        toastr.warning("{{ session('danger') }}");
-    @endif
-
-    @if (session('info'))
-        toastr.info("{{ session('info') }}");
-    @endif
-    </script>
+        @if (session('info'))
+            toastr.info("{{ session('info') }}");
+        @endif
+    });
+</script>
 
 
     <!-- <script>
