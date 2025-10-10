@@ -1200,7 +1200,7 @@
                                     <a href="javascript:void(0);"><span>People</span><span
                                             class="menu-arrow"></span></a>
                                     <ul>
-                                        <li><a href="customers.html"><span>Customers</span></a></li>
+                                        <li><a href="{{ route('customers.index') }}"><span>Customers</span></a></li>
                                         <li><a href="billers.html"><span>Billers</span></a></li>
                                         <li><a href="{{ route('suppliers.index') }}"><span>Suppliers</span></a></li>
                                         <li><a href="store-list.html"><span>Stores</span></a></li>

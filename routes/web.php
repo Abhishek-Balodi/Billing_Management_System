@@ -8,6 +8,7 @@ use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\CustomerController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -114,6 +115,12 @@ Route::middleware(['auth:web,employee'])->group(function() {
     Route::put('/suppliers/{id}',[SupplierController::class, 'update'])->name('suppliers.update');
     Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
     Route::get('/supplier-details/{id}', [SupplierController::class, 'show'])->name('suppliers.show');
+
+    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
+    Route::get('/customers/{id}', [CustomerController::class, 'show'])->name('customers.show');
+    Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
+    Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
 
     // Route::get('/add-product', [ProductController::class, 'index'])->name('products.index');
     Route::get('/product-list', [ProductController::class, 'index'])->name('products.index');
