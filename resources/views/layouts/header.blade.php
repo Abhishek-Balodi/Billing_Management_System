@@ -77,6 +77,11 @@
         animation: slideInRight 1s ease-out forwards; /* Slower slide-in from right */
     }
 
+    .toast.toast-warning {
+        background-color: #FF4C4C !important; /* Hex color for red */
+        color: white !important; /* Set text color to white */
+    }
+
     /* Slide-in from the right */
     @keyframes slideInRight {
         from {

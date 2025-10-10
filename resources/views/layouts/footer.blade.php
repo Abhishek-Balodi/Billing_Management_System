@@ -92,7 +92,7 @@
         @endif
 
         @if (session('danger'))
-            toastr.danger("{{ session('danger') }}");
+            toastr.warning("{{ session('danger') }}");
         @endif
 
         @if (session('info'))
