@@ -22,9 +22,9 @@ use App\Http\Controllers\CustomerController;
 //     return view('brands-list');
 // });
 
-// Route::get('/product-list', function () {
-//     return view('product-list');
-// });
+Route::get('/purchase', function () {
+    return view('purchase');
+})->name('purchase');
 
 
 // Route::get('/add-product', function () {
