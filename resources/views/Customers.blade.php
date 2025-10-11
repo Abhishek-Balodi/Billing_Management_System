@@ -80,20 +80,20 @@
                                 <span class="checkmarks"></span>
                             </label>
                         </th>
-                        <th>Image</th>
+                        <!-- <th>Image</th> -->
                         <th>Customer</th>
+                        <th>Company Name</th>
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Shipping Address</th>
                         <th>Billing Address</th>
-                        <th>City</th>
-                        <th>State</th>
-                        <th>Country</th>
-                        <th>Postal Code</th>
-                        <th>GSTIN</th>
-                        <th>PAN</th>
-                        <th>Company Name</th>
-                        <th>Website</th>
+                        <!-- <th>City</th> -->
+                        <!-- <th>State</th> -->
+                        <!-- <th>Country</th> -->
+                        <!-- <th>Postal Code</th> -->
+                        <!-- <th>GSTIN</th> -->
+                        <!-- <th>PAN</th> -->
+                        <!-- <th>Website</th> -->
                         <th>Created By</th>
                         <th>Created On</th>
                         <th>Status</th>
@@ -109,24 +109,36 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
-                            <td>
+                            <!-- <td>
                                 <a class="avatar avatar-md bg-light-900 p-1 me-2">
                                     <img src="{{ $customer->image ? asset('storage/' . $customer->image) : asset('assets/img/supplier/supplier-01.png') }}" class="object-fit-contain" alt="img">
                                 </a>
+                            </td> -->
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <a href="javascript:void(0);" class="avatar avatar-md bg-light-900 p-1 me-2">
+                                        <img  src="{{ $customer->image ? asset('storage/' . $customer->image) : asset('assets/img/supplier/supplier-01.png') }}"
+                                            class="object-fit-contain" alt="img">
+                                    </a>
+                                    <div class="ms-2">
+                                        <p class="text-gray-9"> <a href="#">{{ $customer->first_name }} {{ $customer->last_name }}
+                                        </a></p>
+                                    </div>
+                                </div>
                             </td>
-                            <td><span class="text-gray-9">{{ $customer->first_name }} {{ $customer->last_name }}</span></td>
+                            <!-- <td><span class="text-gray-9">{{ $customer->first_name }} {{ $customer->last_name }}</span></td> -->
+                            <td>{{ $customer->company_name ?? 'N/A' }}</td>
                             <td><a href="mailto:{{ $customer->email }}">{{ $customer->email }}</a></td>
                             <td>{{ $customer->phone }}</td>
                             <td>{{ $customer->shipping_address }}</td>
                             <td>{{ $customer->billing_address }}</td>
-                            <td>{{ $customer->city }}</td>
-                            <td>{{ $customer->state }}</td>
-                            <td>{{ $customer->country }}</td>
-                            <td>{{ $customer->postal_code }}</td>
-                            <td>{{ $customer->gstin ?? 'N/A' }}</td>
-                            <td>{{ $customer->pan ?? 'N/A' }}</td>
-                            <td>{{ $customer->company_name ?? 'N/A' }}</td>
-                            <td><a href="{{ $customer->website ?? '#' }}" target="_blank">{{ $customer->website ?? 'N/A' }}</a></td>
+                            <!-- <td>{{ $customer->city }}</td> -->
+                            <!-- <td>{{ $customer->state }}</td> -->
+                            <!-- <td>{{ $customer->country }}</td> -->
+                            <!-- <td>{{ $customer->postal_code }}</td> -->
+                            <!-- <td>{{ $customer->gstin ?? 'N/A' }}</td> -->
+                            <!-- <td>{{ $customer->pan ?? 'N/A' }}</td> -->
+                            <!-- <td><a href="{{ $customer->website ?? '#' }}" target="_blank">{{ $customer->website ?? 'N/A' }}</a></td> -->
                             <td>
                                 <span class="text-gray-9">
                                     @if ($customer->employee_id && $customer->employee)
@@ -160,11 +172,11 @@
                         </tr>
                     @empty
                         <tr>
+                            <!-- <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
+                            <td></td> -->
                             <td></td>
                             <td></td>
                             <td></td>
@@ -176,9 +188,9 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <!-- <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
+                            <td></td> -->
                         </tr>
                     @endforelse
                 </tbody>
@@ -338,6 +350,8 @@
         </div>
     </div>
 </div>
+
+@include('layouts.footer')
 
 <!-- Edit Customer Modals -->
 @foreach ($customers as $customer)
@@ -520,7 +534,6 @@
     </div>
 @endforeach
 
-@include('layouts.footer')
 
 <script>
     $(document).ready(function() {

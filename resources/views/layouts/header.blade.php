@@ -684,14 +684,14 @@
                             <a href="javascript:void(0);"><i class="ti ti-layout-grid fs-16 me-2"></i><span>Sales &amp;
                                     Purchase</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li class="submenu">
+                                <!-- <li class="submenu">
                                     <a href="javascript:void(0);"><span>Stock</span><span class="menu-arrow"></span></a>
                                     <ul>
                                         <li><a href="manage-stocks.html"><span>Manage Stock</span></a></li>
                                         <li><a href="stock-adjustment.html"><span>Stock Adjustment</span></a></li>
                                         <li><a href="stock-transfer.html"><span>Stock Transfer</span></a></li>
                                     </ul>
-                                </li>
+                                </li> -->
                                 <li class="submenu">
                                     <a href="javascript:void(0);"><span>Sales</span><span class="menu-arrow"></span></a>
                                     <ul>
@@ -699,14 +699,15 @@
                                             <a href="javascript:void(0);"><span>Sales</span><span
                                                     class="menu-arrow"></span></a>
                                             <ul>
-                                                <li><a href="online-orders.html">Online Orders</a></li>
-                                                <li><a href="pos-orders.html">POS Orders</a></li>
+                                                <li><a href="online-orders.html">Orders</a></li>
+                                                <!-- <li><a href="online-orders.html">Online Orders</a></li> -->
+                                                <!-- <li><a href="pos-orders.html">POS Orders</a></li> -->
                                             </ul>
                                         </li>
                                         <li><a href="invoice.html"><span>Invoices</span></a></li>
-                                        <li><a href="sales-returns.html"><span>Sales Return</span></a></li>
+                                        <!-- <li><a href="sales-returns.html"><span>Sales Return</span></a></li> -->
                                         <li><a href="quotation-list.html"><span>Quotation</span></a></li>
-                                        <li class="submenu">
+                                        <!-- <li class="submenu">
                                             <a href="javascript:void(0);"><span>POS</span><span
                                                     class="menu-arrow"></span></a>
                                             <ul>
@@ -714,10 +715,10 @@
                                                 <li><a href="pos-2.html">POS 2</a></li>
                                                 <li><a href="pos-3.html">POS 3</a></li>
                                             </ul>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </li>
-                                <li class="submenu">
+                                <!-- <li class="submenu">
                                     <a href="javascript:void(0);"><span>Promo</span><span class="menu-arrow"></span></a>
                                     <ul>
                                         <li><a href="coupons.html"><span>Coupons</span></a></li>
@@ -731,38 +732,38 @@
                                             </ul>
                                         </li>
                                     </ul>
-                                </li>
+                                </li> -->
                                 <li class="submenu">
                                     <a href="javascript:void(0);"><span>Purchase</span><span
                                             class="menu-arrow"></span></a>
                                     <ul>
                                         <li><a href="purchase-list.html"><span>Purchases</span></a></li>
                                         <li><a href="purchase-order-report.html"><span>Purchase Order</span></a></li>
-                                        <li><a href="purchase-returns.html"><span>Purchase Return</span></a></li>
+                                        <!-- <li><a href="purchase-returns.html"><span>Purchase Return</span></a></li> -->
                                     </ul>
                                 </li>
-                                <li class="submenu">
+                                <!-- <li class="submenu">
                                     <a href="javascript:void(0);"><span>Expenses</span><span
                                             class="menu-arrow"></span></a>
                                     <ul>
                                         <li><a href="expense-list.html">Expenses</a></li>
                                         <li><a href="expense-category.html">Expense Category</a></li>
                                     </ul>
-                                </li>
-                                <li class="submenu">
+                                </li> -->
+                                <!-- <li class="submenu">
                                     <a href="javascript:void(0);"><span>Income</span><span
                                             class="menu-arrow"></span></a>
                                     <ul>
                                         <li><a href="income.html">Income</a></li>
                                         <li><a href="income-category.html">Income Category</a></li>
                                     </ul>
-                                </li>
-                                <li><a href="account-list.html"><span>Bank Accounts</span></a></li>
+                                </li> -->
+                                <!-- <li><a href="account-list.html"><span>Bank Accounts</span></a></li>
                                 <li><a href="money-transfer.html"><span>Money Transfer</span></a></li>
                                 <li><a href="balance-sheet.html"><span>Balance Sheet</span></a></li>
                                 <li><a href="trial-balance.html"><span>Trial Balance</span></a></li>
                                 <li><a href="cash-flow.html"><span>Cash Flow</span></a></li>
-                                <li><a href="account-statement.html"><span>Account Statement</span></a></li>
+                                <li><a href="account-statement.html"><span>Account Statement</span></a></li> -->
                             </ul>
                         </li>
                         <!-- <li class="submenu">
@@ -1192,8 +1193,11 @@
                             </ul>
                         </li> -->
                         <li class="submenu">
-                            <a href="javascript:void(0);"><i
+                            <!-- <a href="javascript:void(0);"><i
                                     class="ti ti-circle-plus fs-16 me-2"></i><span>More</span><span
+                                    class="menu-arrow"></span></a> -->
+                            <a href="javascript:void(0);"><i
+                                    class="ti ti-settings fs-16 me-2"></i><span>Settings</span><span
                                     class="menu-arrow"></span></a>
                             <ul>
                                 <li class="submenu">
@@ -1201,14 +1205,14 @@
                                             class="menu-arrow"></span></a>
                                     <ul>
                                         <li><a href="{{ route('customers.index') }}"><span>Customers</span></a></li>
-                                        <li><a href="billers.html"><span>Billers</span></a></li>
+                                        <!-- <li><a href="billers.html"><span>Billers</span></a></li> -->
                                         <li><a href="{{ route('suppliers.index') }}"><span>Suppliers</span></a></li>
-                                        <li><a href="store-list.html"><span>Stores</span></a></li>
-                                        <li><a href="warehouse.html"><span>Warehouses</span></a>
+                                        <!-- <li><a href="store-list.html"><span>Stores</span></a></li> -->
+                                        <!-- <li><a href="warehouse.html"><span>Warehouses</span></a> -->
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="submenu">
+                                <!-- <li class="submenu">
                                     <a href="javascript:void(0);"><span>User Management</span><span
                                             class="menu-arrow"></span></a>
                                     <ul>
@@ -1216,8 +1220,8 @@
                                         <li><a href="roles-permissions.html"><span>Roles & Permissions</span></a></li>
                                         <li><a href="delete-account.html"><span>Delete Account Request</span></a></li>
                                     </ul>
-                                </li>
-                                <li class="submenu">
+                                </li> -->
+                                <!-- <li class="submenu">
                                     <a href="javascript:void(0);"><span>Help</span><span class="menu-arrow"></span></a>
                                     <ul>
                                         <li><a href="javascript:void(0);"><span>Documentation</span></a></li>
@@ -1244,7 +1248,7 @@
                                             </ul>
                                         </li>
                                     </ul>
-                                </li>
+                                </li> -->
                             </ul>
                         </li>
                     </ul>
