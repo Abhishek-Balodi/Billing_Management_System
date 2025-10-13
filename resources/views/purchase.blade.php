@@ -266,8 +266,8 @@ table td {
                 </div>
             </div>
         </div>
-        <!-- Product Items Section -->
-        <h5 class="fw-bold mt-4 mb-3">Product Items</h5>
+        <!-- Purchase Items Section -->
+        <h5 class="fw-bold mt-4 mb-3">Purchase Items</h5>
         <a href="#" class="btn btn-primary mb-3"><i class="ti ti-plus me-1"></i>Add Product</a>
         <a href="#" class="btn btn-primary mb-3"><i class="ti ti-plus me-1"></i>Additional Charges</a>
         <div class="float-end mb-3">
