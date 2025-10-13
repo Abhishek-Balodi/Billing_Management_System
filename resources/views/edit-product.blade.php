@@ -408,20 +408,20 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Initialize Daterangepicker for single date selection
-        $('.datetimepicker').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            autoApply: true,
-            locale: {
-                format: 'DD/MM/YYYY',
-                separator: ' - ',
-                applyLabel: 'Apply',
-                cancelLabel: 'Cancel',
-                daysOfWeek: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                firstDay: 1
-            }
-        });
+        // $('.datetimepicker').daterangepicker({
+        //     singleDatePicker: true,
+        //     showDropdowns: true,
+        //     autoApply: true,
+        //     locale: {
+        //         format: 'DD/MM/YYYY',
+        //         separator: ' - ',
+        //         applyLabel: 'Apply',
+        //         cancelLabel: 'Cancel',
+        //         daysOfWeek: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        //         monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        //         firstDay: 1
+        //     }
+        // });
 
         // Image preview logic
         const imageInput = document.querySelector('input[name="image"]');
