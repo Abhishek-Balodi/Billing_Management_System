@@ -44,6 +44,25 @@
     width: 100%;
     height: 50%;
 }
+
+.table td {
+    vertical-align: top !important;
+	padding: 0px !important;
+}
+
+table .form-control {
+    border: 0px !important;
+    background: transparent !important;
+    text-align: center;
+}
+
+table .bg-warning td {
+	text-align: center;
+}
+
+/* table.input::placeholder {
+	text-align: center;
+} */
 </style>
 
 <div class="page-header">
@@ -265,8 +284,9 @@
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td><input type="text" class="form-control bg-light" placeholder="Enter Product name"><br><input
-                                type="text" class="form-control" placeholder="Item Note..."></td>
+                        <td><input type="text" class="form-control bg-light" placeholder="Enter Product name"><br>
+						<!-- <input type="text" class="form-control" placeholder="Item Note..."> -->
+					</td>
                         <td><input type="text" class="form-control" placeholder="Barcode No."></td>
                         <td><input type="text" class="form-control" placeholder="HSN/SAC"></td>
                         <td><input type="text" class="form-control" placeholder="Qty."></td>
