@@ -52,11 +52,22 @@
 
 table .form-control {
     border: 0px !important;
+    border-color: none !important;
     background: transparent !important;
     text-align: center;
+    border-radius: 0 !important;
+}
+
+/* Hover effect: orange border */
+table .form-control:hover {
+    border: 1px solid orange !important;
 }
 
 table .bg-warning td {
+	text-align: center;
+}
+
+table td {
 	text-align: center;
 }
 
@@ -94,8 +105,8 @@ table .bg-warning td {
             <div class="col-lg-5 col-md-12">
                 <div class="all_format">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="fw-bold mb-0">Vendor Information</h5>
-                        <a href="#" class="btn btn-primary mb-0"><i class="ti ti-plus me-1"></i>Add Vendor</a>
+                        <h5 class="fw-bold mb-0">Supplier Information</h5>
+                        <a href="#" class="btn btn-primary mb-0"><i class="ti ti-plus me-1"></i>Add Supplier</a>
                     </div>
                     <hr>
                     <div class="row mb-3">
@@ -168,7 +179,7 @@ table .bg-warning td {
                     <div class="row mb-3">
                         <label class="form-label col-md-4">Place of Supply <span class="text-danger">*</span></label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" value="Uttarakhand" placeholder="Place of Supply">
+                            <input type="text" class="form-control" value="" placeholder="Place of Supply">
                         </div>
                     </div>
                 </div>
@@ -179,12 +190,13 @@ table .bg-warning td {
                     <h5 class="fw-bold mb-4 mt-2">Purchase Invoice Detail</h5>
                     <hr>
                     <div class="row mb-3">
-                        <label class="form-label col-md-4">Purchase Type</label>
+                        <label class="form-label col-md-4">Purchase Order Type</label>
                         <div class="col-md-8">
                             <select class="form-select">
                                 <option value="">Select</option>
-                                <option value="Invoice">Invoice</option>
-                                <option value="Challan">Challan</option>
+                                <option value="Invoice">Regular</option>
+                                <option value="Challan">Bill of Supply</option>
+                                <option value="Challan">Export</option>
                             </select>
                         </div>
                     </div>
@@ -294,10 +306,11 @@ table .bg-warning td {
                         <td><input type="text" class="form-control" placeholder="Price"></td>
                         <td>
                             <input type="text" class="form-control mb-1" placeholder="%">
+                            <span class="form-control">+</span>
                             <input type="text" class="form-control" placeholder="Rs">
                         </td>
                         <td>
-                            <select class="form-select">
+                            <select class="form-control form-select">
                                 <option value="0">0%</option>
                                 <option value="5">5%</option>
                                 <option value="18">18%</option>
@@ -305,7 +318,7 @@ table .bg-warning td {
                             </select>
                         </td>
                         <td>
-                            <select class="form-select">
+                            <select class="form-control form-select">
                                 <option value="0">0%</option>
                                 <option value="5">5%</option>
                                 <option value="18">18%</option>
@@ -314,6 +327,7 @@ table .bg-warning td {
                         </td>
                         <td>
                             <input type="text" class="form-control mb-1" placeholder="%">
+                            <span class="form-control">+</span>
                             <input type="text" class="form-control" placeholder="Rs">
                         </td>
                         <td>Total</td>
@@ -387,9 +401,9 @@ table .bg-warning td {
                     <div class="mt-3 text-end">
                         <label class="form-label">Payment Type <span class="text-danger">*</span></label>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-warning">CREDIT</button>
+                            <!-- <button type="button" class="btn btn-warning">CREDIT</button> -->
                             <button type="button" class="btn btn-success">CASH</button>
-                            <button type="button" class="btn btn-success">CHEQUE</button>
+                            <!-- <button type="button" class="btn btn-success">CHEQUE</button> -->
                             <button type="button" class="btn btn-primary">ONLINE</button>
                         </div>
                     </div>
