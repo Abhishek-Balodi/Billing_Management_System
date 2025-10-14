@@ -9,6 +9,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PurchaseController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -22,9 +23,9 @@ use App\Http\Controllers\CustomerController;
 //     return view('brands-list');
 // });
 
-Route::get('/purchase', function () {
-    return view('purchase');
-})->name('purchase');
+// Route::get('/purchase', function () {
+//     return view('purchase');
+// })->name('purchase');
 
 
 // Route::get('/add-product', function () {
@@ -132,6 +133,9 @@ Route::middleware(['auth:web,employee'])->group(function() {
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
     Route::post('/categories_product', [CategoryController::class, 'productpage_store'])->name('categories.productpage_store');
 
+    Route::get('/purchase', [PurchaseController::class, 'create'])->name('purchases.create');
+    Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchases.store');
+    Route::get('/purchases/supplier/{id}', [PurchaseController::class, 'getSupplierData'])->name('purchases.supplier.data');
 });
 
 require __DIR__.'/auth.php';

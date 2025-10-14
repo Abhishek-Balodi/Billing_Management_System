@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PurchaseDetail extends Model
@@ -27,6 +28,9 @@ class PurchaseDetail extends Model
         'grand_total',
         'remarks',
         'created_by',
+        'reverse_charge',
+        'shipping_address',
+        'place_of_supply',
     ];
 
     public function supplier()
