@@ -30,6 +30,9 @@ return new class extends Migration
             $table->decimal('tax_amount', 10, 2)->default(0.00);
             $table->decimal('grand_total', 10, 2);
             $table->text('remarks')->nullable();
+            $table->boolean('reverse_charge')->default(false);
+            $table->string('shipping_address');
+            $table->string('place_of_supply');
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
 
