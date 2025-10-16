@@ -25,8 +25,8 @@ class PurchaseController extends Controller
     {
         $currentUserId = $this->getCurrentUserId();
         $supplier = Supplier::where('id', $id)
-                           ->where('user_id', $currentUserId)
-                           ->first();
+                        ->where('user_id', $currentUserId)
+                        ->first();
 
         if (!$supplier) {
             return response()->json(['error' => 'Supplier not found or unauthorized'], 404);
@@ -120,7 +120,7 @@ class PurchaseController extends Controller
             $tax_amount = $taxable * (($item['tax_percent'] ?? 0) / 100) + 
                          $taxable * (($item['igst_percent'] ?? 0) / 100) + 
                          $taxable * (($item['cess_percent'] ?? 0) / 100) + 
-                         ($item['cess_rs'] ?? 0);
+                        ($item['cess_rs'] ?? 0);
             
             $total_taxable += $taxable;
             $total_discount += $discount;

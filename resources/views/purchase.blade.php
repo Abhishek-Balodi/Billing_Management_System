@@ -185,12 +185,12 @@ text-align: center;
                                 </select>
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <!-- <div class="row mb-3">
                             <label class="form-label col-md-4">Sequence No.</label>
                             <div class="col-md-8">
                                 <input type="text" class="form-control" value="1" readonly>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row mb-3">
                             <label class="form-label col-md-4">Invoice No. <span class="text-danger">*</span></label>
                             <div class="col-md-8">
@@ -198,9 +198,9 @@ text-align: center;
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label class="form-label col-md-4">Date <span class="text-danger">*</span></label>
+                            <label class="form-label col-md-4">Invoice Date <span class="text-danger">*</span></label>
                             <div class="col-md-8">
-                                <input type="date" class="form-control" name="invoice_date" value="{{ date('Y-m-d') }}">
+                                <input type="date" class="form-control" name="invoice_date" value="">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -244,13 +244,13 @@ text-align: center;
             </div>
             <!-- Product Items Section -->
             <h5 class="fw-bold mt-4 mb-3">Product Items</h5>
-            <a href="#" class="btn btn-primary mb-3 add-product"><i class="ti ti-plus me-1"></i>Add Product</a>
+            <a href="#" class="btn btn-primary mb-3 add-product"><i class="ti ti-plus me-1"></i>Add Items</a>
             <!-- <a href="{{ route('products.create') }}" class="btn btn-primary mb-3"><i class="ti ti-plus me-1"></i>Add Product</a> -->
-            <a href="#" class="btn btn-primary mb-3"><i class="ti ti-plus me-1"></i>Additional Charges</a>
+            <!-- <a href="#" class="btn btn-primary mb-3"><i class="ti ti-plus me-1"></i>Additional Charges</a> -->
             <div class="float-end mb-3">
-                <label class="form-label d-inline">Discount: </label>
-                <div class="btn btn-primary d-inline"><i class="ti ti-currency-rupee"></i> Rs % <i class="ti ti-plus"></i>
-                </div>
+                <!-- <label class="form-label d-inline">Discount: </label> -->
+                <!-- <div class="btn btn-primary d-inline"><i class="ti ti-currency-rupee"></i> Rs % <i class="ti ti-plus"></i>
+                </div> -->
             </div>
             <div class="table-responsive">
                 <table class="table table-bordered" id="product_table">
@@ -298,16 +298,16 @@ text-align: center;
                             <label class="form-label">Due Date</label>
                             <input type="date" class="form-control" name="due_date" value="{{ date('Y-m-d', strtotime('+15 days')) }}">
                         </div>
-                        <h6 class="fw-bold mb-3">Terms & Condition / Additional Note</h6>
-                        <div class="mb-3">
+                        <!-- <h6 class="fw-bold mb-3">Terms & Condition / Additional Note</h6> -->
+                        <!-- <div class="mb-3">
                             <label class="form-label">Title</label>
                             <input type="text" class="form-control" name="terms_title" placeholder="Terms & Condition">
-                        </div>
-                        <div class="mb-3">
+                        </div> -->
+                        <!-- <div class="mb-3">
                             <label class="form-label">Detail</label>
                             <textarea class="form-control" name="terms_detail" rows="3" placeholder="Enter terms & condition"></textarea>
-                        </div>
-                        <a href="#" class="btn btn-light"><i class="ti ti-plus me-1"></i>Add Notes</a>
+                        </div> -->
+                        <!-- <a href="#" class="btn btn-light"><i class="ti ti-plus me-1"></i>Add Notes</a> -->
                     </div>
                     <div class="col-md-6">
                         <div class="d-flex justify-content-end">
@@ -345,10 +345,10 @@ text-align: center;
                         </div>
                     </div>
                 </div>
-                <div class="form-check mt-3">
+                <!-- <div class="form-check mt-3">
                     <input class="form-check-input" type="checkbox" name="update_master" id="update_master">
                     <label class="form-check-label" for="update_master">Update purchase product master as per this purchase rate.</label>
-                </div>
+                </div> -->
                 <div class="mb-3 mt-3">
                     <label class="form-label">Document Note / Remark</label>
                     <textarea class="form-control" name="remarks" rows="2" placeholder="Document Note / Remark"></textarea>
