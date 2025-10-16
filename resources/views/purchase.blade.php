@@ -335,14 +335,14 @@ text-align: center;
                                 </tr>
                             </table>
                         </div>
-                        <div class="mt-3 text-end">
+                        <!-- <div class="mt-3 text-end">
                             <label class="form-label">Payment Type <span class="text-danger">*</span></label>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success payment-type" data-type="CASH">CASH</button>
                                 <button type="button" class="btn btn-primary payment-type" data-type="ONLINE">ONLINE</button>
                             </div>
                             <input type="hidden" name="payment_type" id="payment_type" value="">
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <!-- <div class="form-check mt-3">
@@ -380,7 +380,7 @@ $(document).ready(function() {
                 <td>
                     <select class="form-control product-select" name="items[${sr-1}][product_id]">
                         <option value="">Select Product</option>
-                        ${products.map(product => `<option value="${product.id}" data-name="${product.name}" data-hsn="${product.hsn_sac_code}" data-unit="${product.unit_of_measure}" data-price="${product.unit_price}" data-tax="${product.tax_percentage}" data-expiry="${product.expiry_date}">${product.name}</option>`).join('')}
+                        ${products.map(product => `<option value="${product.id}" data-name="${product.name}" data-hsn="${product.hsn_sac_code}" data-unit="${product.unit_of_measure}" data-price="${product.unit_price}" data-tax="${product.tax_percentage}" data-tax-category="${product.tax_category}" data-expiry="${product.expiry_date}">${product.name}</option>`).join('')}
                     </select>
                 </td>
                 <td><input type="text" class="form-control barcode" name="items[${sr-1}][barcode]" placeholder="Barcode No."></td>
@@ -394,12 +394,13 @@ $(document).ready(function() {
                     <input type="text" class="form-control discount_rs" placeholder="Rs">
                 </td>
                 <td>
-                    <select class="form-control form-select gst" name="items[${sr-1}][tax_percent]">
+                    <select class="form-control form-select gst" name="items[${sr-1}][gst_percent]">
                         <option value="0">0%</option>
                         <option value="5">5%</option>
                         <option value="18">18%</option>
                         <option value="28">28%</option>
                     </select>
+                    <input type="text" class="form-control gst_amount" readonly placeholder="Rs 0">
                 </td>
                 <td>
                     <select class="form-control form-select igst" name="items[${sr-1}][igst_percent]">
@@ -408,6 +409,7 @@ $(document).ready(function() {
                         <option value="18">18%</option>
                         <option value="28">28%</option>
                     </select>
+                    <input type="text" class="form-control igst_amount" readonly placeholder="Rs 0">
                 </td>
                 <td>
                     <input type="text" class="form-control mb-1 cess_percent" placeholder="%">
@@ -474,8 +476,18 @@ $(document).ready(function() {
             row.find('.hsn_code').val(selectedOption.data('hsn') || '');
             row.find('.unit').val(selectedOption.data('unit') || '');
             row.find('.price').val(selectedOption.data('price') || 0);
-            row.find('.gst').val(selectedOption.data('tax') || 0);
             row.find('.barcode').val(''); // Clear barcode or fetch if available
+            
+            let tax_category = selectedOption.data('tax-category');
+            let tax_percent = selectedOption.data('tax') || 0;
+
+            if (tax_category === 'igst') {
+                row.find('.igst').val(tax_percent);
+                row.find('.gst').val(0);
+            } else {
+                row.find('.gst').val(tax_percent);
+                row.find('.igst').val(0);
+            }
             
             // Trigger calculation
             calculateItemTotal(row);
@@ -503,11 +515,16 @@ $(document).ready(function() {
         let subtotal = qty * price;
         let discount_total = (subtotal * discount_percent / 100) + discount_rs;
         let taxable = subtotal - discount_total;
-        let tax_amount = (taxable * gst / 100) + (taxable * igst / 100) + (taxable * cess_percent / 100) + cess_rs;
+        let gst_amount = taxable * gst / 100;
+        let igst_amount = taxable * igst / 100;
+        let cess_amount = (taxable * cess_percent / 100) + cess_rs;
+        let tax_amount = gst_amount + igst_amount + cess_amount;
         let total = taxable + tax_amount;
         
         // Update row total
         row.find('.item_total').text(total.toFixed(2));
+        row.find('.gst_amount').val(gst_amount.toFixed(2));
+        row.find('.igst_amount').val(igst_amount.toFixed(2));
         
         // Trigger overall totals calculation
         calculateTotals();
@@ -520,7 +537,10 @@ $(document).ready(function() {
         let total_discount = 0;
         let total_taxable = 0;
         let total_tax = 0;
-        let grand_total = 0;
+        let total_gst = 0;
+        let total_igst = 0;
+        let total_cess = 0;
+        let base_grand_total = 0;
         
         $('#product_table tbody tr').each(function() {
             let row = $(this);
@@ -535,23 +555,42 @@ $(document).ready(function() {
             let igst = parseFloat(row.find('.igst').val()) || 0;
             let cess_percent = parseFloat(row.find('.cess_percent').val()) || 0;
             let cess_rs = parseFloat(row.find('.cess_rs').val()) || 0;
-            let tax_amount = (taxable * gst / 100) + (taxable * igst / 100) + (taxable * cess_percent / 100) + cess_rs;
+            let gst_amount = taxable * gst / 100;
+            let igst_amount = taxable * igst / 100;
+            let cess_amount = (taxable * cess_percent / 100) + cess_rs;
+            let tax_amount = gst_amount + igst_amount + cess_amount;
             
             total_qty += qty;
             total_subtotal += subtotal;
             total_discount += discount_total;
             total_taxable += taxable;
+            total_gst += gst_amount;
+            total_igst += igst_amount;
+            total_cess += cess_amount;
             total_tax += tax_amount;
-            grand_total += taxable + tax_amount;
+            base_grand_total += taxable + tax_amount;
         });
+        
+        // Apply round off if checked
+        let round_off_value = 0;
+        let grand_total = base_grand_total;
+        if ($('#round_off').is(':checked')) {
+            let rounded = Math.round(base_grand_total);
+            round_off_value = rounded - base_grand_total;
+            grand_total = rounded;
+        }
         
         // Update footer totals
         $('#total_qty').text(total_qty);
         $('#total_price').text(total_subtotal.toFixed(2));
         $('#total_discount').text(total_discount.toFixed(2));
-        $('#total_amount').text(grand_total.toFixed(2));
+        $('#total_gst').text(total_gst.toFixed(2));
+        $('#total_igst').text(total_igst.toFixed(2));
+        $('#total_cess').text(total_cess.toFixed(2));
+        $('#total_amount').text(base_grand_total.toFixed(2));
         $('#total_taxable').text(total_taxable.toFixed(2));
         $('#total_tax').text(total_tax.toFixed(2));
+        $('#round_off_amount').text(round_off_value.toFixed(2));
         $('#grand_total').text(grand_total.toFixed(2));
         
         // Update hidden form fields
@@ -560,7 +599,7 @@ $(document).ready(function() {
         $('#hidden_tax_amount').val(total_tax.toFixed(2));
         $('#hidden_grand_total').val(grand_total.toFixed(2));
         
-        // Total in words (basic implementation)
+        // Total in words
         updateTotalInWords(grand_total);
     }
     
@@ -623,6 +662,11 @@ $(document).ready(function() {
             alert('Please add valid product items with amounts');
             return false;
         }
+    });
+    
+    // Round Off Checkbox Change
+    $('#round_off').change(function() {
+        calculateTotals();
     });
 });
 </script>
