@@ -190,7 +190,7 @@ table td {
                         <div class="row mb-3">
                             <label class="form-label col-md-4">Invoice Date <span class="text-danger">*</span></label>
                             <div class="col-md-8">
-                                <input type="date" class="form-control" name="invoice_date" value="">
+                                <input type="date" class="form-control" name="invoice_date" value="{{ date('Y-m-d') }}">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -214,7 +214,7 @@ table td {
                         <div class="row mb-3">
                             <label class="form-label col-md-4">Entry Date</label>
                             <div class="col-md-8">
-                                <input type="date" class="form-control" name="entry_date">
+                                <input type="date" class="form-control" name="entry_date" value="{{ date('Y-m-d') }}">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -295,17 +295,13 @@ table td {
                                     <td id="total_tax">0</td>
                                 </tr>
                                 <tr>
-                                    <!-- <td>Round Off</td>
-                                    <td>
-                                        <div class="form-check form-switch d-inline"><input class="form-check-input" type="checkbox" name="round_off" id="round_off" checked></div> <span id="round_off_amount">0</span>
-                                    </td> -->
                                     <td>Round Off</td>
                                     <td>
-                                        <input type="hidden" name="round_off" id="round_off_value" value="0">
                                         <div class="form-check form-switch d-inline">
-                                            <input class="form-check-input" type="checkbox" id="round_off_checkbox" {{ old('round_off') ? 'checked' : '' }}>
+                                            <input class="form-check-input" type="checkbox" id="round_off_checkbox" checked>
                                         </div>
                                         <span id="round_off_amount">0</span>
+                                        <input type="hidden" name="round_off" id="round_off_value" value="1">
                                     </td>
                                 </tr>
                                 <tr class="bg-warning">
@@ -332,6 +328,8 @@ table td {
             <input type="hidden" name="discount_amount" id="hidden_discount_amount">
             <input type="hidden" name="tax_amount" id="hidden_tax_amount">
             <input type="hidden" name="grand_total" id="hidden_grand_total">
+            <input type="hidden" name="actual_total" id="hidden_actual_total">
+            <input type="hidden" name="round_off_amount" id="hidden_round_off_amount">
         </form>
     </div>
 </div>
@@ -369,6 +367,7 @@ $(document).ready(function() {
                     <select class="form-control form-select gst" name="items[${sr-1}][gst_percent]">
                         <option value="0">0%</option>
                         <option value="5">5%</option>
+                        <option value="12">12%</option>
                         <option value="18">18%</option>
                         <option value="28">28%</option>
                     </select>
@@ -378,6 +377,7 @@ $(document).ready(function() {
                     <select class="form-control form-select igst" name="items[${sr-1}][igst_percent]">
                         <option value="0">0%</option>
                         <option value="5">5%</option>
+                        <option value="12">12%</option>
                         <option value="18">18%</option>
                         <option value="28">28%</option>
                     </select>
@@ -523,14 +523,17 @@ $(document).ready(function() {
             base_grand_total += taxable + tax_amount;
         });
 
+        let round_off_enabled = $('#round_off_checkbox').is(':checked');
         let round_off_value = 0;
         let grand_total = base_grand_total;
-        if ($('#round_off').is(':checked')) {
+        
+        if (round_off_enabled) {
             let rounded = Math.round(base_grand_total);
             round_off_value = rounded - base_grand_total;
             grand_total = rounded;
         }
 
+        // Update UI
         $('#total_qty').text(total_qty);
         $('#total_price').text(total_subtotal.toFixed(2));
         $('#total_discount').text(total_discount.toFixed(2));
@@ -543,13 +546,22 @@ $(document).ready(function() {
         $('#round_off_amount').text(round_off_value.toFixed(2));
         $('#grand_total').text(grand_total.toFixed(2));
 
+        // Update hidden fields
         $('#hidden_total_amount').val(total_taxable.toFixed(2));
         $('#hidden_discount_amount').val(total_discount.toFixed(2));
         $('#hidden_tax_amount').val(total_tax.toFixed(2));
         $('#hidden_grand_total').val(grand_total.toFixed(2));
+        $('#hidden_actual_total').val(base_grand_total.toFixed(2));
+        $('#hidden_round_off_amount').val(round_off_value.toFixed(2));
 
         updateTotalInWords(grand_total);
     }
+
+    // Round Off Checkbox Change
+    $('#round_off_checkbox').change(function() {
+        $('#round_off_value').val($(this).is(':checked') ? '1' : '0');
+        calculateTotals();
+    });
 
     // Basic total in words function
     function updateTotalInWords(amount) {
@@ -617,17 +629,6 @@ $(document).ready(function() {
             alert('Please fill all quantity and price fields with valid values.');
             return false;
         }
-    });
-
-    // // Round Off Checkbox Change
-    // $('#round_off').change(function() {
-    //     calculateTotals();
-    // });
-
-    // Round Off Checkbox Change
-    $('#round_off_checkbox').change(function() {
-        $('#round_off_value').val($(this).is(':checked') ? '1' : '0');
-        calculateTotals();
     });
 
 });
