@@ -15,6 +15,8 @@ class PurchaseDetail extends Model
         'supplier_id',
         'user_id',
         'employee_id',
+        'actual_total',
+        'round_off_amount',
         'status',
         'purchase_type',
         'challan_no',

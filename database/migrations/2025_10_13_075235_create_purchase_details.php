@@ -28,6 +28,8 @@ return new class extends Migration
             $table->decimal('total_amount', 10, 2);
             $table->decimal('discount_amount', 10, 2)->default(0.00);
             $table->decimal('tax_amount', 10, 2)->default(0.00);
+            $table->decimal('actual_total', 15, 2)->default(0.00);
+            $table->decimal('round_off_amount', 10, 2)->default(0.00);
             $table->decimal('grand_total', 10, 2);
             $table->text('remarks')->nullable();
             $table->boolean('reverse_charge')->default(false);
