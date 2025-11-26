@@ -89,6 +89,8 @@ class PurchaseController extends Controller
                 'discount_amount' => 'nullable|numeric',
                 'tax_amount' => 'nullable|numeric',
                 'grand_total' => 'required|numeric',
+                'actual_total' => 'required|numeric',
+                'round_off_amount' => 'required|numeric',
                 'remarks' => 'nullable|string',
                 'reverse_charge' => 'boolean',
                 'shipping_address' => 'required|string|max:255',
@@ -118,6 +120,7 @@ class PurchaseController extends Controller
             $total_discount = 0;
             $total_tax = 0;
             $grand_total = 0;
+            $actual_total = 0;
 
             $itemsData = [];
             foreach ($validated['items'] as $index => $item) {
@@ -140,7 +143,7 @@ class PurchaseController extends Controller
                     'purchase_id' => null,
                     'product_id' => $item['product_id'] ?? null,
                     'barcode' => $item['barcode'] ?? null,
-                    'product_name' => $product ? $product->name : $item['hsn_code'], // Fallback to hsn_code if no product
+                    'product_name' => $product ? $product->name : $item['hsn_code'],
                     'hsn_code' => $item['hsn_code'],
                     'qty' => $item['qty'],
                     'unit' => $item['unit'],
@@ -162,29 +165,7 @@ class PurchaseController extends Controller
                 $total_discount += $discount_total;
                 $total_tax += $tax_amount;
                 $grand_total += $item_total;
-            }
-
-            // Apply round-off if intended
-            $round_off = $validated['round_off'] ?? false;
-            if ($round_off) {
-                $rounded_grand_total = round($grand_total);
-                $round_off_amount = $rounded_grand_total - $grand_total;
-                $grand_total = $rounded_grand_total;
-            } else {
-                $round_off_amount = 0;
-            }
-
-            // Debug calculated vs submitted totals
-            \Log::info('Calculated Totals:', [
-                'total_taxable' => $total_taxable,
-                'total_discount' => $total_discount,
-                'total_tax' => $total_tax,
-                'grand_total' => $grand_total,
-                'submitted_grand_total' => $validated['grand_total'],
-            ]);
-
-            if (abs($grand_total - $validated['grand_total']) > 0.01) {
-                \Log::warning('Totals mismatch: Calculated grand_total does not match submitted grand_total');
+                $actual_total += $item_total;
             }
 
             // Use transaction to ensure data integrity
@@ -207,6 +188,8 @@ class PurchaseController extends Controller
                     'discount_amount' => $total_discount,
                     'tax_amount' => $total_tax,
                     'grand_total' => $grand_total,
+                    'actual_total' => $actual_total,
+                    'round_off_amount' => $round_off_amount,
                     'remarks' => $validated['remarks'] ?? null,
                     'created_by' => $data['user_id'],
                     'reverse_charge' => $validated['reverse_charge'] ?? false,
@@ -220,7 +203,12 @@ class PurchaseController extends Controller
                 }
 
                 DB::commit();
-                \Log::info('Purchase Saved:', ['purchase_id' => $purchase->id]);
+                \Log::info('Purchase Saved Successfully:', [
+                    'purchase_id' => $purchase->id,
+                    'actual_total' => $actual_total,
+                    'round_off_amount' => $round_off_amount,
+                    'grand_total' => $grand_total
+                ]);
             } catch (\Exception $e) {
                 DB::rollBack();
                 \Log::error('Purchase Save Failed:', ['error' => $e->getMessage()]);
