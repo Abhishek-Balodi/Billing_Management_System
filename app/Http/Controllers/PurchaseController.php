@@ -168,6 +168,30 @@ class PurchaseController extends Controller
                 $actual_total += $item_total;
             }
 
+            // Apply round-off if intended
+            $round_off = $validated['round_off'] ?? false;
+            $round_off_amount = $validated['round_off_amount'] ?? 0;
+            
+            if ($round_off) {
+                $grand_total = $actual_total + $round_off_amount;
+            } else {
+                $grand_total = $actual_total;
+                $round_off_amount = 0;
+            }
+
+            // Debug calculated vs submitted totals
+            \Log::info('Purchase Totals:', [
+                'total_taxable' => $total_taxable,
+                'total_discount' => $total_discount,
+                'total_tax' => $total_tax,
+                'actual_total' => $actual_total,
+                'round_off_amount' => $round_off_amount,
+                'grand_total' => $grand_total,
+                'submitted_actual_total' => $validated['actual_total'],
+                'submitted_round_off' => $validated['round_off_amount'],
+                'submitted_grand_total' => $validated['grand_total'],
+            ]);
+
             // Use transaction to ensure data integrity
             DB::beginTransaction();
             try {
