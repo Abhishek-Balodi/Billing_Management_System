@@ -47,7 +47,7 @@
 
 .table td {
     vertical-align: top !important;
-padding: 0px !important;
+    padding: 0px !important;
 }
 
 table .form-control {
@@ -64,16 +64,12 @@ table .form-control:hover {
 }
 
 table .bg-warning td {
-text-align: center;
+    text-align: center;
 }
 
 table td {
-text-align: center;
+    text-align: center;
 }
-
-/* table.input::placeholder {
-text-align: center;
-} */
 </style>
 
 <div class="page-header">
@@ -100,7 +96,7 @@ text-align: center;
 </div>
 <div class="card purchase_cards">
     <div class="card-body">
-        <form action="{{ route('purchases.store') }}" method="POST">
+        <form action="{{ route('purchases.store') }}" method="POST" id="purchaseForm">
             @csrf
             <div class="row">
                 <!-- Vendor Information Section -->
@@ -185,12 +181,6 @@ text-align: center;
                                 </select>
                             </div>
                         </div>
-                        <!-- <div class="row mb-3">
-                            <label class="form-label col-md-4">Sequence No.</label>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" value="1" readonly>
-                            </div>
-                        </div> -->
                         <div class="row mb-3">
                             <label class="form-label col-md-4">Invoice No. <span class="text-danger">*</span></label>
                             <div class="col-md-8">
@@ -245,13 +235,7 @@ text-align: center;
             <!-- Product Items Section -->
             <h5 class="fw-bold mt-4 mb-3">Product Items</h5>
             <a href="#" class="btn btn-primary mb-3 add-product"><i class="ti ti-plus me-1"></i>Add Items</a>
-            <!-- <a href="{{ route('products.create') }}" class="btn btn-primary mb-3"><i class="ti ti-plus me-1"></i>Add Product</a> -->
-            <!-- <a href="#" class="btn btn-primary mb-3"><i class="ti ti-plus me-1"></i>Additional Charges</a> -->
-            <div class="float-end mb-3">
-                <!-- <label class="form-label d-inline">Discount: </label> -->
-                <!-- <div class="btn btn-primary d-inline"><i class="ti ti-currency-rupee"></i> Rs % <i class="ti ti-plus"></i>
-                </div> -->
-            </div>
+            <div class="float-end mb-3"></div>
             <div class="table-responsive">
                 <table class="table table-bordered" id="product_table">
                     <thead>
@@ -298,16 +282,6 @@ text-align: center;
                             <label class="form-label">Due Date</label>
                             <input type="date" class="form-control" name="due_date" value="{{ date('Y-m-d', strtotime('+15 days')) }}">
                         </div>
-                        <!-- <h6 class="fw-bold mb-3">Terms & Condition / Additional Note</h6> -->
-                        <!-- <div class="mb-3">
-                            <label class="form-label">Title</label>
-                            <input type="text" class="form-control" name="terms_title" placeholder="Terms & Condition">
-                        </div> -->
-                        <!-- <div class="mb-3">
-                            <label class="form-label">Detail</label>
-                            <textarea class="form-control" name="terms_detail" rows="3" placeholder="Enter terms & condition"></textarea>
-                        </div> -->
-                        <!-- <a href="#" class="btn btn-light"><i class="ti ti-plus me-1"></i>Add Notes</a> -->
                     </div>
                     <div class="col-md-6">
                         <div class="d-flex justify-content-end">
@@ -321,9 +295,17 @@ text-align: center;
                                     <td id="total_tax">0</td>
                                 </tr>
                                 <tr>
+                                    <!-- <td>Round Off</td>
+                                    <td>
+                                        <div class="form-check form-switch d-inline"><input class="form-check-input" type="checkbox" name="round_off" id="round_off" checked></div> <span id="round_off_amount">0</span>
+                                    </td> -->
                                     <td>Round Off</td>
                                     <td>
-                                        <div class="form-check form-switch d-inline"><input class="form-check-input" type="checkbox" id="round_off" checked></div> <span id="round_off_amount">0</span>
+                                        <input type="hidden" name="round_off" id="round_off_value" value="0">
+                                        <div class="form-check form-switch d-inline">
+                                            <input class="form-check-input" type="checkbox" id="round_off_checkbox" {{ old('round_off') ? 'checked' : '' }}>
+                                        </div>
+                                        <span id="round_off_amount">0</span>
                                     </td>
                                 </tr>
                                 <tr class="bg-warning">
@@ -335,20 +317,8 @@ text-align: center;
                                 </tr>
                             </table>
                         </div>
-                        <!-- <div class="mt-3 text-end">
-                            <label class="form-label">Payment Type <span class="text-danger">*</span></label>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-success payment-type" data-type="CASH">CASH</button>
-                                <button type="button" class="btn btn-primary payment-type" data-type="ONLINE">ONLINE</button>
-                            </div>
-                            <input type="hidden" name="payment_type" id="payment_type" value="">
-                        </div> -->
                     </div>
                 </div>
-                <!-- <div class="form-check mt-3">
-                    <input class="form-check-input" type="checkbox" name="update_master" id="update_master">
-                    <label class="form-check-label" for="update_master">Update purchase product master as per this purchase rate.</label>
-                </div> -->
                 <div class="mb-3 mt-3">
                     <label class="form-label">Document Note / Remark</label>
                     <textarea class="form-control" name="remarks" rows="2" placeholder="Document Note / Remark"></textarea>
@@ -366,6 +336,8 @@ text-align: center;
     </div>
 </div>
 @include('layouts.footer')
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@featherds/feather@v4.28.0/dist/feather.min.js"></script>
 <script>
 $(document).ready(function() {
     let sr = 1;
@@ -389,9 +361,9 @@ $(document).ready(function() {
                 <td><input type="text" class="form-control unit" name="items[${sr-1}][unit]" placeholder="UOM"></td>
                 <td><input type="text" class="form-control price" name="items[${sr-1}][price]" placeholder="Price"></td>
                 <td>
-                    <input type="text" class="form-control mb-1 discount_percent" name="items[${sr-1}][discount]" placeholder="%">
+                    <input type="text" class="form-control mb-1 discount_percent" name="items[${sr-1}][discount_percent]" placeholder="%">
                     <span class="form-control">+</span>
-                    <input type="text" class="form-control discount_rs" placeholder="Rs">
+                    <input type="text" class="form-control discount_rs" name="items[${sr-1}][discount_rs]" placeholder="Rs">
                 </td>
                 <td>
                     <select class="form-control form-select gst" name="items[${sr-1}][gst_percent]">
@@ -400,7 +372,7 @@ $(document).ready(function() {
                         <option value="18">18%</option>
                         <option value="28">28%</option>
                     </select>
-                    <input type="text" class="form-control gst_amount" readonly placeholder="Rs 0">
+                    <input type="text" class="form-control gst_amount" name="items[${sr-1}][gst_amount]" readonly placeholder="Rs 0">
                 </td>
                 <td>
                     <select class="form-control form-select igst" name="items[${sr-1}][igst_percent]">
@@ -409,49 +381,36 @@ $(document).ready(function() {
                         <option value="18">18%</option>
                         <option value="28">28%</option>
                     </select>
-                    <input type="text" class="form-control igst_amount" readonly placeholder="Rs 0">
+                    <input type="text" class="form-control igst_amount" name="items[${sr-1}][igst_amount]" readonly placeholder="Rs 0">
                 </td>
                 <td>
-                    <input type="text" class="form-control mb-1 cess_percent" placeholder="%">
+                    <input type="text" class="form-control mb-1 cess_percent" name="items[${sr-1}][cess_percent]" placeholder="%">
                     <span class="form-control">+</span>
-                    <input type="text" class="form-control cess_rs" placeholder="Rs">
+                    <input type="text" class="form-control cess_rs" name="items[${sr-1}][cess_rs]" placeholder="Rs">
                 </td>
-                <td class="item_total">0</td>
+                <td class="item_total"><input type="text" class="form-control item_total_input" name="items[${sr-1}][total_amount]" readonly value="0"></td>
                 <td>
-                <button class="btn btn-danger remove-row">Remove</button>
+                    <button class="btn btn-danger remove-row">Remove</button>
                 </td>
             </tr>`;
         $('#product_table tbody').append(row);
         sr++;
         feather.replace();
+        calculateTotals();
     });
 
     // Remove Row
     $(document).on('click', '.remove-row', function() {
         $(this).closest('tr').remove();
+        updateSerialNumbers();
         calculateTotals();
     });
-    
-    // Add Product Button Click
-    $('.add-product').click(function(e) {
-        e.preventDefault();
-        addProductRow();
-        calculateTotals();
-    });
-    
-    // Remove Row
-    $(document).on('click', '.remove-row', function() {
-        $(this).closest('tr').remove();
-        updateSerialNumbers(); // Re-number SR column
-        calculateTotals();
-    });
-    
+
     // Update Serial Numbers after removal
     function updateSerialNumbers() {
         $('#product_table tbody tr').each(function(index) {
             $(this).attr('data-sr', index + 1);
             $(this).find('td:first').text(index + 1);
-            // Update name attributes
             let itemIndex = index;
             $(this).find('select, input').each(function() {
                 let name = $(this).attr('name');
@@ -463,21 +422,18 @@ $(document).ready(function() {
         });
         sr = $('#product_table tbody tr').length + 1;
     }
-    
+
     // Product Select Change
     $(document).on('change', '.product-select', function() {
         let row = $(this).closest('tr');
         let selectedOption = $(this).find('option:selected');
         let productId = $(this).val();
-        
+
         if (productId) {
-            // Auto-fill from product data
-            row.find('.product_name').val(selectedOption.data('name'));
             row.find('.hsn_code').val(selectedOption.data('hsn') || '');
             row.find('.unit').val(selectedOption.data('unit') || '');
             row.find('.price').val(selectedOption.data('price') || 0);
-            row.find('.barcode').val(''); // Clear barcode or fetch if available
-            
+
             let tax_category = selectedOption.data('tax-category');
             let tax_percent = selectedOption.data('tax') || 0;
 
@@ -488,18 +444,17 @@ $(document).ready(function() {
                 row.find('.gst').val(tax_percent);
                 row.find('.igst').val(0);
             }
-            
-            // Trigger calculation
+
             calculateItemTotal(row);
         }
     });
-    
+
     // Input Changes for Calculations
     $(document).on('input change', '.qty, .price, .discount_percent, .discount_rs, .gst, .igst, .cess_percent, .cess_rs', function() {
         let row = $(this).closest('tr');
         calculateItemTotal(row);
     });
-    
+
     // Calculate Individual Item Total
     function calculateItemTotal(row) {
         let qty = parseFloat(row.find('.qty').val()) || 1;
@@ -510,8 +465,7 @@ $(document).ready(function() {
         let igst = parseFloat(row.find('.igst').val()) || 0;
         let cess_percent = parseFloat(row.find('.cess_percent').val()) || 0;
         let cess_rs = parseFloat(row.find('.cess_rs').val()) || 0;
-        
-        // Calculations
+
         let subtotal = qty * price;
         let discount_total = (subtotal * discount_percent / 100) + discount_rs;
         let taxable = subtotal - discount_total;
@@ -520,16 +474,14 @@ $(document).ready(function() {
         let cess_amount = (taxable * cess_percent / 100) + cess_rs;
         let tax_amount = gst_amount + igst_amount + cess_amount;
         let total = taxable + tax_amount;
-        
-        // Update row total
-        row.find('.item_total').text(total.toFixed(2));
+
+        row.find('.item_total_input').val(total.toFixed(2));
         row.find('.gst_amount').val(gst_amount.toFixed(2));
         row.find('.igst_amount').val(igst_amount.toFixed(2));
-        
-        // Trigger overall totals calculation
+
         calculateTotals();
     }
-    
+
     // Calculate Overall Totals
     function calculateTotals() {
         let total_qty = 0;
@@ -541,7 +493,7 @@ $(document).ready(function() {
         let total_igst = 0;
         let total_cess = 0;
         let base_grand_total = 0;
-        
+
         $('#product_table tbody tr').each(function() {
             let row = $(this);
             let qty = parseFloat(row.find('.qty').val()) || 0;
@@ -559,7 +511,7 @@ $(document).ready(function() {
             let igst_amount = taxable * igst / 100;
             let cess_amount = (taxable * cess_percent / 100) + cess_rs;
             let tax_amount = gst_amount + igst_amount + cess_amount;
-            
+
             total_qty += qty;
             total_subtotal += subtotal;
             total_discount += discount_total;
@@ -570,8 +522,7 @@ $(document).ready(function() {
             total_tax += tax_amount;
             base_grand_total += taxable + tax_amount;
         });
-        
-        // Apply round off if checked
+
         let round_off_value = 0;
         let grand_total = base_grand_total;
         if ($('#round_off').is(':checked')) {
@@ -579,8 +530,7 @@ $(document).ready(function() {
             round_off_value = rounded - base_grand_total;
             grand_total = rounded;
         }
-        
-        // Update footer totals
+
         $('#total_qty').text(total_qty);
         $('#total_price').text(total_subtotal.toFixed(2));
         $('#total_discount').text(total_discount.toFixed(2));
@@ -592,27 +542,24 @@ $(document).ready(function() {
         $('#total_tax').text(total_tax.toFixed(2));
         $('#round_off_amount').text(round_off_value.toFixed(2));
         $('#grand_total').text(grand_total.toFixed(2));
-        
-        // Update hidden form fields
+
         $('#hidden_total_amount').val(total_taxable.toFixed(2));
         $('#hidden_discount_amount').val(total_discount.toFixed(2));
         $('#hidden_tax_amount').val(total_tax.toFixed(2));
         $('#hidden_grand_total').val(grand_total.toFixed(2));
-        
-        // Total in words
+
         updateTotalInWords(grand_total);
     }
-    
+
     // Basic total in words function
     function updateTotalInWords(amount) {
         if (amount <= 0) {
             $('#total_in_words').text('ZERO RUPEES ONLY');
         } else {
-            // Simple implementation - you can use a library for complex numbers
             $('#total_in_words').text(`${amount.toFixed(2)} RUPEES ONLY`);
         }
     }
-    
+
     // Supplier Select Auto Populate
     $('#supplier_select').change(function() {
         let supplierId = $(this).val();
@@ -623,7 +570,6 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response.success) {
                         let data = response.data;
-                        console.log('Supplier Data:', data);
                         $('#supplier_address').val(data.address + ', ' + data.city + ', ' + data.state + ', ' + data.country + ' - ' + data.postal_code);
                         $('#contact_person').val(data.first_name + ' ' + data.last_name);
                         $('#supplier_phone').val(data.phone);
@@ -639,34 +585,50 @@ $(document).ready(function() {
             $('#supplier_address, #contact_person, #supplier_phone, #gstin_pan').val('');
         }
     });
-    
-    // Payment Type Selection
-    $('.payment-type').click(function() {
-        $('.payment-type').removeClass('btn-success').addClass('btn-primary');
-        $(this).removeClass('btn-primary').addClass('btn-success');
-        $('#payment_type').val($(this).data('type'));
-    });
-    
+
     // Form validation before submit
-    $('form').submit(function(e) {
+    $('#purchaseForm').submit(function(e) {
         let hasItems = $('#product_table tbody tr').length > 0;
         if (!hasItems) {
             e.preventDefault();
             alert('Please add at least one product item');
             return false;
         }
-        
+
         let totalAmount = parseFloat($('#hidden_grand_total').val()) || 0;
         if (totalAmount <= 0) {
             e.preventDefault();
             alert('Please add valid product items with amounts');
             return false;
         }
+
+        let isValid = true;
+        $('#product_table tbody tr').each(function() {
+            let qty = $(this).find('.qty').val();
+            let price = $(this).find('.price').val();
+            if (!qty || !price || parseFloat(qty) <= 0 || parseFloat(price) <= 0) {
+                isValid = false;
+                return false;
+            }
+        });
+
+        if (!isValid) {
+            e.preventDefault();
+            alert('Please fill all quantity and price fields with valid values.');
+            return false;
+        }
     });
-    
+
+    // // Round Off Checkbox Change
+    // $('#round_off').change(function() {
+    //     calculateTotals();
+    // });
+
     // Round Off Checkbox Change
-    $('#round_off').change(function() {
+    $('#round_off_checkbox').change(function() {
+        $('#round_off_value').val($(this).is(':checked') ? '1' : '0');
         calculateTotals();
     });
+
 });
 </script>
