@@ -23,9 +23,9 @@ use App\Http\Controllers\PurchaseController;
 //     return view('brands-list');
 // });
 
-// Route::get('/purchase', function () {
-//     return view('purchase');
-// })->name('purchase');
+Route::get('/purchase-list', function () {
+    return view('purchase-list');
+})->name('purchase-list');
 
 
 // Route::get('/add-product', function () {
