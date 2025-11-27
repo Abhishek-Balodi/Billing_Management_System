@@ -118,7 +118,7 @@
                 <tbody>
                     @forelse($purchases as $purchase)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ ($purchases->currentPage() - 1) * $purchases->perPage() + $loop->iteration }}</td>
                         <td>
                             <strong>{{ $purchase->invoice_no }}</strong>
                             @if($purchase->challan_no)
@@ -204,7 +204,8 @@
             </table>
         </div>
 
-        @if($purchases->hasPages())
+        <!-- Pagination Section - Yahan change kiya hai -->
+        @if($purchases->count() > 0)
         <div class="d-flex justify-content-between align-items-center mt-3">
             <div class="text-muted">
                 Showing {{ $purchases->firstItem() }} to {{ $purchases->lastItem() }} of {{ $purchases->total() }} entries
