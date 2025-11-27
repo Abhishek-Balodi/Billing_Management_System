@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
+    public function index()
+    {
+        $currentUserId = $this->getCurrentUserId();
+        
+        $purchases = PurchaseDetail::with(['supplier', 'items', 'employee'])
+            ->where('user_id', $currentUserId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('purchase-list', compact('purchases'));
+    }
+
     public function create()
     {
         $currentUserId = $this->getCurrentUserId();
@@ -178,19 +190,6 @@ class PurchaseController extends Controller
                 $grand_total = $actual_total;
                 $round_off_amount = 0;
             }
-
-            // Debug calculated vs submitted totals
-            \Log::info('Purchase Totals:', [
-                'total_taxable' => $total_taxable,
-                'total_discount' => $total_discount,
-                'total_tax' => $total_tax,
-                'actual_total' => $actual_total,
-                'round_off_amount' => $round_off_amount,
-                'grand_total' => $grand_total,
-                'submitted_actual_total' => $validated['actual_total'],
-                'submitted_round_off' => $validated['round_off_amount'],
-                'submitted_grand_total' => $validated['grand_total'],
-            ]);
 
             // Use transaction to ensure data integrity
             DB::beginTransaction();
