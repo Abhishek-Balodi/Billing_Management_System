@@ -20,9 +20,21 @@ class PurchaseController extends Controller
         $purchases = PurchaseDetail::with(['supplier', 'items', 'employee'])
             ->where('user_id', $currentUserId)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10); // Yahan paginate use karein
 
         return view('purchase-list', compact('purchases'));
+    }
+
+    public function showDetails($id)
+    {
+        $currentUserId = $this->getCurrentUserId();
+        
+        $purchase = PurchaseDetail::with(['supplier', 'items', 'employee'])
+            ->where('id', $id)
+            ->where('user_id', $currentUserId)
+            ->firstOrFail();
+
+        return view('purchase-details', compact('purchase'));
     }
 
     public function create()
