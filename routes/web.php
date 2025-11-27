@@ -23,9 +23,9 @@ use App\Http\Controllers\PurchaseController;
 //     return view('brands-list');
 // });
 
-Route::get('/purchase-list', function () {
-    return view('purchase-list');
-})->name('purchase-list');
+// Route::get('/purchase-list', function () {
+//     return view('purchase-list');
+// })->name('purchase-list');
 
 
 // Route::get('/add-product', function () {
@@ -136,6 +136,8 @@ Route::middleware(['auth:web,employee'])->group(function() {
     Route::get('/purchase', [PurchaseController::class, 'create'])->name('purchases.create');
     Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchases.store');
     Route::get('/purchases/supplier/{id}', [PurchaseController::class, 'getSupplierData'])->name('purchases.supplier.data');
+
+    Route::get('/purchase-list', [PurchaseController::class, 'index'])->name('purchases.index');
 });
 
 require __DIR__.'/auth.php';
