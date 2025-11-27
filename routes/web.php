@@ -138,6 +138,7 @@ Route::middleware(['auth:web,employee'])->group(function() {
     Route::get('/purchases/supplier/{id}', [PurchaseController::class, 'getSupplierData'])->name('purchases.supplier.data');
 
     Route::get('/purchase-list', [PurchaseController::class, 'index'])->name('purchases.index');
+    Route::get('/purchases/{id}/details', [PurchaseController::class, 'showDetails'])->name('purchases.details');
 });
 
 require __DIR__.'/auth.php';

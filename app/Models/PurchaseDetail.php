@@ -59,4 +59,14 @@ class PurchaseDetail extends Model
     {
         return $this->hasMany(PurchaseItem::class, 'purchase_id');
     }
+
+        // Status options
+    public function getStatusOptions()
+    {
+        return [
+            'pending' => 'Pending',
+            'completed' => 'Completed',
+            'cancelled' => 'Cancelled'
+        ];
+    }
 }
