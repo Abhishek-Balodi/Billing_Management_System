@@ -193,7 +193,7 @@
                                 </a>
 
                                 <!-- EDIT -->
-                                <a class="me-2 p-2" href="" title="Edit">
+                                <a class="me-2 p-2" href="{{ route('purchases.edit', $purchase->id) }}" title="Edit">
                                     <i data-feather="edit" class="feather-edit"></i>
                                 </a>
 
