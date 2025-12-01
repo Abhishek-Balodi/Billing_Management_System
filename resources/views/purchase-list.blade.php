@@ -61,7 +61,7 @@
             <h6>Manage your purchase orders</h6>
         </div>
     </div>
-    <ul class="table-top-head">
+    <!-- <ul class="table-top-head">
         <li>
             <a href="{{ route('purchases.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>Add Purchase
@@ -76,7 +76,19 @@
         <li>
             <a data-bs-toggle="tooltip" data-bs-placement="top" title="Collapse" id="collapse-header"><i class="ti ti-chevron-up"></i></a>
         </li>
-    </ul>
+    </ul> -->
+    					<div class="d-flex purchase-pg-btn">
+						<div class="page-btn">
+							<!-- <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-purchase"><i
+									data-feather="plus-circle" class="me-1"></i>Add Purchase</a> -->
+                            <a href="{{ route('purchases.create') }}" class="btn btn-primary" data-bs-target="#add-purchase">
+                                <i data-feather="plus-circle" class="me-1"></i>Add Purchase</a>
+						</div>
+						<!-- <div class="page-btn import">
+							<a href="#" class="btn btn-secondary color" data-bs-toggle="modal" data-bs-target="#view-notes"><i
+									data-feather="download" class="me-2"></i>Import Purchase</a>
+						</div> -->
+					</div>
 </div>
 
 <div class="card">
@@ -101,7 +113,7 @@
             <table class="table table-hover" id="purchaseTable">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th>S.No.</th>
                         <th>Invoice No</th>
                         <th>Invoice Date</th>
                         <th>Supplier</th>

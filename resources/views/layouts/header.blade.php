@@ -737,7 +737,7 @@
                                     <a href="javascript:void(0);"><span>Purchase</span><span
                                             class="menu-arrow"></span></a>
                                     <ul>
-                                        <li><a href="purchase-list.html"><span>Purchases</span></a></li>
+                                        <li><a href="{{ route('purchases.index') }}"><span>Purchases</span></a></li>
                                         <li><a href="{{ route('purchases.create') }}"><span>Purchase Order</span></a></li>
                                         <!-- <li><a href="purchase-returns.html"><span>Purchase Return</span></a></li> -->
                                     </ul>
