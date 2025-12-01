@@ -184,17 +184,24 @@
                             <span class="status-badge {{ $statusClass }}">{{ ucfirst($purchase->status) }}</span>
                         </td>
                         <td>{{ \Carbon\Carbon::parse($purchase->created_at)->format('d M, Y h:i A') }}</td>
-                        <td>
-                            <div class="action-buttons d-flex gap-1">
-                                <button class="btn btn-sm btn-outline-primary view-purchase" data-id="{{ $purchase->id }}" title="View Details">
-                                    <i class="ti ti-eye"></i>
-                                </button>
-                                <a href="#" class="btn btn-sm btn-outline-warning" title="Edit">
-                                    <i class="ti ti-edit"></i>
+                        <td  class="action-table-data">
+                            <div class="edit-delete-action">
+
+                                <!-- VIEW -->
+                                <a class="me-2 p-2 view-purchase" href="javascript:void(0);" data-id="{{ $purchase->id }}" title="View Details">
+                                    <i data-feather="eye" class="action-eye"></i>
                                 </a>
-                                <button class="btn btn-sm btn-outline-danger" title="Delete">
-                                    <i class="ti ti-trash"></i>
-                                </button>
+
+                                <!-- EDIT -->
+                                <a class="me-2 p-2" href="" title="Edit">
+                                    <i data-feather="edit" class="feather-edit"></i>
+                                </a>
+
+                                <!-- DELETE -->
+                                <a class="p-2 delete-purchase" href="javascript:void(0);" data-id="" data-bs-toggle="modal" data-bs-target="#delete-modal" title="Delete">
+                                    <i data-feather="trash-2" class="feather-trash-2"></i>
+                                </a>
+
                             </div>
                         </td>
                     </tr>
