@@ -198,7 +198,7 @@
                                 </a>
 
                                 <!-- DELETE -->
-                                <a class="p-2 delete-purchase" href="javascript:void(0);" data-id="" data-bs-toggle="modal" data-bs-target="#delete-modal" title="Delete">
+                                <a class="p-2 delete-purchase" href="javascript:void(0);" data-id="" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ $purchase->id }}" title="Delete">
                                     <i data-feather="trash-2" class="feather-trash-2"></i>
                                 </a>
 

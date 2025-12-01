@@ -464,31 +464,31 @@ class PurchaseController extends Controller
         }
     }
 
-public function destroy($id)
-{
-    $currentUserId = $this->getCurrentUserId();
-    
-    try {
-        $purchase = PurchaseDetail::where('id', $id)
-            ->where('user_id', $currentUserId)
-            ->firstOrFail();
-
-        // Delete related items first
-        PurchaseItem::where('purchase_id', $id)->delete();
+    public function destroy($id)
+    {
+        $currentUserId = $this->getCurrentUserId();
         
-        // Delete the purchase
-        $purchase->delete();
+        try {
+            $purchase = PurchaseDetail::where('id', $id)
+                ->where('user_id', $currentUserId)
+                ->firstOrFail();
 
-        return redirect()->route('purchases.index')
-            ->with('success', 'Purchase deleted successfully.');
+            // Delete related items first
+            PurchaseItem::where('purchase_id', $id)->delete();
+            
+            // Delete the purchase
+            $purchase->delete();
 
-    } catch (\Exception $e) {
-        \Log::error('Purchase Delete Failed:', ['error' => $e->getMessage()]);
-        
-        return redirect()->route('purchases.index')
-            ->with('error', 'Failed to delete purchase.');
+            return redirect()->route('purchases.index')
+                ->with('success', 'Purchase deleted successfully.');
+
+        } catch (\Exception $e) {
+            \Log::error('Purchase Delete Failed:', ['error' => $e->getMessage()]);
+            
+            return redirect()->route('purchases.index')
+                ->with('error', 'Failed to delete purchase.');
+        }
     }
-}
 
     protected function getCurrentUserId()
     {
