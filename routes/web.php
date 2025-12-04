@@ -23,6 +23,10 @@ use App\Http\Controllers\PurchaseController;
 //     return view('brands-list');
 // });
 
+Route::get('/sales', function () {
+    return view('sales');
+})->name('sales');
+
 // Route::get('/purchase-list', function () {
 //     return view('purchase-list');
 // })->name('purchase-list');
