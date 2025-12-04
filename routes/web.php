@@ -10,6 +10,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\SalesController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -148,6 +149,11 @@ Route::middleware(['auth:web,employee'])->group(function() {
     Route::put('/purchases/{id}', [PurchaseController::class, 'update'])->name('purchases.update');
     Route::get('/purchases/{id}/details', [PurchaseController::class, 'showDetails'])->name('purchases.details');
     Route::delete('/purchases/{id}', [PurchaseController::class, 'destroy'])->name('purchases.destroy');
+
+    Route::get('/sales', [SalesController::class, 'create'])->name('sales.create');
+    Route::post('/sales', [SalesController::class, 'store'])->name('sales.store');
+    Route::get('/sales/customer/{id}', [SalesController::class, 'getCustomerData'])->name('sales.customer.data');
+    Route::get('/sales-list', [SalesController::class, 'index'])->name('sales.index');
 });
 
 require __DIR__.'/auth.php';
