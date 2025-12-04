@@ -415,6 +415,21 @@ $(document).ready(function() {
 
     $('#round_off').change(calculateTotals);
 
+    // Customer auto-fill
+    $('#customer_select').change(function() {
+        let id = $(this).val();
+        if (id) {
+            $.get(`/sales/customer/${id}`, function(res) {
+                if (res.success) {
+                    $('#customer_address').val(res.data.full_address || '');
+                    $('#contact_person').val(res.data.contact_person || '');
+                    $('#customer_phone').val(res.data.phone || '');
+                    $('#gstin_pan').val(res.data.gstin || res.data.pan || '');
+                }
+            });
+        }
+    });
+
     $('#salesForm').submit(function(e) {
         if ($('#product_table tbody tr').length === 0) {
             e.preventDefault();
