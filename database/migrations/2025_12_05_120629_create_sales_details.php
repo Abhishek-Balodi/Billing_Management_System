@@ -40,12 +40,6 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
-
-            // Indexes
-            $table->index('invoice_no');
-            $table->index('invoice_date');
-            $table->index('customer_id');
-            $table->index('user_id');
         });
     }
 
