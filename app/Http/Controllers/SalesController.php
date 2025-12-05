@@ -25,7 +25,7 @@ class SalesController extends Controller
         $currentUserId = $this->getCurrentUserId();
         $customer = Customer::where('id', $id)->where('user_id', $currentUserId)->firstOrFail();
 
-        $full_address = trim($customer->address . ', ' . $customer->city . ', ' . $customer->state . ' - ' . $customer->postal_code);
+        $full_address = trim($customer->billing_address . ', ' . $customer->city . ', ' . $customer->state . ' - ' . $customer->postal_code);
 
         return response()->json([
             'success' => true,
